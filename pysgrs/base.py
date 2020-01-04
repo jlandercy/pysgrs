@@ -1,5 +1,6 @@
 import sys
 
+from pysgrs import errors
 #from pysgrs.settings import settings
 
 
@@ -38,6 +39,9 @@ class GenericAlphabet:
         assert len(set(self.alphabet)) == len(self.alphabet)
         assert len(set(self.indices)) == len(self.indices)
         assert len(self.alphabet) == len(self.indices)
+
+    def __str__(self):
+        return "<Alphabet({}) '{}'>".format(self.n, self.alphabet)
 
     @property
     def alphabet(self):
@@ -88,9 +92,9 @@ class Alphabet(GenericAlphabet):
     def __init__(self):
         super().__init__("".join([chr(x + Alphabet._offset) for x in range(26)]))
 
-    def index(self, c):
-        assert 0 <= ord(c) - Alphabet._offset < 26
-        return ord(c) - Alphabet._offset
+    #def index(self, c):
+    #    assert 0 <= ord(c) - Alphabet._offset < 26
+    #    return ord(c) - Alphabet._offset
 
     def digit(self, i):
         return chr(i + Alphabet._offset)
@@ -130,7 +134,7 @@ class Cypher:
                 if quite:
                     r.append(c)
                 else:
-                    raise err
+                    raise errors.IllegalCharacter("Character '{}' does not exist in {}".format(c, self.alphabet))
         return "".join(r)
 
     def cypher(self, s, strict=True, quite=False):
@@ -171,8 +175,8 @@ class Cypher:
 def main():
 
     C = Cypher(offset=3)
-    print(C.cypher("CAVE CANEM", quite=True))
-    print(C.decypher("FDYH FDQHP", quite=True))
+    print(C.cypher("CAVECANEM", quite=False))
+    print(C.decypher("FDYH fDQHP", strict=False, quite=True))
 
     sys.exit(0)
 

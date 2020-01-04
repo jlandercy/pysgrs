@@ -2,6 +2,7 @@ import sys
 import unittest
 
 from pysgrs import base
+from pysgrs import errors
 from pysgrs import settings
 
 
@@ -59,6 +60,15 @@ class Cyphers(unittest.TestCase):
     def setUp(self):
         self.identity = base.Cypher()
         self.ceasar = base.Cypher(offset=3)
+
+    def test_cypher_illegalchar(self):
+        with self.assertRaises(errors.IllegalCharacter):
+            self.ceasar.cypher("CAVE CANEM")
+            self.ceasar.cypher("CaVECANEM")
+        self.assertEqual(self.ceasar.cypher("CaVE CANEM", strict=False, quite=True), "FDYH FDQHP")
+
+    def test_cypher_caseinsensitive(self):
+            self.assertEqual(self.ceasar.cypher("CaVECANEM", strict=False), "FDYHFDQHP")
 
     def test_IdentityCypher(self):
         self.assertEqual(self.identity.alphabet.alphabet,
