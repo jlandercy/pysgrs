@@ -92,8 +92,9 @@ class Alphabet(GenericAlphabet):
     def __init__(self):
         super().__init__("".join([chr(x + Alphabet._offset) for x in range(26)]))
 
-    def index(self, c):
-        assert 0 <= ord(c) - Alphabet._offset < 26
+    def index(self, c, quite=False):
+        if not quite:
+            assert 0 <= ord(c) - Alphabet._offset < 26
         return ord(c) - Alphabet._offset
 
     def digit(self, i):
@@ -159,16 +160,22 @@ class Cypher:
         y['cindices'] = y['cypher'].apply(lambda x: self.alphabet.alphabet.index(x))
         return x.merge(y, on="alphabet")
 
-    def graph(self, seed=10, pos=None):
-        import matplotlib.pyplot as plt
+    @property
+    def graph(self):
         import networkx as nx
         G = nx.DiGraph()
+        G.add_nodes_from(list(self.alphabet.alphabet))
         G.add_edges_from(self.pairs)
-        if pos is True:
-            pos = nx.spring_layout(G, seed=seed)
+        return G
+
+    def plot(self, pos=None, **kwargs):
+        import matplotlib.pyplot as plt
+        import networkx as nx
+        G = self.graph
+        if pos is None:
+            pos = nx.circular_layout(G)
         fig, axe = plt.subplots()
-        nx.draw_networkx(G, pos=pos, arrows=True, ax=axe)
-        plt.show()
+        nx.draw_networkx(G, pos=pos, arrows=True, ax=axe, **kwargs)
         return axe
 
 
@@ -177,6 +184,10 @@ def main():
     C = Cypher(offset=3)
     print(C.cypher("CAVECANEM", quite=False))
     print(C.decypher("FDYH fDQHP", strict=False, quite=True))
+
+    import matplotlib.pyplot as plt
+    axe = C.plot()
+    plt.show()
 
     sys.exit(0)
 
