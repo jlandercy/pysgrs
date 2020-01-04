@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "standard": {
+      "class": "logging.Formatter",
+      "level": "DEBUG",
+      "format": "%(asctime)-22s\t%(name)-18s\t%(module)-12s\t%(funcName)-12s\t%(levelname)-6s\t%(message)s"
+    },
+    "error": {
+      "class": "logging.Formatter",
+      "format": "%(asctime)-22s\t%(process)d\t%(threadName)-12s\t%(name)-18s\t%(module)-12s\t%(funcName)-12s\t%(levelname)-6s\t%(message)s"
+    }
+  },
+  "handlers": {
+    "console": {
+      "class": "logging.StreamHandler",
+      "formatter": "error",
+      "stream": "ext://sys.stderr"
+    }
+  },
+  "loggers": {
+    "pysgrs": {
+      "handlers": ["console"],
+      "level": "DEBUG"
+    }
+  }
+}
