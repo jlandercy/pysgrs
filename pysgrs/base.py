@@ -10,15 +10,12 @@ class GenericAlphabet:
     Provide commodities to handle Alphabet Map between Characters and Integers
     """
 
-    def __init__(self, alphabet, indices=None):
+    def __init__(self, alphabet, indices=None, closure=None, joker='*'):
+
+        self._joker = joker
 
         if indices is None:
-            self._indices = list(range(len(alphabet)))
-        else:
-            self._indices = indices
-
-        if isinstance(alphabet, str):
-            self._alphabet = alphabet
+            indices = list(range(len(alphabet)))
 
         if isinstance(alphabet, (list, tuple)):
             x = {}
@@ -32,12 +29,19 @@ class GenericAlphabet:
             for k in sorted(alphabet):
                 x.append(k)
                 y.append(alphabet[k])
-            self._alphabet = "".join(x)
-            self._indices = y
+            alphabet = "".join(x)
+            indices = y
+
+        if closure is not None:
+            alphabet += joker*len(closure)
+            indices += closure
+
+        self._alphabet = alphabet
+        self._indices = indices
 
         assert isinstance(self.alphabet, str)
         assert all([isinstance(i, int) for i in self.indices])
-        assert len(set(self.alphabet)) == len(self.alphabet)
+        assert len(set(self.alphabet)) == len(self.alphabet) or closure is not None
         assert len(set(self.indices)) == len(self.indices)
         assert len(self.alphabet) == len(self.indices)
 
@@ -120,6 +124,8 @@ class GenericCypher:
 
         if alphabet is None:
             self._alphabet = Alphabet()
+        else:
+            self._alphabet = alphabet
 
     def __str__(self):
         return "<Cypher alphabet={}>".format(self.alphabet)
@@ -140,12 +146,16 @@ class GenericCypher:
         r = []
         for c in s:
             try:
-                x = self.alphabet.digit(func(self.alphabet.index(c)))
+                if c != self.alphabet._joker:
+                    x = self.alphabet.digit(func(self.alphabet.index(c)))
+                else:
+                    x = c
                 r.append(x)
             except (AssertionError, ValueError) as err:
                 if quite:
                     r.append(c)
                 else:
+                    raise err
                     raise errors.IllegalCharacter("Character '{}' does not exist in {}".format(c, self.alphabet))
         return "".join(r)
 
@@ -190,7 +200,7 @@ class GenericCypher:
         return axe
 
 
-class Caeser(GenericCypher):
+class Caesar(GenericCypher):
 
     def __init__(self, alphabet=None, offset=0):
         super().__init__(alphabet=alphabet)
@@ -207,7 +217,7 @@ class Caeser(GenericCypher):
         return (x - self.offset) % self.alphabet.n
 
 
-class FunctionalCypher:
+class FunctionalCypher(GenericCypher):
 
     def __init__(self, cypher, decypher=None, alphabet=None):
         super().__init__(alphabet=alphabet)
@@ -218,12 +228,20 @@ class FunctionalCypher:
 
 def main():
 
-    C = Caeser(offset=3)
-    print(C.cypher("CAVECANEM", quite=False))
-    print(C.decypher("FDYH fDQHP", strict=False, quite=True))
-
     import matplotlib.pyplot as plt
-    axe = C.plot()
+    import networkx as nx
+
+    def polynom(x):
+        return (-3*(x-2)**4 - 6*(x-9)**2 + 7*(x-9)**6) % 23
+
+    A = GenericAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ", list(range(1, 27)), closure=[0,-1])
+    print(A)
+    print(A.alphabet)
+    print(A.indices)
+    C = FunctionalCypher(cypher=polynom, alphabet=A)
+    G = C.graph
+    pos = nx.spring_layout(G, seed=10, scale=10)
+    C.plot(pos=pos)
     plt.show()
 
     sys.exit(0)
