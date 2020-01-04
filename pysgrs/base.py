@@ -67,12 +67,21 @@ class GenericAlphabet:
         return self._indices
 
     @property
+    def pairs(self):
+        return list(zip(self.alphabet, self.indices))
+
+    @property
     def direct(self):
-        return {c: self.index(c) for c in self.alphabet}
+        return {c: i for (c, i) in self.pairs}
 
     @property
     def inverse(self):
-        return {i: c for (c, i) in self.direct.items()}
+        return {i: c for (c, i) in self.pairs}
+
+    @property
+    def dataframe(self):
+        import pandas as pd
+        return pd.DataFrame(self.pairs, columns=['alphabet', 'indices'])
 
 
 class Alphabet(GenericAlphabet):
@@ -117,11 +126,40 @@ class Cypher:
     def decypher(self, s):
         return self.alphabet.decode(self._decypher(np.array(self.alphabet.encode(s))))
 
+    @property
+    def pairs(self):
+        return list(zip(self.alphabet.alphabet, self.cypher(self.alphabet.alphabet)))
+
+    @property
+    def direct(self):
+        return {x: y for (x, y) in self.pairs}
+
+    @property
+    def dataframe(self):
+        import pandas as pd
+        x = self.alphabet.dataframe
+        y = pd.DataFrame(self.pairs, columns=["alphabet", "cypher"])
+        y['cindices'] = y['cypher'].apply(lambda x: self.alphabet.alphabet.index(x))
+        return x.merge(y, on="alphabet")
+
+    def graph(self, seed=10, pos=None):
+        import matplotlib.pyplot as plt
+        import networkx as nx
+        G = nx.DiGraph()
+        G.add_edges_from(self.pairs)
+        if pos is True:
+            pos = nx.spring_layout(G, seed=seed)
+        fig, axe = plt.subplots()
+        nx.draw_networkx(G, pos=pos, arrows=True, ax=axe)
+        plt.show()
+        return axe
+
 
 def main():
+
     C = Cypher(offset=3)
-    print(C.alphabet.direct)
-    print(C.alphabet.inverse)
+    C.graph(pos=True)
+
     sys.exit(0)
 
 
