@@ -1,7 +1,4 @@
 import sys
-#import abc
-
-import numpy as np
 
 #from pysgrs.settings import settings
 
@@ -92,6 +89,7 @@ class Alphabet(GenericAlphabet):
         super().__init__("".join([chr(x + Alphabet._offset) for x in range(26)]))
 
     def index(self, c):
+        assert 0 <= ord(c) - Alphabet._offset < 26
         return ord(c) - Alphabet._offset
 
     def digit(self, i):
@@ -120,11 +118,26 @@ class Cypher:
     def _decypher(self, x):
         return (x - self.offset) % self.alphabet.n
 
-    def cypher(self, s):
-        return self.alphabet.decode(self._cypher(np.array(self.alphabet.encode(s))))
+    def _apply(self, s, func, strict=True, quite=False):
+        if not strict:
+            s = s.upper()
+        r = []
+        for c in s:
+            try:
+                x = self.alphabet.digit(func(self.alphabet.index(c)))
+                r.append(x)
+            except (AssertionError, ValueError) as err:
+                if quite:
+                    r.append(c)
+                else:
+                    raise err
+        return "".join(r)
 
-    def decypher(self, s):
-        return self.alphabet.decode(self._decypher(np.array(self.alphabet.encode(s))))
+    def cypher(self, s, strict=True, quite=False):
+        return self._apply(s, self._cypher, strict=strict, quite=quite)
+
+    def decypher(self, s, strict=True, quite=False):
+        return self._apply(s, self._decypher, strict=strict, quite=quite)
 
     @property
     def pairs(self):
@@ -158,7 +171,8 @@ class Cypher:
 def main():
 
     C = Cypher(offset=3)
-    C.graph(pos=True)
+    print(C.cypher("CAVE CANEM", quite=True))
+    print(C.decypher("FDYH FDQHP", quite=True))
 
     sys.exit(0)
 

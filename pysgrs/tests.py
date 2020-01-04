@@ -63,10 +63,12 @@ class Cyphers(unittest.TestCase):
     def test_IdentityCypher(self):
         self.assertEqual(self.identity.alphabet.alphabet,
                          self.identity.decypher(self.identity.cypher(self.identity.alphabet.alphabet)))
+        self.assertEqual(self.identity.cypher("CAVECANEM"), "CAVECANEM")
 
     def test_CeasarCypher(self):
         self.assertEqual(self.ceasar.alphabet.alphabet,
                          self.ceasar.decypher(self.ceasar.cypher(self.ceasar.alphabet.alphabet)))
+        self.assertEqual(self.ceasar.cypher("CAVECANEM"), "FDYHFDQHP")
 
 
 def main():
