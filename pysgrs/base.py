@@ -155,7 +155,7 @@ class GenericCypher:
                 if quite:
                     r.append(c)
                 else:
-                    raise err
+                    #raise err
                     raise errors.IllegalCharacter("Character '{}' does not exist in {}".format(c, self.alphabet))
         return "".join(r)
 
@@ -234,7 +234,7 @@ def main():
     def polynom(x):
         return (-3*(x-2)**4 - 6*(x-9)**2 + 7*(x-9)**6) % 23
 
-    A = GenericAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ", list(range(1, 27)), closure=[0,-1])
+    A = GenericAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ", list(range(1, 27)), closure=[0])
     print(A)
     print(A.alphabet)
     print(A.indices)
@@ -243,6 +243,7 @@ def main():
     pos = nx.spring_layout(G, seed=10, scale=10)
     C.plot(pos=pos)
     plt.show()
+
 
     sys.exit(0)
 
