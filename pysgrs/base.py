@@ -92,9 +92,9 @@ class Alphabet(GenericAlphabet):
     def __init__(self):
         super().__init__("".join([chr(x + Alphabet._offset) for x in range(26)]))
 
-    #def index(self, c):
-    #    assert 0 <= ord(c) - Alphabet._offset < 26
-    #    return ord(c) - Alphabet._offset
+    def index(self, c):
+        assert 0 <= ord(c) - Alphabet._offset < 26
+        return ord(c) - Alphabet._offset
 
     def digit(self, i):
         return chr(i + Alphabet._offset)
