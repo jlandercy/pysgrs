@@ -1,4 +1,5 @@
 import sys
+import itertools
 
 from pysgrs import errors
 #from pysgrs.settings import settings
@@ -84,6 +85,18 @@ class GenericAlphabet:
         import pandas as pd
         return pd.DataFrame(self.pairs, columns=['alphabet', 'indices'])
 
+    def replacements(self, n):
+        for x in itertools.combinations_with_replacement(self.alphabet, n):
+            yield "".join(x)
+
+    def combinations(self, n):
+        for x in itertools.combinations(self.alphabet, n):
+            yield "".join(x)
+
+    def permutations(self, n):
+        for x in itertools.permutations(self.alphabet, n):
+            yield "".join(x)
+
 
 class Alphabet(GenericAlphabet):
 
@@ -101,27 +114,25 @@ class Alphabet(GenericAlphabet):
         return chr(i + Alphabet._offset)
 
 
-class Cypher:
+class GenericCypher:
 
-    def __init__(self, alphabet=None, offset=0):
+    def __init__(self, alphabet=None):
 
-        self._offset = offset
         if alphabet is None:
             self._alphabet = Alphabet()
 
-    @property
-    def offset(self):
-        return self._offset
+    def __str__(self):
+        return "<Cypher alphabet={}>".format(self.alphabet)
 
     @property
     def alphabet(self):
         return self._alphabet
 
     def _cypher(self, x):
-        return (x + self.offset) % self.alphabet.n
+        raise NotImplemented
 
     def _decypher(self, x):
-        return (x - self.offset) % self.alphabet.n
+        raise NotImplemented
 
     def _apply(self, s, func, strict=True, quite=False):
         if not strict:
@@ -179,9 +190,35 @@ class Cypher:
         return axe
 
 
+class Caeser(GenericCypher):
+
+    def __init__(self, alphabet=None, offset=0):
+        super().__init__(alphabet=alphabet)
+        self._offset = offset
+
+    @property
+    def offset(self):
+        return self._offset
+
+    def _cypher(self, x):
+        return (x + self.offset) % self.alphabet.n
+
+    def _decypher(self, x):
+        return (x - self.offset) % self.alphabet.n
+
+
+class FunctionalCypher:
+
+    def __init__(self, cypher, decypher=None, alphabet=None):
+        super().__init__(alphabet=alphabet)
+        self._cypher = cypher
+        if decypher is not None:
+            self._decypher = decypher
+
+
 def main():
 
-    C = Cypher(offset=3)
+    C = Caeser(offset=3)
     print(C.cypher("CAVECANEM", quite=False))
     print(C.decypher("FDYH fDQHP", strict=False, quite=True))
 
