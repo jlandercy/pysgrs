@@ -7,12 +7,40 @@ import numpy as np
 
 
 class GenericAlphabet:
+    """
+    Provide commodities to handle Alphabet Map between Characters and Integers
+    """
 
-    def __init__(self, alphabet):
+    def __init__(self, alphabet, indices=None):
+
+        if indices is None:
+            self._indices = list(range(len(alphabet)))
+        else:
+            self._indices = indices
 
         if isinstance(alphabet, str):
-            assert len(set(alphabet)) == len(alphabet)
             self._alphabet = alphabet
+
+        if isinstance(alphabet, (list, tuple)):
+            x = {}
+            for (c, i) in alphabet:
+                x[c] = i
+            alphabet = x
+
+        if isinstance(alphabet, dict):
+            x = []
+            y = []
+            for k in sorted(alphabet):
+                x.append(k)
+                y.append(alphabet[k])
+            self._alphabet = "".join(x)
+            self._indices = y
+
+        assert isinstance(self.alphabet, str)
+        assert all([isinstance(i, int) for i in self.indices])
+        assert len(set(self.alphabet)) == len(self.alphabet)
+        assert len(set(self.indices)) == len(self.indices)
+        assert len(self.alphabet) == len(self.indices)
 
     @property
     def alphabet(self):
@@ -23,16 +51,20 @@ class GenericAlphabet:
         return len(self.alphabet)
 
     def index(self, c):
-        return self.alphabet.index(c)
+        return self.indices[self.alphabet.index(c)]
 
     def digit(self, i):
-        return self.alphabet[i]
+        return self.alphabet[self.indices.index(i)]
 
     def encode(self, s):
         return [self.index(c) for c in s]
 
     def decode(self, l, sep=""):
         return sep.join([self.digit(i) for i in l])
+
+    @property
+    def indices(self):
+        return self._indices
 
     @property
     def direct(self):
@@ -87,7 +119,9 @@ class Cypher:
 
 
 def main():
-
+    C = Cypher(offset=3)
+    print(C.alphabet.direct)
+    print(C.alphabet.inverse)
     sys.exit(0)
 
 
