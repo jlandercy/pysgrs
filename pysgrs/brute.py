@@ -63,10 +63,19 @@ def bruteforce(b, seq, ic=1000000, file='brute.log'):
 
 
 def main():
-    logging.info("Started to bruteforce")
+    import argparse
+
+    parser = argparse.ArgumentParser(description='SGRS Task 22')
+    parser.add_argument('--sums', type=int, nargs=6, default=b0, help='Surface Sum')
+    parser.add_argument('--file', type=str, default="./results/cubic.log", help='File to store results')
+    args = parser.parse_args()
+
+    args.sums = np.array(args.sums)
+
+    logging.info("Started to bruteforce: {}".format(args))
 
     #bruteforce(np.array([64, 53, 62, 46, 57, 48]), seq=["UNEXEMPL", "AAAAAAAA", "UNEXEMPL"])
-    bruteforce(b0, seq=generate())
+    bruteforce(args.sums, seq=generate(), file=args.file)
 
     sys.exit(0)
 
