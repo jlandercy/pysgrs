@@ -65,8 +65,8 @@ def bruteforce(b, seq, ic=1000000, file='brute.log'):
 def main():
     logging.info("Started to bruteforce")
 
-    bruteforce(np.array([64, 53, 62, 46, 57, 48]), seq=["UNEXEMPL"])
-
+    #bruteforce(np.array([64, 53, 62, 46, 57, 48]), seq=["UNEXEMPL", "AAAAAAAA", "UNEXEMPL"])
+    bruteforce(b0, seq=generate())
 
     sys.exit(0)
 
