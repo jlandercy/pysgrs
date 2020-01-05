@@ -89,6 +89,10 @@ class GenericAlphabet:
         import pandas as pd
         return pd.DataFrame(self.pairs, columns=['alphabet', 'indices'])
 
+    def product(self, n):
+        for x in itertools.product(self.alphabet, repeat=n):
+            yield "".join(x)
+
     def replacements(self, n):
         for x in itertools.combinations_with_replacement(self.alphabet, n):
             yield "".join(x)
@@ -228,21 +232,25 @@ class FunctionalCypher(GenericCypher):
 
 def main():
 
-    import matplotlib.pyplot as plt
-    import networkx as nx
+    # import matplotlib.pyplot as plt
+    # import networkx as nx
+    #
+    # def polynom(x):
+    #     return (-3*(x-2)**4 - 6*(x-9)**2 + 7*(x-9)**6) % 23
+    #
+    # A = GenericAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ", list(range(1, 27)), closure=[0])
+    # print(A)
+    # print(A.alphabet)
+    # print(A.indices)
+    # C = FunctionalCypher(cypher=polynom, alphabet=A)
+    # G = C.graph
+    # pos = nx.spring_layout(G, seed=10, scale=10)
+    # C.plot(pos=pos)
+    # plt.show()
 
-    def polynom(x):
-        return (-3*(x-2)**4 - 6*(x-9)**2 + 7*(x-9)**6) % 23
-
-    A = GenericAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ", list(range(1, 27)), closure=[0])
-    print(A)
-    print(A.alphabet)
-    print(A.indices)
-    C = FunctionalCypher(cypher=polynom, alphabet=A)
-    G = C.graph
-    pos = nx.spring_layout(G, seed=10, scale=10)
-    C.plot(pos=pos)
-    plt.show()
+    A = GenericAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ", list(range(1, 27)))
+    Afr = GenericAlphabet('EASINTRLUODCPMVGFBQHXJYZKW',
+                          [5, 1, 19, 9, 14, 20, 18, 12, 21, 15, 4, 3, 16, 13, 22, 7, 6, 2, 17, 8, 24, 10, 25, 26, 11, 23])
 
 
     sys.exit(0)
