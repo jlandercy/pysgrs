@@ -2,7 +2,7 @@ import sys
 import unittest
 
 from pysgrs.tests.test_cypher import TestCypher
-from pysgrs.cypher import RotationCypher, CaesarCypher
+from pysgrs.cypher import RotationCypher, CaesarCypher, ReversedCypher
 from pysgrs import errors
 from pysgrs import settings
 
@@ -20,6 +20,14 @@ class TestRotationCypher(TestCypher, unittest.TestCase):
     cypher = CaesarCypher()
     cyphers = [
         "DEFGHIJKLMNOPQRSTUVWXYZABC"
+    ]
+
+
+class TestReversedCypher(TestCypher, unittest.TestCase):
+
+    cypher = ReversedCypher()
+    cyphers = [
+        "ZYXWVUTSRQPONMLKJIHGFEDCBA"
     ]
 
 

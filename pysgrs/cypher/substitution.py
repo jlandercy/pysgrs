@@ -34,10 +34,10 @@ class ReversedCypher(GenericStreamCypher):
         super().__init__(alphabet=alphabet)
 
     def _cypher(self, c, k=None):
-        return self.alphabet.digit(self.alphabet.size - self.alphabet.index(c) + 1)
+        return self.alphabet.digit(self.alphabet.size - self.alphabet.index(c) - 1)
 
     def _decypher(self, c, k=None):
-        return self.alphabet.digit(self.alphabet.size - self.alphabet.index(c) + 1)
+        return self.alphabet.digit(self.alphabet.size - self.alphabet.index(c) - 1)
 
 
 def main():
