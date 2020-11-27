@@ -53,7 +53,10 @@ class GenericCypher(abc.ABC):
 
     @property
     def keysize(self):
-        return len(self._key)
+        if self.key is None:
+            return 0
+        else:
+            return len(self.key)
 
 
 class GenericStreamCypher(GenericCypher):
@@ -79,43 +82,43 @@ class GenericStreamCypher(GenericCypher):
                     raise IllegalCharacter("Character '{}' does not exist in {}: {}".format(c, self.alphabet, err))
         return "".join(r)
 
-    @property
-    def pairs(self):
-        return list(zip(self.alphabet.alphabet, self.cypher(self.alphabet.alphabet)))
-
-    @property
-    def direct(self):
-        return {x: y for (x, y) in self.pairs}
-
-    @property
-    def revere(self):
-        return {y: x for (x, y) in self.pairs}
-
-    @property
-    def dataframe(self):
-        import pandas as pd
-        x = self.alphabet.dataframe
-        y = pd.DataFrame(self.pairs, columns=["alphabet", "cypher"])
-        y['cindices'] = y['cypher'].apply(lambda z: self.alphabet.alphabet.index(z))
-        return x.merge(y, on="alphabet")
-
-    @property
-    def graph(self):
-        import networkx as nx
-        G = nx.DiGraph()
-        G.add_nodes_from(list(self.alphabet.alphabet))
-        G.add_edges_from(self.pairs)
-        return G
-
-    def plot(self, pos=None, **kwargs):
-        import matplotlib.pyplot as plt
-        import networkx as nx
-        G = self.graph
-        if pos is None:
-            pos = nx.circular_layout(G)
-        fig, axe = plt.subplots()
-        nx.draw_networkx(G, pos=pos, arrows=True, ax=axe, **kwargs)
-        return axe
+    def pairs(self, s=None):
+        s = s or self.alphabet.alphabet
+        return list(zip(s, self.cypher(s)))
+    #
+    # @property
+    # def direct(self):
+    #     return {x: y for (x, y) in self.pairs()}
+    #
+    # @property
+    # def revere(self):
+    #     return {y: x for (x, y) in self.pairs()}
+    #
+    # @property
+    # def dataframe(self):
+    #     import pandas as pd
+    #     x = self.alphabet.dataframe
+    #     y = pd.DataFrame(self.pairs(), columns=["clear", "cypher"])
+    #     y['index'] = y['cypher'].apply(lambda z: self.alphabet.alphabet.index(z))
+    #     return x.merge(y, on="clear")
+    #
+    # @property
+    # def graph(self):
+    #     import networkx as nx
+    #     G = nx.DiGraph()
+    #     G.add_nodes_from(list(self.alphabet.alphabet))
+    #     G.add_edges_from(self.pairs)
+    #     return G
+    #
+    # def plot(self, pos=None, **kwargs):
+    #     import matplotlib.pyplot as plt
+    #     import networkx as nx
+    #     G = self.graph
+    #     if pos is None:
+    #         pos = nx.circular_layout(G)
+    #     fig, axe = plt.subplots()
+    #     nx.draw_networkx(G, pos=pos, arrows=True, ax=axe, **kwargs)
+    #     return axe
 
 
 # class FunctionalCypher(GenericStreamCypher):
