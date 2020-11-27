@@ -3,7 +3,11 @@ import sys
 from pysgrs.settings import settings
 
 
-class IllegalCharacter(Exception):
+class GenericException(Exception):
+    pass
+
+
+class IllegalCharacter(GenericException):
     pass
 
 
