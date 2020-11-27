@@ -58,7 +58,7 @@ class Alphabets(unittest.TestCase):
 class Cyphers(unittest.TestCase):
 
     def setUp(self):
-        self.identity = base.Caesar()
+        self.identity = base.Caesar(offset=0)
         self.ceasar = base.Caesar(offset=3)
 
     def test_cypher_illegalchar(self):
