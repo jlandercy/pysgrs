@@ -6,15 +6,6 @@ from pysgrs import errors
 from pysgrs import settings
 
 
-class Settings(unittest.TestCase):
-
-    def test_NameSpace(self):
-        self.assertIsInstance(settings.settings, settings.SimpleNamespace)
-
-    def test_RequiredSettings(self):
-        self.assertTrue({'package', 'resources', 'uuid4'}.issubset(settings.settings.__dict__))
-
-
 class Alphabets(unittest.TestCase):
 
     def setUp(self):
@@ -53,7 +44,6 @@ class Alphabets(unittest.TestCase):
         self.assertEqual(self.ASCII.indices, list(range(26)))
         self.assertEqual(self.ASCII.encode("ABCCBA"), [0, 1, 2, 2, 1, 0])
         self.assertEqual(self.ASCII.decode([0, 1, 2, 2, 1, 0]), "ABCCBA")
-
 
 
 def main():
