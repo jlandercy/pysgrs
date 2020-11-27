@@ -8,7 +8,7 @@
  - [ ] Add Morse
  - [ ] Add Vigenere
  - [ ] Add substitution
- - [ ] Add RotationCypher
+ - [x] Add Rotation + Caeser
 
 ## PySGRS v0.0.x
 
