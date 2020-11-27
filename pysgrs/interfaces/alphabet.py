@@ -43,7 +43,8 @@ class GenericAlphabet:
         assert len(self.alphabet) == len(self.indices)
 
     def __str__(self):
-        return "<Alphabet:{} (n={}) '{}'>".format(self.__class__.__name__, self.n, self.alphabet)
+        return "<Alphabet:{} '{}' (size={}, joker={})>".format(self.__class__.__name__, self.alphabet,
+                                                               self.size, self.joker)
 
     @property
     def alphabet(self):
@@ -54,7 +55,7 @@ class GenericAlphabet:
         return self._joker
 
     @property
-    def n(self):
+    def size(self):
         return len(self.alphabet)
 
     def index(self, c):
@@ -68,6 +69,9 @@ class GenericAlphabet:
 
     def decode(self, s, sep=""):
         return sep.join([self.digit(i) for i in s])
+
+    def isin(self, s):
+        return all([(c in self.alphabet) for c in s])
 
     @property
     def indices(self):

@@ -1,6 +1,5 @@
 import abc
 import sys
-import itertools
 
 from pysgrs.interfaces.alphabet import GenericAlphabet, Alphabet
 from pysgrs.errors import BadParameter, IllegalCharacter
@@ -24,15 +23,15 @@ class GenericCypher(abc.ABC):
         return "<Cypher:{} alphabet={}>".format(self.__class__.__name__, self.alphabet)
 
     @abc.abstractmethod
-    def _apply(self, x, k=None):
+    def _apply(self, s, f, strict=True, quite=False):
         pass
 
     @abc.abstractmethod
-    def _cypher(self, x, k=None):
+    def _cypher(self, c, k=None):
         pass
 
     @abc.abstractmethod
-    def _decypher(self, x):
+    def _decypher(self, c, k=None):
         pass
 
     def cypher(self, s, strict=True, quite=False):
@@ -49,20 +48,24 @@ class GenericCypher(abc.ABC):
     def key(self):
         return self._key
 
+    @property
+    def keysize(self):
+        return len(self._key)
+
 
 class GenericStreamCypher(GenericCypher):
 
-    def __init__(self, alphabet=None):
-        super().__init__(alphabet=alphabet)
+    def __init__(self, alphabet=None, key=None):
+        super().__init__(alphabet=alphabet, key=key)
 
-    def _apply(self, s, func, strict=True, quite=False):
+    def _apply(self, s, f, strict=True, quite=False):
         if not strict:
             s = s.upper()
         r = []
         for k, c in enumerate(s):
             try:
                 if c != self.alphabet.joker:
-                    x = self.alphabet.digit(func(c, k))
+                    x = self.alphabet.digit(f(c, k))
                 else:
                     x = c
                 r.append(x)
@@ -70,7 +73,7 @@ class GenericStreamCypher(GenericCypher):
                 if quite:
                     r.append(c)
                 else:
-                    raise IllegalCharacter("Character '{}' does not exist in {}".format(c, self.alphabet))
+                    raise IllegalCharacter("Character '{}' does not exist in {}: {}".format(c, self.alphabet, err))
         return "".join(r)
 
     @property
