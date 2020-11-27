@@ -7,6 +7,7 @@ class TestCypher:
     cypher = None
     sentences = [
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        "ZYXWVUTSRQPONMLKJIHGFEDCBA",
         "THEQUICKBROWNFOXJUMPSOVERTHELAZYDOG",
         "WALTZBADNYMPHFORQUICKJIGSVEX",
     ]

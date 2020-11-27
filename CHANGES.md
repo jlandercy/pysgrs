@@ -9,6 +9,9 @@
  - [ ] Add Vigenere
  - [ ] Add substitution
  - [x] Add Rotation + Caeser
+ - [ ] Make alphabet tolerent to punctuation, joker/quite
+ - [ ] Make alphabet specification (normal index, arbitrary value) 
+ - [ ] Improve test for alphabet
 
 ## PySGRS v0.0.x
 
