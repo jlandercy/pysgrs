@@ -15,11 +15,21 @@ class TestVigenereCypherSamllKey(TestCypher, unittest.TestCase):
     ]
 
 
-class TestVigenereCypherLongKey(TestCypher, unittest.TestCase):
+class TestVigenereCypherMediumKey(TestCypher, unittest.TestCase):
 
     cypher = Vigenere(key="NATURELLEMENT")
     cyphers = [
-        "NBVXVJRSMVOYFAOIKIWEFZIBLS"
+        "NBVXVJRSMVOYFAOIKIWEFZIBLS",
+        "MYQQMYEDVCTBGZLDDZLRQIPGOT",
+        "GHXKLMNVFDSJGSOQDLQADSHIEMUEEUQCOZK",
+        "JAENQFLORKQCASOKKLMNVNUKFORX",
+        "WIOYUJZIRKQCATRTVJUFTGWANEGZ",
+        "TLBVASNVWCYVSAYFJYXZGIJHJTEF",
+        "FPACEBZQFXEPDDUTLKDUFHSIZRIOP",
+        "UOPPVBTYKXCDNVCDXRJEKINVNLWUFJ",
+        "GHXZZZPMSJMAZJISUIHDUYYTDNVCDFP",
+        "WAVEUEHDPAZRFLBBAJTSTRJSSJHAKNQ",
+        "CAVEDCMZBIMGASIOYUSKPRXMDNBRCOXW",
     ]
 
 
