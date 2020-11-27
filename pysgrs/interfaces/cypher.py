@@ -17,7 +17,10 @@ class GenericCypher(abc.ABC):
             else:
                 raise BadParameter("Alphabet required, received {} instead".format(type(alphabet)))
 
-        self._key = key
+        if key and not self.alphabet.isin(key):
+            raise IllegalCharacter("Key '{}' cannot be expressed using {}".format(key, self.alphabet))
+        else:
+            self._key = key
 
     def __str__(self):
         return "<Cypher:{} alphabet={}>".format(self.__class__.__name__, self.alphabet)
