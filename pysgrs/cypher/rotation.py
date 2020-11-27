@@ -5,7 +5,7 @@ from pysgrs.settings import settings
 from pysgrs.interfaces.cypher import GenericStreamCypher
 
 
-class Caesar(GenericStreamCypher):
+class RotationCypher(GenericStreamCypher):
 
     def __init__(self, alphabet=None, offset=3):
         super().__init__(alphabet=alphabet)
@@ -20,6 +20,12 @@ class Caesar(GenericStreamCypher):
 
     def _decypher(self, c, k=None):
         return (self.alphabet.index(c) - self.offset) % self.alphabet.size
+
+
+class CaesarCypher(RotationCypher):
+
+    def __init__(self, alphabet=None):
+        super().__init__(alphabet=alphabet, offset=3)
 
 
 def main():

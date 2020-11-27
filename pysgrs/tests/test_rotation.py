@@ -1,7 +1,7 @@
 import sys
 import unittest
 
-from pysgrs.cypher import Caesar
+from pysgrs.cypher import RotationCypher, CaesarCypher
 from pysgrs import errors
 from pysgrs import settings
 
@@ -9,8 +9,8 @@ from pysgrs import settings
 class TestCypher(unittest.TestCase):
 
     def setUp(self):
-        self.identity = Caesar(offset=0)
-        self.cypher = Caesar(offset=3)
+        self.identity = RotationCypher(offset=0)
+        self.cypher = CaesarCypher()
 
     def test_cypher_illegalchar(self):
         with self.assertRaises(errors.IllegalCharacter):
