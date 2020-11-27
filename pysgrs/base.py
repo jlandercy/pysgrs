@@ -206,7 +206,7 @@ class GenericCypher:
 
 class Caesar(GenericCypher):
 
-    def __init__(self, alphabet=None, offset=0):
+    def __init__(self, alphabet=None, offset=3):
         super().__init__(alphabet=alphabet)
         self._offset = offset
 
@@ -226,8 +226,7 @@ class FunctionalCypher(GenericCypher):
     def __init__(self, cypher, decypher=None, alphabet=None):
         super().__init__(alphabet=alphabet)
         self._cypher = cypher
-        if decypher is not None:
-            self._decypher = decypher
+        self._decypher = decypher
 
 
 def main():
