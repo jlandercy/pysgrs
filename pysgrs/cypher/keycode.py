@@ -15,11 +15,7 @@ class KeyCode(GenericStreamCypher):
         return self._key
 
     def _cypher(self, c, k):
-        x = self.alphabet.index(c)
-        ck = self.key[k % self.keysize]
-        y = self.alphabet.index(ck)
-        print(c, x, ck, y)
-        return (x + y) % self.alphabet.size
+        return (self.alphabet.index(c) + self.alphabet.index(self.key[k % self.keysize])) % self.alphabet.size
 
     def _decypher(self, c, k):
         return (self.alphabet.index(c) - self.alphabet.index(self.key[k % self.keysize])) % self.alphabet.size
