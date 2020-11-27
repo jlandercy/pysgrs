@@ -15,11 +15,11 @@ class Caesar(GenericStreamCypher):
     def offset(self):
         return self._offset
 
-    def _cypher(self, x):
-        return (x + self.offset) % self.alphabet.n
+    def _cypher(self, x, k=None):
+        return (self.alphabet.index(x) + self.offset) % self.alphabet.n
 
-    def _decypher(self, x):
-        return (x - self.offset) % self.alphabet.n
+    def _decypher(self, x, k=None):
+        return (self.alphabet.index(x) - self.offset) % self.alphabet.n
 
 
 def main():

@@ -1,9 +1,6 @@
 import sys
 import itertools
 
-from pysgrs import errors
-#from pysgrs.settings import settings
-
 
 class GenericAlphabet:
     """
@@ -69,8 +66,8 @@ class GenericAlphabet:
     def encode(self, s):
         return [self.index(c) for c in s]
 
-    def decode(self, l, sep=""):
-        return sep.join([self.digit(i) for i in l])
+    def decode(self, s, sep=""):
+        return sep.join([self.digit(i) for i in s])
 
     @property
     def indices(self):
@@ -112,18 +109,26 @@ class GenericAlphabet:
 
 class Alphabet(GenericAlphabet):
 
-    _offset = 65
+    def __init__(self, offset=65, size=26):
+        self._offset = offset
+        self._size = size
+        super().__init__("".join([chr(x + self.offset) for x in range(self.size)]))
 
-    def __init__(self):
-        super().__init__("".join([chr(x + Alphabet._offset) for x in range(26)]))
+    @property
+    def offset(self):
+        return self._offset
+
+    @property
+    def size(self):
+        return self._size
 
     def index(self, c, quite=False):
         if not quite:
-            assert 0 <= ord(c) - Alphabet._offset < 26
-        return ord(c) - Alphabet._offset
+            assert 0 <= ord(c) - self.offset < self.size
+        return ord(c) - self.offset
 
     def digit(self, i):
-        return chr(i + Alphabet._offset)
+        return chr(i + self.offset)
 
 
 def main():

@@ -8,7 +8,7 @@ from pysgrs.errors import BadParameter, IllegalCharacter
 
 class GenericCypher(abc.ABC):
 
-    def __init__(self, alphabet=None):
+    def __init__(self, alphabet=None, key=None):
 
         if alphabet is None:
             self._alphabet = Alphabet()
@@ -18,28 +18,36 @@ class GenericCypher(abc.ABC):
             else:
                 raise BadParameter("Alphabet required, received {} instead".format(type(alphabet)))
 
+        self._key = key
+
     def __str__(self):
         return "<Cypher:{} alphabet={}>".format(self.__class__.__name__, self.alphabet)
 
     @abc.abstractmethod
-    def cypher(self, s, strict=True, quite=False):
+    def _apply(self, x, k=None):
         pass
 
     @abc.abstractmethod
-    def decypher(self, s, strict=True, quite=False):
-        pass
-
-    @abc.abstractmethod
-    def _cypher(self, x):
+    def _cypher(self, x, k=None):
         pass
 
     @abc.abstractmethod
     def _decypher(self, x):
         pass
 
+    def cypher(self, s, strict=True, quite=False):
+        return self._apply(s, self._cypher, strict=strict, quite=quite)
+
+    def decypher(self, s, strict=True, quite=False):
+        return self._apply(s, self._decypher, strict=strict, quite=quite)
+
     @property
     def alphabet(self):
         return self._alphabet
+
+    @property
+    def key(self):
+        return self._key
 
 
 class GenericStreamCypher(GenericCypher):
@@ -51,10 +59,10 @@ class GenericStreamCypher(GenericCypher):
         if not strict:
             s = s.upper()
         r = []
-        for c in s:
+        for k, c in enumerate(s):
             try:
                 if c != self.alphabet.joker:
-                    x = self.alphabet.digit(func(self.alphabet.index(c)))
+                    x = self.alphabet.digit(func(c, k))
                 else:
                     x = c
                 r.append(x)
@@ -62,15 +70,8 @@ class GenericStreamCypher(GenericCypher):
                 if quite:
                     r.append(c)
                 else:
-                    #raise err
                     raise IllegalCharacter("Character '{}' does not exist in {}".format(c, self.alphabet))
         return "".join(r)
-
-    def cypher(self, s, strict=True, quite=False):
-        return self._apply(s, self._cypher, strict=strict, quite=quite)
-
-    def decypher(self, s, strict=True, quite=False):
-        return self._apply(s, self._decypher, strict=strict, quite=quite)
 
     @property
     def pairs(self):
