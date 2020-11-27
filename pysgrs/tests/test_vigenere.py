@@ -1,18 +1,26 @@
 import sys
 import unittest
 
+from pysgrs.tests.test_cypher import TestCypher
 from pysgrs.cypher import Vigenere
 from pysgrs import errors
 from pysgrs import settings
 
 
-class TestCypher(unittest.TestCase):
+class TestVigenereCypherSamllKey(TestCypher, unittest.TestCase):
 
-    def setUp(self):
-        self.cypher = Vigenere(key="MUSIQUE")
+    cypher = Vigenere(key="ABC")
+    cyphers = [
+        "ACEDFHGIKJLNMOQPRTSUWVXZYA"
+    ]
 
-    def test_Cypher(self):
-        pass
+
+class TestVigenereCypherLongKey(TestCypher, unittest.TestCase):
+
+    cypher = Vigenere(key="NATURELLEMENT")
+    cyphers = [
+        "NBVXVJRSMVOYFAOIKIWEFZIBLS"
+    ]
 
 
 def main():

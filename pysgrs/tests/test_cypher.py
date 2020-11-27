@@ -6,7 +6,9 @@ class TestCypher:
 
     cypher = None
     sentences = [
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        "THEQUICKBROWNFOXJUMPSOVERTHELAZYDOG",
+        "WALTZBADNYMPHFORQUICKJIGSVEX",
     ]
 
     def setUp(self):
