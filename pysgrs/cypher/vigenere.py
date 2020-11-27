@@ -11,10 +11,14 @@ class Vigenere(GenericStreamCypher):
         super().__init__(alphabet=alphabet, key=key)
 
     def _cypher(self, c, k):
-        pass
+        return self.alphabet.digit(
+            (self.alphabet.index(c) + self.alphabet.index(self.key[k % self.keysize])) % self.alphabet.size
+        )
 
     def _decypher(self, c, k):
-        pass
+        return self.alphabet.digit(
+            (self.alphabet.index(c) - self.alphabet.index(self.key[k % self.keysize])) % self.alphabet.size
+        )
 
 
 def main():
