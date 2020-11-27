@@ -87,9 +87,6 @@ class GenericCypher:
         return axe
 
 
-
-
-
 class FunctionalCypher(GenericCypher):
 
     def __init__(self, cypher, decypher=None, alphabet=None):
