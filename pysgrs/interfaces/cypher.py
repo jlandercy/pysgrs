@@ -21,6 +21,12 @@ class GenericCypher:
     def alphabet(self):
         return self._alphabet
 
+
+class GenericStreamCypher(GenericCypher):
+
+    def __init__(self, alphabet=None):
+        super().__init__(alphabet=alphabet)
+
     def _cypher(self, x):
         raise NotImplemented
 
@@ -87,7 +93,7 @@ class GenericCypher:
         return axe
 
 
-class FunctionalCypher(GenericCypher):
+class FunctionalCypher(GenericStreamCypher):
 
     def __init__(self, cypher, decypher=None, alphabet=None):
         super().__init__(alphabet=alphabet)

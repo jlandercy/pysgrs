@@ -2,10 +2,10 @@ import sys
 
 from pysgrs.settings import settings
 
-from pysgrs.interfaces.cypher import GenericCypher
+from pysgrs.interfaces.cypher import GenericStreamCypher
 
 
-class Caesar(GenericCypher):
+class Caesar(GenericStreamCypher):
 
     def __init__(self, alphabet=None, offset=3):
         super().__init__(alphabet=alphabet)

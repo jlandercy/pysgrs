@@ -2,10 +2,10 @@ import sys
 
 from pysgrs.settings import settings
 
-from pysgrs.interfaces.cypher import GenericCypher
+from pysgrs.interfaces.cypher import GenericStreamCypher
 
 
-class Vigenere(GenericCypher):
+class Vigenere(GenericStreamCypher):
 
     def __init__(self, key, alphabet=None):
         super().__init__(alphabet=alphabet)
@@ -22,7 +22,7 @@ class Vigenere(GenericCypher):
         return (x - self.offset) % self.alphabet.n
 
 
-class Vigenere(GenericCypher):
+class Vigenere(GenericStreamCypher):
 
     def __init__(self, key, alphabet=None):
         super().__init__(alphabet=alphabet)

@@ -1,2 +1,2 @@
-from pysgrs.cypher.caeser import Caesar
-from pysgrs.cypher.vigenere import Vigenere
+from pysgrs.cypher.caeser import *
+from pysgrs.cypher.vigenere import *
