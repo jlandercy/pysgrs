@@ -15,11 +15,15 @@ settings.home = pathlib.Path.home()
 settings.package = pathlib.Path(__file__).parent
 settings.resources = settings.package/'resources'
 settings.name = settings.package.parts[-1]
+settings.user = settings.home/settings.name
+settings.user.mkdir(exist_ok=True)
 
 # Logger:
 settings.logger = logging.getLogger(settings.name)
 with (settings.resources/'logging.json').open('r') as fh:
-    logging.config.dictConfig(json.load(fh))
+    data = json.load(fh)
+    data["loggers"][settings.name] = data["loggers"]["default"]
+    logging.config.dictConfig(data)
 
 # Application Settings:
 settings.database = os.environ.get('DATABASE', 'sqlite://')
@@ -29,7 +33,7 @@ settings.uuid4 = uuid.uuid4()
 
 def main():
     import pprint
-    settings.logger.info(settings.__dict__)
+    pprint.pprint(settings.__dict__, indent=2)
     sys.exit(0)
 
 

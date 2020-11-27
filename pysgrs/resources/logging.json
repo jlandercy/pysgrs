@@ -4,23 +4,23 @@
   "formatters": {
     "standard": {
       "class": "logging.Formatter",
-      "level": "DEBUG",
       "format": "%(asctime)-22s\t%(name)-18s\t%(module)-12s\t%(funcName)-12s\t%(levelname)-6s\t%(message)s"
     },
     "error": {
       "class": "logging.Formatter",
-      "format": "%(asctime)-22s\t%(process)d\t%(threadName)-12s\t%(name)-18s\t%(module)-12s\t%(funcName)-12s\t%(levelname)-6s\t%(message)s"
+      "format": "%(asctime)-22s\t%(process)d\t%(thread)d\t%(threadName)-12s\t%(name)-18s\t%(lineno)d\t%(module)-12s\t%(funcName)-12s\t%(levelname)-6s\t%(message)s"
     }
   },
   "handlers": {
     "console": {
       "class": "logging.StreamHandler",
-      "formatter": "error",
+      "level": "DEBUG",
+      "formatter": "standard",
       "stream": "ext://sys.stderr"
     }
   },
   "loggers": {
-    "pysgrs": {
+    "default": {
       "handlers": ["console"],
       "level": "DEBUG"
     }

@@ -1,3 +1,3 @@
-# newproject
+# Python for SGRS
 
-This repository holds a bare minimal new `python3` package.
+This repository provides helpers for SGRS Quiz.

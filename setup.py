@@ -1,13 +1,17 @@
+import pathlib
 from setuptools import setup, find_packages
 
-with open('requirements.txt') as fh:
-    reqs = fh.read().splitlines()
+from pysgrs import __version__
 
-_PACKAGE = 'pysgrs'
+_PATH = pathlib.Path(__file__).resolve().parents[0]
+_PACKAGE = _PATH.parts[-1]
+
+with (_PATH/'requirements.txt').open() as fh:
+    reqs = fh.read().splitlines()
 
 setup(
     name=_PACKAGE,
-    version='0.0.3',
+    version=__version__,
     url='https://github.com/jlandercy/{package:}'.format(package=_PACKAGE),
     license='GPL v.3',
     author='Jean Landercy',
