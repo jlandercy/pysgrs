@@ -5,7 +5,7 @@ from pysgrs.settings import settings
 from pysgrs.interfaces.cypher import GenericStreamCypher
 
 
-class Vigenere(GenericStreamCypher):
+class VigenereCypher(GenericStreamCypher):
 
     def __init__(self, key, alphabet=None):
         super().__init__(alphabet=alphabet, key=key)

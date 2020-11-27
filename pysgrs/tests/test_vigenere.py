@@ -2,14 +2,14 @@ import sys
 import unittest
 
 from pysgrs.tests.test_cypher import TestCypher
-from pysgrs.cypher import Vigenere
+from pysgrs.cypher import VigenereCypher
 from pysgrs import errors
 from pysgrs import settings
 
 
 class TestVigenereCypherSamllKey(TestCypher, unittest.TestCase):
 
-    cypher = Vigenere(key="ABC")
+    cypher = VigenereCypher(key="ABC")
     cyphers = [
         "ACEDFHGIKJLNMOQPRTSUWVXZYA"
     ]
@@ -17,7 +17,7 @@ class TestVigenereCypherSamllKey(TestCypher, unittest.TestCase):
 
 class TestVigenereCypherMediumKey(TestCypher, unittest.TestCase):
 
-    cypher = Vigenere(key="NATURELLEMENT")
+    cypher = VigenereCypher(key="NATURELLEMENT")
     cyphers = [
         "NBVXVJRSMVOYFAOIKIWEFZIBLS",
         "MYQQMYEDVCTBGZLDDZLRQIPGOT",
