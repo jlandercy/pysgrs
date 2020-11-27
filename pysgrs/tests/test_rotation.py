@@ -1,12 +1,29 @@
 import sys
 import unittest
 
+from pysgrs.tests.test_cypher import TestCypher
 from pysgrs.cypher import RotationCypher, CaesarCypher
 from pysgrs import errors
 from pysgrs import settings
 
 
-class TestCypher(unittest.TestCase):
+class TestIdentityCypher(TestCypher, unittest.TestCase):
+
+    cypher = RotationCypher(offset=0)
+    cyphers = [
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    ]
+
+
+class TestRotationCypher(TestCypher, unittest.TestCase):
+
+    cypher = CaesarCypher()
+    cyphers = [
+        "DEFGHIJKLMNOPQRSTUVWXYZABC"
+    ]
+
+
+class OldTestRotationCypher(unittest.TestCase):
 
     def setUp(self):
         self.identity = RotationCypher(offset=0)
