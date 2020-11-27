@@ -71,7 +71,7 @@ class GenericStreamCypher(GenericCypher):
         for k, c in enumerate(s):
             try:
                 if c != self.alphabet.joker:
-                    x = self.alphabet.digit(f(c, k))
+                    x = f(c, k)
                 else:
                     x = c
                 r.append(x)
