@@ -1,31 +1,29 @@
 import sys
 import unittest
 
+from pysgrs.tests.test_cypher import TestCypher
 from pysgrs.cypher import KeyCypher, CaesarCypher
 from pysgrs import errors
 from pysgrs import settings
 
 
-class TestCypher(unittest.TestCase):
+class TestKeyCypher(TestCypher, unittest.TestCase):
 
-    def setUp(self):
-        self.cypher = KeyCypher(key="ABC")
-
-    def test_Reversible(self):
-        self.assertEqual(self.cypher.decypher(self.cypher.cypher("ABC")), "ABC")
-
-    def test_Cypher(self):
-        self.assertEqual(self.cypher.cypher("ABC"), "ACE")
+    cypher = KeyCypher(key="ABC")
+    cyphers = [
+        "ACEDFHGIKJLNMOQPRTSUWVXZYA"
+    ]
 
 
-class TestEquivalence(unittest.TestCase):
+class TestKeyRotationCyphersEquivalence(unittest.TestCase):
 
     def setUp(self):
         self.cypher = KeyCypher(key="D")
         self.caesar = CaesarCypher()
 
     def test_CaesarEquivalence(self):
-        self.assertEqual(self.cypher.cypher("ABC"), self.caesar.cypher("ABC"))
+        for sentence in TestCypher.sentences:
+            self.assertEqual(self.cypher.cypher(sentence), self.caesar.cypher(sentence))
 
 
 def main():
