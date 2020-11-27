@@ -22,23 +22,6 @@ class Vigenere(GenericStreamCypher):
         return (x - self.offset) % self.alphabet.n
 
 
-class Vigenere(GenericStreamCypher):
-
-    def __init__(self, key, alphabet=None):
-        super().__init__(alphabet=alphabet)
-        self._key = key
-
-    @property
-    def key(self):
-        return self._key
-
-    def _cypher(self, x):
-        return (x + self.offset) % self.alphabet.n
-
-    def _decypher(self, x):
-        return (x - self.offset) % self.alphabet.n
-
-
 def main():
     sys.exit(0)
 

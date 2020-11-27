@@ -1,21 +1,41 @@
+import abc
 import sys
 import itertools
 
-from pysgrs.interfaces.alphabet import Alphabet
-from pysgrs.errors import IllegalCharacter
+from pysgrs.interfaces.alphabet import GenericAlphabet, Alphabet
+from pysgrs.errors import BadParameter, IllegalCharacter
 
 
-class GenericCypher:
+class GenericCypher(abc.ABC):
 
     def __init__(self, alphabet=None):
 
         if alphabet is None:
             self._alphabet = Alphabet()
         else:
-            self._alphabet = alphabet
+            if isinstance(alphabet, GenericAlphabet):
+                self._alphabet = alphabet
+            else:
+                raise BadParameter("Alphabet required, received {} instead".format(type(alphabet)))
 
     def __str__(self):
         return "<Cypher:{} alphabet={}>".format(self.__class__.__name__, self.alphabet)
+
+    @abc.abstractmethod
+    def cypher(self, s, strict=True, quite=False):
+        pass
+
+    @abc.abstractmethod
+    def decypher(self, s, strict=True, quite=False):
+        pass
+
+    @abc.abstractmethod
+    def _cypher(self, x):
+        pass
+
+    @abc.abstractmethod
+    def _decypher(self, x):
+        pass
 
     @property
     def alphabet(self):
@@ -26,12 +46,6 @@ class GenericStreamCypher(GenericCypher):
 
     def __init__(self, alphabet=None):
         super().__init__(alphabet=alphabet)
-
-    def _cypher(self, x):
-        raise NotImplemented
-
-    def _decypher(self, x):
-        raise NotImplemented
 
     def _apply(self, s, func, strict=True, quite=False):
         if not strict:
@@ -67,11 +81,15 @@ class GenericStreamCypher(GenericCypher):
         return {x: y for (x, y) in self.pairs}
 
     @property
+    def revere(self):
+        return {y: x for (x, y) in self.pairs}
+
+    @property
     def dataframe(self):
         import pandas as pd
         x = self.alphabet.dataframe
         y = pd.DataFrame(self.pairs, columns=["alphabet", "cypher"])
-        y['cindices'] = y['cypher'].apply(lambda x: self.alphabet.alphabet.index(x))
+        y['cindices'] = y['cypher'].apply(lambda z: self.alphabet.alphabet.index(z))
         return x.merge(y, on="alphabet")
 
     @property
@@ -93,12 +111,12 @@ class GenericStreamCypher(GenericCypher):
         return axe
 
 
-class FunctionalCypher(GenericStreamCypher):
-
-    def __init__(self, cypher, decypher=None, alphabet=None):
-        super().__init__(alphabet=alphabet)
-        self._cypher = cypher
-        self._decypher = decypher
+# class FunctionalCypher(GenericStreamCypher):
+#
+#     def __init__(self, cypher, decypher=None, alphabet=None):
+#         super().__init__(alphabet=alphabet)
+#         self._cypher = cypher
+#         self._decypher = decypher
 
 
 def main():

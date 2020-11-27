@@ -7,7 +7,15 @@ class GenericException(Exception):
     pass
 
 
-class IllegalCharacter(GenericException):
+class BadParameter(GenericException):
+    pass
+
+
+class AlphabetException(GenericException):
+    pass
+
+
+class IllegalCharacter(AlphabetException):
     pass
 
 
