@@ -6,7 +6,8 @@
  - [ ] Add Braille
  - [ ] Add Morse
  - [ ] Improve test for symbols
- - [ ] Create commodities to consume string with variable length symbols (Morse)
+ - [ ] Create iterator to consume string with variable length symbols (Morse)
+ - [ ] Create parametric cleanser (can be disabled) to remove accents and uniformize special chars ('´)
 
 ## PySGRS v0.0.x
 
