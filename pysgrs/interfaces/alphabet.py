@@ -42,7 +42,11 @@ class GenericAlphabet:
         assert len(self.symbols) == len(self.indices)
 
     def __str__(self):
-        return "<Alphabet:{}({}) symbols='{}'>".format(self.__class__.__name__, self.size, self.symbols)
+        if self.is_natural:
+            return "<Alphabet:{}({}) symbols='{}'>".format(self.__class__.__name__, self.size, self.symbols)
+        else:
+            return "<Alphabet:{}({}) symbols='{}' indices={}>".format(self.__class__.__name__, self.size,
+                                                                      self.symbols, self.indices)
 
     @property
     def symbols(self):
@@ -51,6 +55,10 @@ class GenericAlphabet:
     @property
     def indices(self):
         return self._indices
+
+    @property
+    def is_natural(self):
+        return self.indices == tuple(range(self.size))
 
     @property
     def size(self):
@@ -68,6 +76,9 @@ class GenericAlphabet:
         except ValueError:
             raise IllegalIndexer("Cannot index with {} for {}".format(k, self))
 
+    def contains(self, s):
+        return all([(c in self.symbols) for c in s])
+
     def __getitem__(self, item):
         if isinstance(item, str):
             return self.index(item)
@@ -79,17 +90,14 @@ class GenericAlphabet:
     def __setitem__(self, key, value):
         raise IllegalOperation("Assignation is invalid for Alphabet")
 
+    def __contains__(self, item):
+        return self.contains(item)
+
     def encode(self, s):
         return [self.index(c) for c in s]
 
     def decode(self, s, sep=""):
         return sep.join([self.symbol(i) for i in s])
-
-    def contains(self, s):
-        return all([(c in self.symbols) for c in s])
-
-    def __contains__(self, item):
-        return self.contains(item)
 
     @property
     def pairs(self):
