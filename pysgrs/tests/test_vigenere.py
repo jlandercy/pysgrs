@@ -7,7 +7,7 @@ from pysgrs import errors
 from pysgrs import settings
 
 
-class TestVigenereCypherSamllKey(TestCypher, unittest.TestCase):
+class TestVigenereCypherSmallKey(TestCypher, unittest.TestCase):
 
     cypher = VigenereCypher(key="ABC")
     cyphers = [
