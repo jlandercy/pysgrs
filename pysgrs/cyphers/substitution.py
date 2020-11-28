@@ -47,7 +47,7 @@ class PermutationCypher(GenericStreamCypher):
 
         if permutations is None:
             if auto:
-                permutations = tuple(random.sample(range(self.alphabet.size), self.alphabet.size))
+                permutations = tuple(random.sample(tuple(range(self.alphabet.size)), self.alphabet.size))
             else:
                 permutations = tuple(range(self.alphabet.size))
 

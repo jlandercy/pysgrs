@@ -15,6 +15,7 @@
 
 ## PySGRS v0.0.x
 
+- [x] `v0.0.8`: **`2020-11-28`**: `add`: Added Polybe Alphabet
 - [x] `v0.0.7`: **`2020-11-28`**: `add`: Added Substitution Cyphers:
   - [x] Added Permutation Cypher
   - [x] Added Affine Cypher
