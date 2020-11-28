@@ -57,13 +57,13 @@ class GenericAlphabet:
         try:
             return self.indices[self.alphabet.index(c)]
         except ValueError:
-            raise IllegalIndexer("Cannot index alphabet with '{}'".format(c))
+            raise IllegalIndexer("Cannot index with '{}' for {}".format(c, self))
 
     def digit(self, k):
         try:
             return self.alphabet[self.indices.index(k)]
         except ValueError:
-            raise IllegalIndexer("Cannot index alphabet with {}".format(k))
+            raise IllegalIndexer("Cannot index with {} for {}".format(k, self))
 
     def __getitem__(self, item):
         if isinstance(item, str):
@@ -132,13 +132,17 @@ class Alphabet(GenericAlphabet):
     def offset(self):
         return self._offset
 
-    def index(self, c, quite=False):
-        if not quite:
-            assert 0 <= ord(c) - self.offset < self.size
-        return ord(c) - self.offset
+    def index(self, c):
+        if 0 <= ord(c) - self.offset < self.size:
+            return ord(c) - self.offset
+        else:
+            raise IllegalIndexer("Index {} outside allowed range of {}".format(c, self))
 
     def digit(self, k):
-        return chr(k + self.offset)
+        if 0 <= k < self.size:
+            return chr(k + self.offset)
+        else:
+            raise IllegalIndexer("Index {} outside allowed range of {}".format(k, self))
 
 
 def main():
