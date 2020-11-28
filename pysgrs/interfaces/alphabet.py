@@ -99,20 +99,16 @@ class GenericAlphabet:
     def decode(self, s, sep=""):
         return sep.join([self.symbol(i) for i in s])
 
-    @property
     def pairs(self):
         return list(zip(self.symbols, self.indices))
 
-    @property
     def direct(self):
         return {c: i for (c, i) in self.pairs}
 
-    @property
     def inverse(self):
         return {i: c for (c, i) in self.pairs}
 
-    @property
-    def dataframe(self):
+    def to_dataframe(self):
         import pandas as pd
         return pd.DataFrame(self.pairs, columns=['symbol', 'index'])
 
