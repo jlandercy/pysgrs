@@ -4,7 +4,7 @@ import sys
 #import unidecode
 #import unicodedata
 
-from pysgrs.interfaces.alphabet import GenericAlphabet, Alphabet
+from pysgrs.alphabets import GenericAlphabet, Alphabet
 from pysgrs.errors import IllegalParameter, IllegalAlphabetIndexer
 from pysgrs.settings import settings
 

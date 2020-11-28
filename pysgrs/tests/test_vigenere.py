@@ -2,7 +2,7 @@ import sys
 import unittest
 
 from pysgrs.tests.test_cypher import TestCypher
-from pysgrs.cypher import VigenereCypher
+from pysgrs.cyphers import VigenereCypher
 from pysgrs import errors
 from pysgrs import settings
 

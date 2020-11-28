@@ -2,7 +2,7 @@ import sys
 import unittest
 
 from pysgrs.tests.test_cypher import TestCypher
-from pysgrs.cypher import RotationCypher, CaesarCypher, ReversedCypher, PermutationCypher, AffineCypher
+from pysgrs.cyphers import RotationCypher, CaesarCypher, ReversedCypher, PermutationCypher, AffineCypher
 from pysgrs import errors
 from pysgrs import settings
 

@@ -1,7 +1,7 @@
 import sys
 import unittest
 
-from pysgrs.interfaces import alphabet
+from pysgrs.alphabets import GenericAlphabet, Alphabet
 from pysgrs import errors
 from pysgrs import settings
 
@@ -9,11 +9,11 @@ from pysgrs import settings
 class Alphabets(unittest.TestCase):
 
     def setUp(self):
-        self.dummy = alphabet.GenericAlphabet(symbols="ABC")
-        self.dummyindices = alphabet.GenericAlphabet(symbols="ABC", indices=[32, 71, -28])
-        self.dummydict = alphabet.GenericAlphabet(symbols={'B': 71, 'C': -28, 'A': 32})
-        self.dummylist = alphabet.GenericAlphabet(symbols=[('B', 71), ('C', -28), ('A', 32)])
-        self.ASCII = alphabet.Alphabet()
+        self.dummy = GenericAlphabet(symbols="ABC")
+        self.dummyindices = GenericAlphabet(symbols="ABC", indices=[32, 71, -28])
+        self.dummydict = GenericAlphabet(symbols={'B': 71, 'C': -28, 'A': 32})
+        self.dummylist = GenericAlphabet(symbols=[('B', 71), ('C', -28), ('A', 32)])
+        self.ASCII = Alphabet()
 
     def test_dummy(self):
         self.assertEqual(self.dummy.symbols, "ABC")
