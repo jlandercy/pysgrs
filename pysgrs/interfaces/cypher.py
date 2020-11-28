@@ -87,13 +87,13 @@ class GenericStreamCypher(GenericCypher):
         return list(zip(s, self.cypher(s)))
 
     def to_networkx(self, s=None, raw=False):
-        import matplotlib.pyplot as plt
         import networkx as nx
-        g = nx.Graph()
+        g = nx.DiGraph()
         g.add_edges_from(self.pairs(s))
         if raw:
             return g
         else:
+            import matplotlib.pyplot as plt
             fig, axe = plt.subplots()
             nx.draw_networkx(g)
             return axe
