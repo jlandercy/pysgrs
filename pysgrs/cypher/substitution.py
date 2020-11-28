@@ -102,8 +102,11 @@ class AffineCypher(GenericStreamCypher):
 
     @property
     def ainv(self):
-        #return pow(self.a, -1, self.alphabet.size) # Only Python 3.8+
-        return AffineCypher.modinv(self.a, self.alphabet.size)
+        try:
+            # Only Python 3.8+
+            return pow(self.a, -1, self.alphabet.size)
+        except ValueError:
+            return AffineCypher.modinv(self.a, self.alphabet.size)
 
     @property
     def b(self):
