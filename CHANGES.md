@@ -6,8 +6,11 @@
  - [ ] Add Braille
  - [ ] Add Morse
  - [ ] Improve test for symbols
+ - [ ] Prevent using non natural alphabet on cypher requiring it
  - [ ] Create iterator to consume string with variable length symbols (Morse)
  - [ ] Create parametric cleanser (can be disabled) to remove accents and uniformize special chars ('´)
+ - [ ] Add Transposition Cypher (matrix swam row/column)
+ - [ ] Add Polybe Square alphabet
 
 ## PySGRS v0.0.x
 

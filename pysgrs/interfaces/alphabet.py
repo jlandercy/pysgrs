@@ -1,7 +1,7 @@
 import sys
 import itertools
 
-from pysgrs.errors import IllegalOperation, IllegalIndexer, IllegalIndexerType, IllegalIndex, IllegalSymbol
+from pysgrs import errors
 
 
 class GenericAlphabet:
@@ -68,13 +68,13 @@ class GenericAlphabet:
         try:
             return self.indices[self.symbols.index(c)]
         except ValueError:
-            raise IllegalSymbol("Cannot index with '{}' for {}".format(c, self))
+            raise errors.IllegalAlphabetSymbol("Cannot index with '{}' for {}".format(c, self))
 
     def symbol(self, k):
         try:
             return self.symbols[self.indices.index(k)]
         except ValueError:
-            raise IllegalIndex("Cannot index with {} for {}".format(k, self))
+            raise errors.IllegalAlphabetIndex("Cannot index with {} for {}".format(k, self))
 
     def contains(self, s):
         return all([(c in self.symbols) for c in s])
@@ -85,10 +85,10 @@ class GenericAlphabet:
         elif isinstance(item, int):
             return self.symbol(item)
         else:
-            raise IllegalIndexerType("Bad Alphabet indexer type (str or int), received {} instead".format(type(item)))
+            raise errors.IllegalAlphabetIndexerType("Bad Alphabet indexer type (str or int), received {} instead".format(type(item)))
 
     def __setitem__(self, key, value):
-        raise IllegalOperation("Assignation is not allowed for Alphabet")
+        raise errors.IllegalAlphabetOperation("Assignation is not allowed for Alphabet")
 
     def __contains__(self, item):
         return self.contains(item)
@@ -147,13 +147,13 @@ class Alphabet(GenericAlphabet):
         if 0 <= ord(c) - self.offset < self.size:
             return ord(c) - self.offset
         else:
-            raise IllegalSymbol("Symbol '{}' outside allowed range of {}".format(c, self))
+            raise errors.IllegalAlphabetSymbol("Symbol '{}' outside allowed range of {}".format(c, self))
 
     def symbol(self, k):
         if 0 <= k < self.size:
             return chr(k + self.offset)
         else:
-            raise IllegalIndex("Index {} outside allowed range of {}".format(k, self))
+            raise errors.IllegalAlphabetIndex("Index {} outside allowed range of {}".format(k, self))
 
 
 def main():

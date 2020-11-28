@@ -5,7 +5,7 @@ import sys
 #import unicodedata
 
 from pysgrs.interfaces.alphabet import GenericAlphabet, Alphabet
-from pysgrs.errors import BadParameter, IllegalIndexer
+from pysgrs.errors import IllegalParameter, IllegalAlphabetIndexer
 from pysgrs.settings import settings
 
 
@@ -19,10 +19,10 @@ class GenericCypher(abc.ABC):
             if isinstance(alphabet, GenericAlphabet):
                 self._alphabet = alphabet
             else:
-                raise BadParameter("Alphabet is required, received {} instead".format(type(alphabet)))
+                raise IllegalParameter("Alphabet is required, received {} instead".format(type(alphabet)))
 
         if key and not(key in self.alphabet):
-            raise IllegalIndexer("Key '{}' cannot be expressed with {}".format(key, self.alphabet))
+            raise IllegalAlphabetIndexer("Key '{}' cannot be expressed with {}".format(key, self.alphabet))
         else:
             self._key = key
 
@@ -85,7 +85,7 @@ class GenericStreamCypher(GenericCypher):
                     if c.islower():
                         x = x.lower()
                 r.append(x)
-            except IllegalIndexer as err:
+            except IllegalAlphabetIndexer as err:
                 if quite:
                     q += 1
                     r.append(c)

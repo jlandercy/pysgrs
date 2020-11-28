@@ -7,7 +7,7 @@ class GenericException(Exception):
     pass
 
 
-class BadParameter(GenericException):
+class IllegalParameter(GenericException):
     pass
 
 
@@ -15,23 +15,39 @@ class AlphabetException(GenericException):
     pass
 
 
-class IllegalOperation(GenericException):
+class CypherException(GenericException):
     pass
 
 
-class IllegalIndexer(AlphabetException):
+class IllegalAlphabetParameter(IllegalParameter):
     pass
 
 
-class IllegalIndexerType(AlphabetException):
+class IllegalAlphabetOperation(GenericException):
     pass
 
 
-class IllegalSymbol(IllegalIndexer):
+class IllegalAlphabetIndexer(AlphabetException):
     pass
 
 
-class IllegalIndex(IllegalIndexer):
+class IllegalAlphabetIndexerType(AlphabetException):
+    pass
+
+
+class IllegalAlphabetSymbol(IllegalAlphabetIndexer):
+    pass
+
+
+class IllegalAlphabetIndex(IllegalAlphabetIndexer):
+    pass
+
+
+class IllegalCypherParameter(IllegalParameter):
+    pass
+
+
+class IllegalCypherOperation(GenericException):
     pass
 
 
