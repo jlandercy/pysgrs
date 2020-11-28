@@ -15,10 +15,10 @@ class GenericCypher(abc.ABC):
             if isinstance(alphabet, GenericAlphabet):
                 self._alphabet = alphabet
             else:
-                raise BadParameter("Alphabet required, received {} instead".format(type(alphabet)))
+                raise BadParameter("Alphabet is required, received {} instead".format(type(alphabet)))
 
-        if key and not self.alphabet.contains(key):
-            raise IllegalIndexer("Key '{}' cannot be expressed using {}".format(key, self.alphabet))
+        if key and not(key in self.alphabet):
+            raise IllegalIndexer("Key '{}' cannot be expressed with {}".format(key, self.alphabet))
         else:
             self._key = key
 
@@ -65,18 +65,21 @@ class GenericStreamCypher(GenericCypher):
         super().__init__(alphabet=alphabet, key=key)
 
     def _apply(self, s, f, strict=False, quite=True):
-        if not strict:
-            s = s.upper()
         r = []
         for k, c in enumerate(s):
             try:
-                x = f(c, k)
+                if strict:
+                    x = f(c, k)
+                else:
+                    x = f(c.upper(), k)
+                    if c.islower():
+                        x = x.lower()
                 r.append(x)
-            except (AssertionError, ValueError) as err:
+            except IllegalIndexer as err:
                 if quite:
                     r.append(c)
                 else:
-                    raise IllegalIndexer("Character '{}' does not exist in {}: {}".format(c, self.alphabet, err))
+                    raise err
         return "".join(r)
 
     def pairs(self, s=None):
