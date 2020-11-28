@@ -1,7 +1,7 @@
 import abc
 import sys
 
-import unicodedata
+import unidecode
 
 from pysgrs.interfaces.alphabet import GenericAlphabet, Alphabet
 from pysgrs.errors import BadParameter, IllegalIndexer
@@ -75,7 +75,8 @@ class GenericStreamCypher(GenericCypher):
                 if strict:
                     x = f(c, k - q)
                 else:
-                    c = unicodedata.normalize('NFKD', c)
+                    #c = unicodedata.normalize('NFD', c).encode("ascii", "ignore").decode("utf-8")
+                    #c = unidecode.unidecode(c)
                     x = f(c.upper(), k - q)
                     if c.islower():
                         x = x.lower()
