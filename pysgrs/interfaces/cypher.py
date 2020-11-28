@@ -30,7 +30,7 @@ class GenericAlphabetCypher(GenericCypher):
             if isinstance(alphabet, GenericAlphabet):
                 self._alphabet = alphabet
             else:
-                raise IllegalParameter("BaseAlphabet is required, received {} instead".format(type(alphabet)))
+                raise IllegalParameter("Alphabet is required, received {} instead".format(type(alphabet)))
 
         if key and not(key in self.alphabet):
             raise IllegalAlphabetIndexer("Key '{}' cannot be expressed with {}".format(key, self.alphabet))

@@ -16,7 +16,6 @@ class TranspositionCypher(GenericShapeCypher):
         pass
 
 
-
 def main():
     sys.exit(0)
 
