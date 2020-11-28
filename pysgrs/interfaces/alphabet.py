@@ -1,7 +1,7 @@
 import sys
 import itertools
 
-from pysgrs.errors import IllegalOperation, IllegalIndexer
+from pysgrs.errors import IllegalOperation, IllegalIndexer, IllegalIndexerType, IllegalIndex, IllegalSymbol
 
 
 class GenericAlphabet:
@@ -68,13 +68,13 @@ class GenericAlphabet:
         try:
             return self.indices[self.symbols.index(c)]
         except ValueError:
-            raise IllegalIndexer("Cannot index with '{}' for {}".format(c, self))
+            raise IllegalSymbol("Cannot index with '{}' for {}".format(c, self))
 
     def symbol(self, k):
         try:
             return self.symbols[self.indices.index(k)]
         except ValueError:
-            raise IllegalIndexer("Cannot index with {} for {}".format(k, self))
+            raise IllegalIndex("Cannot index with {} for {}".format(k, self))
 
     def contains(self, s):
         return all([(c in self.symbols) for c in s])
@@ -85,10 +85,10 @@ class GenericAlphabet:
         elif isinstance(item, int):
             return self.symbol(item)
         else:
-            raise IllegalIndexer("Bad Alphabet indexer type (str or int), received {} instead".format(type(item)))
+            raise IllegalIndexerType("Bad Alphabet indexer type (str or int), received {} instead".format(type(item)))
 
     def __setitem__(self, key, value):
-        raise IllegalOperation("Assignation is invalid for Alphabet")
+        raise IllegalOperation("Assignation is not allowed for Alphabet")
 
     def __contains__(self, item):
         return self.contains(item)
@@ -151,13 +151,13 @@ class Alphabet(GenericAlphabet):
         if 0 <= ord(c) - self.offset < self.size:
             return ord(c) - self.offset
         else:
-            raise IllegalIndexer("Index {} outside allowed range of {}".format(c, self))
+            raise IllegalSymbol("Symbol '{}' outside allowed range of {}".format(c, self))
 
     def symbol(self, k):
         if 0 <= k < self.size:
             return chr(k + self.offset)
         else:
-            raise IllegalIndexer("Index {} outside allowed range of {}".format(k, self))
+            raise IllegalIndex("Index {} outside allowed range of {}".format(k, self))
 
 
 def main():

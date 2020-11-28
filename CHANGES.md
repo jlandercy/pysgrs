@@ -5,13 +5,16 @@
  - [ ] Add Bacon,
  - [ ] Add Braille
  - [ ] Add Morse
- - [ ] Make symbols tolerant to punctuation, joker/quite
- - [ ] Make symbols specification (normal index, arbitrary value) 
+
  - [ ] Improve test for symbols
 
 ## PySGRS v0.0.x
 
-- [x] `v0.0.5`: **`2020-11-27`**: `add`: Uniformization and update of Stream Cypher.
+- [x] `v0.0.6`: **`2020-11-28`**: `updated`: Normalized Alphabet and Stream Cypher: 
+  - [x] Stream Cypher is now tolerant to illegal symbols and lower case symbols;
+  - [x] Alphabet is simpler to use, added magic function for indexing and in operator;
+  - [x] Refactored Alphabet exceptions.
+- [x] `v0.0.5`: **`2020-11-27`**: `add`: Uniformization and update of Stream Cypher:
   - [x] Refactored Namespace and unit tests
   - [x] Added VigenereCypher Cypher
   - [x] Added Substitution Cyphers (Rotation, Caesar)

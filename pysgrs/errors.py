@@ -23,6 +23,18 @@ class IllegalIndexer(AlphabetException):
     pass
 
 
+class IllegalIndexerType(AlphabetException):
+    pass
+
+
+class IllegalSymbol(IllegalIndexer):
+    pass
+
+
+class IllegalIndex(IllegalIndexer):
+    pass
+
+
 def main():
     sys.exit(0)
 
