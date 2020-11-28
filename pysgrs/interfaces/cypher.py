@@ -92,7 +92,11 @@ class GenericStreamCypher(GenericCypher):
         c = self.cypher(s)
         return list(zip(s, c))
 
-    def to_networkx(self, s=None, raw=False):
+    def to_dataframe(self, s=None):
+        import pandas as pd
+        return pd.DataFrame(self.pairs(s), columns=["clear", "cypher"])
+
+    def to_graph(self, s=None, raw=False):
         import networkx as nx
         g = nx.DiGraph()
         g.add_edges_from(self.pairs(s))
