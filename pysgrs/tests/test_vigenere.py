@@ -1,13 +1,11 @@
 import sys
 import unittest
 
-from pysgrs.tests.test_cypher import TestCypher
+from pysgrs.tests.test_cypher import TestStreamCypher
 from pysgrs.cyphers import VigenereCypher
-from pysgrs import errors
-from pysgrs import settings
 
 
-class TestVigenereCypherSmallKey(TestCypher, unittest.TestCase):
+class TestVigenereStreamCypherSmallKey(TestStreamCypher, unittest.TestCase):
 
     cypher = VigenereCypher(key="ABC")
     cyphers = [
@@ -15,7 +13,7 @@ class TestVigenereCypherSmallKey(TestCypher, unittest.TestCase):
     ]
 
 
-class TestVigenereCypherMediumKey(TestCypher, unittest.TestCase):
+class TestVigenereStreamCypherMediumKey(TestStreamCypher, unittest.TestCase):
 
     cypher = VigenereCypher(key="NATURELLEMENT")
     cyphers = [

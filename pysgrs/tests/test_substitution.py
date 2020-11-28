@@ -1,19 +1,17 @@
 import sys
 import unittest
 
-from pysgrs.tests.test_cypher import TestCypher
+from pysgrs.tests.test_cypher import TestStreamCypher
 from pysgrs.cyphers import RotationCypher, CaesarCypher, ReversedCypher, PermutationCypher, AffineCypher
-from pysgrs import errors
-from pysgrs import settings
 
 
-class TestIdentityCypher(TestCypher, unittest.TestCase):
+class TestIdentityStreamCypher(TestStreamCypher, unittest.TestCase):
 
     cypher = RotationCypher(offset=0)
-    cyphers = TestCypher.sentences
+    cyphers = TestStreamCypher.sentences
 
 
-class TestRotationCypher(TestCypher, unittest.TestCase):
+class TestRotationStreamCypher(TestStreamCypher, unittest.TestCase):
 
     cypher = RotationCypher(offset=7)
     cyphers = [
@@ -35,7 +33,7 @@ class TestRotationCypher(TestCypher, unittest.TestCase):
     ]
 
 
-class TestNegativeRotationCypher(TestCypher, unittest.TestCase):
+class TestNegativeRotationStreamCypher(TestStreamCypher, unittest.TestCase):
 
     cypher = RotationCypher(offset=-7)
     cyphers = [
@@ -43,7 +41,7 @@ class TestNegativeRotationCypher(TestCypher, unittest.TestCase):
     ]
 
 
-class TestCaesarCypher(TestCypher, unittest.TestCase):
+class TestCaesarStreamCypher(TestStreamCypher, unittest.TestCase):
 
     cypher = CaesarCypher()
     cyphers = [
@@ -51,7 +49,7 @@ class TestCaesarCypher(TestCypher, unittest.TestCase):
     ]
 
 
-class TestReversedCypher(TestCypher, unittest.TestCase):
+class TestReversedStreamCypher(TestStreamCypher, unittest.TestCase):
 
     cypher = ReversedCypher()
     cyphers = [
@@ -59,13 +57,13 @@ class TestReversedCypher(TestCypher, unittest.TestCase):
     ]
 
 
-class TestPermutationIdentityCypher(TestCypher, unittest.TestCase):
+class TestPermutationIdentityStreamCypher(TestStreamCypher, unittest.TestCase):
 
     cypher = PermutationCypher()
-    cyphers = TestCypher.sentences
+    cyphers = TestStreamCypher.sentences
 
 
-class TestPermutationCypher(TestCypher, unittest.TestCase):
+class TestPermutationStreamCypher(TestStreamCypher, unittest.TestCase):
 
     cypher = PermutationCypher([10, 24,  8, 18, 15, 13,  1, 25,  9,
                                 22, 20,  6,  2,  0,  5,  3, 12, 21,
@@ -75,7 +73,7 @@ class TestPermutationCypher(TestCypher, unittest.TestCase):
     ]
 
 
-class TestAffineCypher(TestCypher, unittest.TestCase):
+class TestAffineStreamCypher(TestStreamCypher, unittest.TestCase):
 
     cypher = AffineCypher()
     cyphers = [

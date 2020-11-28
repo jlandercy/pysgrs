@@ -1,8 +1,11 @@
 import sys
 import unittest
 
+from pysgrs import errors
+from pysgrs import settings
 
-class TestCypher:
+
+class TestStreamCypher:
 
     cypher = None
     sentences = [
