@@ -64,16 +64,13 @@ class GenericStreamCypher(GenericCypher):
     def __init__(self, alphabet=None, key=None):
         super().__init__(alphabet=alphabet, key=key)
 
-    def _apply(self, s, f, strict=True, quite=False):
+    def _apply(self, s, f, strict=False, quite=True):
         if not strict:
             s = s.upper()
         r = []
         for k, c in enumerate(s):
             try:
-                if c in self.alphabet:
-                    x = f(c, k)
-                else:
-                    x = c
+                x = f(c, k)
                 r.append(x)
             except (AssertionError, ValueError) as err:
                 if quite:
