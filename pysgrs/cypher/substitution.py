@@ -16,10 +16,10 @@ class RotationCypher(GenericStreamCypher):
         return self._offset
 
     def _cypher(self, c, k=None):
-        return self.alphabet.digit((self.alphabet.index(c) + self.offset) % self.alphabet.size)
+        return self.alphabet.symbol((self.alphabet.index(c) + self.offset) % self.alphabet.size)
 
     def _decypher(self, c, k=None):
-        return self.alphabet.digit((self.alphabet.index(c) - self.offset) % self.alphabet.size)
+        return self.alphabet.symbol((self.alphabet.index(c) - self.offset) % self.alphabet.size)
 
 
 class CaesarCypher(RotationCypher):
@@ -34,10 +34,10 @@ class ReversedCypher(GenericStreamCypher):
         super().__init__(alphabet=alphabet)
 
     def _cypher(self, c, k=None):
-        return self.alphabet.digit(self.alphabet.size - self.alphabet.index(c) - 1)
+        return self.alphabet.symbol(self.alphabet.size - self.alphabet.index(c) - 1)
 
     def _decypher(self, c, k=None):
-        return self.alphabet.digit(self.alphabet.size - self.alphabet.index(c) - 1)
+        return self.alphabet.symbol(self.alphabet.size - self.alphabet.index(c) - 1)
 
 
 def main():

@@ -6,7 +6,8 @@ from pysgrs.errors import IllegalOperation, IllegalIndexer
 
 class GenericAlphabet:
     """
-    Provide commodities to handle Alphabet Map between Characters and Integers
+    Generic Alphabet:
+    Mapping between
     """
 
     def __init__(self, alphabet, indices=None):
@@ -46,6 +47,10 @@ class GenericAlphabet:
         return self._alphabet
 
     @property
+    def symbols(self):
+        return self.alphabet
+
+    @property
     def indices(self):
         return self._indices
 
@@ -59,7 +64,7 @@ class GenericAlphabet:
         except ValueError:
             raise IllegalIndexer("Cannot index with '{}' for {}".format(c, self))
 
-    def digit(self, k):
+    def symbol(self, k):
         try:
             return self.alphabet[self.indices.index(k)]
         except ValueError:
@@ -80,7 +85,7 @@ class GenericAlphabet:
         return [self.index(c) for c in s]
 
     def decode(self, s, sep=""):
-        return sep.join([self.digit(i) for i in s])
+        return sep.join([self.symbol(i) for i in s])
 
     def contains(self, s):
         return all([(c in self.alphabet) for c in s])
@@ -103,7 +108,7 @@ class GenericAlphabet:
     @property
     def dataframe(self):
         import pandas as pd
-        return pd.DataFrame(self.pairs, columns=['digit', 'index'])
+        return pd.DataFrame(self.pairs, columns=['symbol', 'index'])
 
     def product(self, n):
         for x in itertools.product(self.alphabet, repeat=n):
@@ -138,7 +143,7 @@ class Alphabet(GenericAlphabet):
         else:
             raise IllegalIndexer("Index {} outside allowed range of {}".format(c, self))
 
-    def digit(self, k):
+    def symbol(self, k):
         if 0 <= k < self.size:
             return chr(k + self.offset)
         else:
