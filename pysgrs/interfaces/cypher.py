@@ -11,6 +11,17 @@ from pysgrs.settings import settings
 
 class GenericCypher(abc.ABC):
 
+    @abc.abstractmethod
+    def cypher(self, s, **kwargs):
+        pass
+
+    @abc.abstractmethod
+    def decypher(self, s, **kwargs):
+        pass
+
+
+class GenericAlphabetCypher(GenericCypher):
+
     def __init__(self, alphabet=None, key=None):
 
         if alphabet is None:
@@ -66,7 +77,7 @@ class GenericCypher(abc.ABC):
             return len(self.key)
 
 
-class GenericStreamCypher(GenericCypher):
+class GenericStreamCypher(GenericAlphabetCypher):
 
     def __init__(self, alphabet=None, key=None):
         super().__init__(alphabet=alphabet, key=key)
@@ -117,11 +128,21 @@ class GenericStreamCypher(GenericCypher):
             return axe
 
 
+class GenericShapeCypher(GenericCypher):
+
+    def __init__(self, shape=None):
+        self._shape = shape
+
+    @property
+    def shape(self):
+        return self._shape
+
+
 class GenericCodexCypher(GenericCypher):
     pass
 
 
-# class FunctionalCypher(GenericStreamCypher):
+# class FunctionalCypher(GenericAlphabetCypher):
 #
 #     def __init__(self, cypher, decypher=None, symbols=None):
 #         super().__init__(symbols=symbols)
