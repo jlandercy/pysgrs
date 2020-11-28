@@ -42,7 +42,7 @@ class GenericAlphabet:
         assert len(self.symbols) == len(self.indices)
 
     def __str__(self):
-        return "<Alphabet:{}({}) '{}'>".format(self.__class__.__name__, self.size, self.symbols)
+        return "<Alphabet:{}({}) symbols='{}'>".format(self.__class__.__name__, self.size, self.symbols)
 
     @property
     def symbols(self):
@@ -70,9 +70,9 @@ class GenericAlphabet:
 
     def __getitem__(self, item):
         if isinstance(item, str):
-            return self.symbols.index(item)
+            return self.index(item)
         elif isinstance(item, int):
-            return self.symbols.digit(item)
+            return self.symbol(item)
         else:
             raise IllegalIndexer("Bad Alphabet indexer type (str or int), received {} instead".format(type(item)))
 
