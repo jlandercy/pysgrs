@@ -12,45 +12,41 @@ class GenericAlphabet:
     Mapping can be provided in several fashion (list, dict)
     """
 
-    def __init__(self, alphabet, indices=None):
+    def __init__(self, symbols, indices=None):
 
         if indices is None:
-            indices = list(range(len(alphabet)))
+            indices = list(range(len(symbols)))
 
-        if isinstance(alphabet, (list, tuple)):
+        if isinstance(symbols, (list, tuple)):
             x = {}
-            for (c, i) in alphabet:
+            for (c, i) in symbols:
                 x[c] = i
-            alphabet = x
+            symbols = x
 
-        if isinstance(alphabet, dict):
+        if isinstance(symbols, dict):
             x = []
             y = []
-            for k in sorted(alphabet):
+            for k in sorted(symbols):
                 x.append(k)
-                y.append(alphabet[k])
-            alphabet = "".join(x)
+                y.append(symbols[k])
+            symbols = "".join(x)
             indices = y
 
-        self._alphabet = alphabet
+        self._symbols = symbols
         self._indices = tuple(indices)
 
-        assert isinstance(self.alphabet, str)
+        assert isinstance(self.symbols, str)
         assert all([isinstance(i, int) for i in self.indices])
-        assert len(set(self.alphabet)) == len(self.alphabet)
+        assert len(set(self.symbols)) == len(self.symbols)
         assert len(set(self.indices)) == len(self.indices)
-        assert len(self.alphabet) == len(self.indices)
+        assert len(self.symbols) == len(self.indices)
 
     def __str__(self):
-        return "<Alphabet:{}({}) '{}'>".format(self.__class__.__name__, self.size, self.alphabet)
-
-    @property
-    def alphabet(self):
-        return self._alphabet
+        return "<Alphabet:{}({}) '{}'>".format(self.__class__.__name__, self.size, self.symbols)
 
     @property
     def symbols(self):
-        return self.alphabet
+        return self._symbols
 
     @property
     def indices(self):
@@ -58,25 +54,25 @@ class GenericAlphabet:
 
     @property
     def size(self):
-        return len(self.alphabet)
+        return len(self.symbols)
 
     def index(self, c):
         try:
-            return self.indices[self.alphabet.index(c)]
+            return self.indices[self.symbols.index(c)]
         except ValueError:
             raise IllegalIndexer("Cannot index with '{}' for {}".format(c, self))
 
     def symbol(self, k):
         try:
-            return self.alphabet[self.indices.index(k)]
+            return self.symbols[self.indices.index(k)]
         except ValueError:
             raise IllegalIndexer("Cannot index with {} for {}".format(k, self))
 
     def __getitem__(self, item):
         if isinstance(item, str):
-            return self.alphabet.index(item)
+            return self.symbols.index(item)
         elif isinstance(item, int):
-            return self.alphabet.digit(item)
+            return self.symbols.digit(item)
         else:
             raise IllegalIndexer("Bad Alphabet indexer type (str or int), received {} instead".format(type(item)))
 
@@ -90,14 +86,14 @@ class GenericAlphabet:
         return sep.join([self.symbol(i) for i in s])
 
     def contains(self, s):
-        return all([(c in self.alphabet) for c in s])
+        return all([(c in self.symbols) for c in s])
 
     def __contains__(self, item):
         return self.contains(item)
 
     @property
     def pairs(self):
-        return list(zip(self.alphabet, self.indices))
+        return list(zip(self.symbols, self.indices))
 
     @property
     def direct(self):
@@ -113,19 +109,19 @@ class GenericAlphabet:
         return pd.DataFrame(self.pairs, columns=['symbol', 'index'])
 
     def product(self, n):
-        for x in itertools.product(self.alphabet, repeat=n):
+        for x in itertools.product(self.symbols, repeat=n):
             yield "".join(x)
 
     def replacements(self, n):
-        for x in itertools.combinations_with_replacement(self.alphabet, n):
+        for x in itertools.combinations_with_replacement(self.symbols, n):
             yield "".join(x)
 
     def combinations(self, n):
-        for x in itertools.combinations(self.alphabet, n):
+        for x in itertools.combinations(self.symbols, n):
             yield "".join(x)
 
     def permutations(self, n):
-        for x in itertools.permutations(self.alphabet, n):
+        for x in itertools.permutations(self.symbols, n):
             yield "".join(x)
 
 

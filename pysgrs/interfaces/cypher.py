@@ -24,7 +24,7 @@ class GenericCypher(abc.ABC):
             self._key = key
 
     def __str__(self):
-        return "<Cypher:{} alphabet={}>".format(self.__class__.__name__, self.alphabet)
+        return "<Cypher:{} symbols={}>".format(self.__class__.__name__, self.alphabet)
 
     @abc.abstractmethod
     def _apply(self, s, f, strict=True, quite=False):
@@ -88,7 +88,7 @@ class GenericStreamCypher(GenericCypher):
         return r
 
     def pairs(self, s=None):
-        s = s or self.alphabet.alphabet
+        s = s or self.alphabet.symbols
         return list(zip(s, self.cypher(s)))
 
     def to_networkx(self, s=None, raw=False):
@@ -106,8 +106,8 @@ class GenericStreamCypher(GenericCypher):
 
 # class FunctionalCypher(GenericStreamCypher):
 #
-#     def __init__(self, cypher, decypher=None, alphabet=None):
-#         super().__init__(alphabet=alphabet)
+#     def __init__(self, cypher, decypher=None, symbols=None):
+#         super().__init__(symbols=symbols)
 #         self._cypher = cypher
 #         self._decypher = decypher
 

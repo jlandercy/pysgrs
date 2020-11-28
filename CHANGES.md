@@ -5,9 +5,9 @@
  - [ ] Add Bacon,
  - [ ] Add Braille
  - [ ] Add Morse
- - [ ] Make alphabet tolerant to punctuation, joker/quite
- - [ ] Make alphabet specification (normal index, arbitrary value) 
- - [ ] Improve test for alphabet
+ - [ ] Make symbols tolerant to punctuation, joker/quite
+ - [ ] Make symbols specification (normal index, arbitrary value) 
+ - [ ] Improve test for symbols
 
 ## PySGRS v0.0.x
 
