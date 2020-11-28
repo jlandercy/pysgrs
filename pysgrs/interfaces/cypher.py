@@ -89,7 +89,8 @@ class GenericStreamCypher(GenericCypher):
 
     def pairs(self, s=None):
         s = s or self.alphabet.symbols
-        return list(zip(s, self.cypher(s)))
+        c = self.cypher(s)
+        return list(zip(s, c))
 
     def to_networkx(self, s=None, raw=False):
         import networkx as nx
