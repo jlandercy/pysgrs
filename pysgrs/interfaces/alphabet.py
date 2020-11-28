@@ -103,14 +103,14 @@ class GenericAlphabet:
         return list(zip(self.symbols, self.indices))
 
     def direct(self):
-        return {c: i for (c, i) in self.pairs}
+        return {c: i for (c, i) in self.pairs()}
 
     def inverse(self):
-        return {i: c for (c, i) in self.pairs}
+        return {i: c for (c, i) in self.pairs()}
 
     def to_dataframe(self):
         import pandas as pd
-        return pd.DataFrame(self.pairs, columns=['symbol', 'index'])
+        return pd.DataFrame(self.pairs(), columns=['symbol', 'index'])
 
     def product(self, n):
         for x in itertools.product(self.symbols, repeat=n):
