@@ -15,7 +15,8 @@
 
 ## PySGRS v0.0.x
 
-- [x] `v0.0.6`: **`2020-11-28`**: `updated`: Normalized Alphabet and Stream Cypher: 
+- [x] `v0.0.7`: **`2020-11-28`**: `add`: Added Permutation Cypher 
+- [x] `v0.0.6`: **`2020-11-28`**: `update`: Normalized Alphabet and Stream Cypher: 
   - [x] Stream Cypher is now tolerant to illegal symbols and lower case symbols;
   - [x] Alphabet is simpler to use, added magic function for indexing and in operator;
   - [x] Refactored Alphabet exceptions.

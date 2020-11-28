@@ -72,6 +72,50 @@ class PermutationCypher(GenericStreamCypher):
         return self.alphabet.symbol(self.permutations.index(self.alphabet.index(c)))
 
 
+class AffineCypher(GenericStreamCypher):
+
+    def __init__(self, a=5, b=8, alphabet=None):
+        super().__init__(alphabet=alphabet)
+        self._a = a
+        self._b = b
+        self.ainv
+
+    @staticmethod
+    def egcd(a, b):
+        if a == 0:
+            return b, 0, 1
+        else:
+            g, y, x = AffineCypher.egcd(b % a, a)
+            return g, x - (b // a) * y, y
+
+    @staticmethod
+    def modinv(a, m):
+        g, x, y = AffineCypher.egcd(a, m)
+        if g != 1:
+            raise errors.IllegalCypherParameter('Modular inverse does not exist for {} mod {}'.format(a, m))
+        else:
+            return x % m
+
+    @property
+    def a(self):
+        return self._a
+
+    @property
+    def ainv(self):
+        #return pow(self.a, -1, self.alphabet.size) # Only Python 3.8+
+        return AffineCypher.modinv(self.a, self.alphabet.size)
+
+    @property
+    def b(self):
+        return self._b
+
+    def _cypher(self, c, k=None):
+        return self.alphabet.symbol((self.a*self.alphabet.index(c) + self.b) % self.alphabet.size)
+
+    def _decypher(self, c, k=None):
+        return self.alphabet.symbol((self.ainv*(self.alphabet.index(c) - self.b)) % self.alphabet.size)
+
+
 def main():
     sys.exit(0)
 

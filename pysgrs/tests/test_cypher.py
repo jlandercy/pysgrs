@@ -29,11 +29,11 @@ class TestCypher:
 
     def test_reversible_cypher(self):
         for sentence in self.sentences:
-            self.assertEqual(self.cypher.decypher(self.cypher.cypher(sentence)), sentence)
+            self.assertEqual(sentence, self.cypher.decypher(self.cypher.cypher(sentence)))
 
     def test_cyphering(self):
         for sentence, cypher in zip(self.sentences, self.cyphers):
-            self.assertEqual(self.cypher.cypher(sentence), cypher)
+            self.assertEqual(cypher, self.cypher.cypher(sentence))
 
 
 def main():

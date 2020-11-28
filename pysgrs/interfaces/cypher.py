@@ -117,6 +117,10 @@ class GenericStreamCypher(GenericCypher):
             return axe
 
 
+class GenericCodexCypher(GenericCypher):
+    pass
+
+
 # class FunctionalCypher(GenericStreamCypher):
 #
 #     def __init__(self, cypher, decypher=None, symbols=None):
