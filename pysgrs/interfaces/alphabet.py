@@ -6,7 +6,7 @@ from pysgrs import errors
 
 class GenericAlphabet:
     """
-    Generic Alphabet:
+    Generic BaseAlphabet:
     Mapping between symbols (characters) and indices (integers).
     If no indices are provided range(size) is used.
     Mapping can be provided in several fashion (list, dict)
@@ -85,10 +85,10 @@ class GenericAlphabet:
         elif isinstance(item, int):
             return self.symbol(item)
         else:
-            raise errors.IllegalAlphabetIndexerType("Bad Alphabet indexer type (str or int), received {} instead".format(type(item)))
+            raise errors.IllegalAlphabetIndexerType("Bad BaseAlphabet indexer type (str or int), received {} instead".format(type(item)))
 
     def __setitem__(self, key, value):
-        raise errors.IllegalAlphabetOperation("Assignation is not allowed for Alphabet")
+        raise errors.IllegalAlphabetOperation("Assignation is not allowed for BaseAlphabet")
 
     def __contains__(self, item):
         return self.contains(item)

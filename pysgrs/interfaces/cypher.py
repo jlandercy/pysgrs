@@ -4,7 +4,7 @@ import sys
 #import unidecode
 #import unicodedata
 
-from pysgrs.alphabets import GenericAlphabet, Alphabet
+from pysgrs.alphabets import GenericAlphabet, BaseAlphabet
 from pysgrs.errors import IllegalParameter, IllegalAlphabetIndexer
 from pysgrs.settings import settings
 
@@ -14,12 +14,12 @@ class GenericCypher(abc.ABC):
     def __init__(self, alphabet=None, key=None):
 
         if alphabet is None:
-            self._alphabet = Alphabet()
+            self._alphabet = BaseAlphabet()
         else:
             if isinstance(alphabet, GenericAlphabet):
                 self._alphabet = alphabet
             else:
-                raise IllegalParameter("Alphabet is required, received {} instead".format(type(alphabet)))
+                raise IllegalParameter("BaseAlphabet is required, received {} instead".format(type(alphabet)))
 
         if key and not(key in self.alphabet):
             raise IllegalAlphabetIndexer("Key '{}' cannot be expressed with {}".format(key, self.alphabet))

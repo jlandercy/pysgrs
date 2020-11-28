@@ -6,10 +6,10 @@ from pysgrs.interfaces.alphabet import GenericAlphabet
 from pysgrs import errors
 
 
-class Alphabet(GenericAlphabet):
+class BaseAlphabet(GenericAlphabet):
     """
-    Base Alphabet [A-Z]:
-    Using commodities from Generic Alphabet but replacing indexing by ASCII index manipulation for efficiency sake.
+    Base BaseAlphabet [A-Z]:
+    Using commodities from Generic BaseAlphabet but replacing indexing by ASCII index manipulation for efficiency sake.
     """
 
     def __init__(self, offset=65, size=26):
@@ -31,6 +31,10 @@ class Alphabet(GenericAlphabet):
             return chr(k + self.offset)
         else:
             raise errors.IllegalAlphabetIndex("Index {} outside allowed range of {}".format(k, self))
+
+
+class PolybeAlphabet(GenericAlphabet):
+    pass
 
 
 def main():
