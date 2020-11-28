@@ -11,6 +11,7 @@
  - [ ] Create parametric cleanser (can be disabled) to remove accents and uniformize special chars ('´)
  - [ ] Add Transposition Cypher (matrix swam row/column)
  - [ ] Add Polybe Square alphabet
+ - [ ] Frequentist analyst
 
 ## PySGRS v0.0.x
 
