@@ -10,16 +10,28 @@ from pysgrs import settings
 class TestIdentityCypher(TestCypher, unittest.TestCase):
 
     cypher = RotationCypher(offset=0)
-    cyphers = [
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    ]
+    cyphers = TestCypher.sentences
 
 
 class TestRotationCypher(TestCypher, unittest.TestCase):
 
     cypher = RotationCypher(offset=7)
     cyphers = [
-        "HIJKLMNOPQRSTUVWXYZABCDEFG"
+        "HIJKLMNOPQRSTUVWXYZABCDEFG",
+        "GFEDCBAZYXWVUTSRQPONMLKJIH",
+        "AOLXBPJRIYVDUMVEQBTWZVCLYAOLSHGFKVN",
+        "DHSAGIHKUFTWOMVYXBPJRQPNZCLE",
+        "QPCLKMVEUFTWONYHIZXBPJRDHSAG",
+        "NSPIQVJRZXBPGUFTWOAVCLEKDHYM",
+        "ZWOPUEVMISHJRXBHYAGQBKNLTFCVD",
+        "OVDCLEPUNSFXBPJRKHMAGLIYHZQBTW",
+        "AOLMPCLIVEPUNDPGHYKZQBTWXBPJRSF",
+        "QHJRKHDZSVCLTFIPNZWOPUEVMXBHYAG",
+        "WHJRTFIVEDPAOMPCLKVGLUSPXBVYQBNZ",
+        "Spcl hz pm fvb dlyl av kpl avtvyyvd. Slhyu hz pm fvb dlyl av spcl mvylcly.",
+        "Il dov fvb hyl huk zhf doha fvb mlls, iljhbzl aovzl dov tpuk kvu’a thaaly huk aovzl dov thaaly kvu’a tpuk.",
+        "Pm fvb jhuuva kv nylha aopunz, kv zthss aopunz pu h nylha dhf.",
+        "Dpzl tlu zwlhr iljhbzl aolf ohcl zvtlaopun av zhf; mvvsz iljhbzl aolf ohcl av zhf zvtlaopun.",
     ]
 
 
