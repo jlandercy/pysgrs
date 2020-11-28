@@ -39,7 +39,7 @@ class GenericAlphabet:
         assert len(self.alphabet) == len(self.indices)
 
     def __str__(self):
-        return "<Alphabet:{} '{}' (size={})>".format(self.__class__.__name__, self.alphabet, self.size)
+        return "<Alphabet:{}({}) '{}'>".format(self.__class__.__name__, self.size, self.alphabet)
 
     @property
     def alphabet(self):

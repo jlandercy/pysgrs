@@ -3,6 +3,7 @@ import sys
 
 from pysgrs.interfaces.alphabet import GenericAlphabet, Alphabet
 from pysgrs.errors import BadParameter, IllegalIndexer
+from pysgrs.settings import settings
 
 
 class GenericCypher(abc.ABC):
@@ -82,7 +83,9 @@ class GenericStreamCypher(GenericCypher):
                     r.append(c)
                 else:
                     raise err
-        return "".join(r)
+        r = "".join(r)
+        settings.logger.debug("{}.{}('{}') -> '{}'".format(self, f.__name__, s, r))
+        return r
 
     def pairs(self, s=None):
         s = s or self.alphabet.alphabet
