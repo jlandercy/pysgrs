@@ -130,6 +130,10 @@ class GenericAlphabet:
 
 
 class Alphabet(GenericAlphabet):
+    """
+    Base Alphabet [A-Z]:
+    Using commodities from Generic Alphabet but replacing indexing by ASCII index manipulation for efficiency sake.
+    """
 
     def __init__(self, offset=65, size=26):
         super().__init__("".join([chr(x + offset) for x in range(size)]))
