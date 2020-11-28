@@ -17,7 +17,7 @@ class GenericCypher(abc.ABC):
             else:
                 raise BadParameter("Alphabet required, received {} instead".format(type(alphabet)))
 
-        if key and not self.alphabet.isin(key):
+        if key and not self.alphabet.contains(key):
             raise IllegalCharacter("Key '{}' cannot be expressed using {}".format(key, self.alphabet))
         else:
             self._key = key
@@ -70,7 +70,7 @@ class GenericStreamCypher(GenericCypher):
         r = []
         for k, c in enumerate(s):
             try:
-                if c != self.alphabet.joker:
+                if c in self.alphabet:
                     x = f(c, k)
                 else:
                     x = c

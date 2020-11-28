@@ -7,9 +7,7 @@ class GenericAlphabet:
     Provide commodities to handle Alphabet Map between Characters and Integers
     """
 
-    def __init__(self, alphabet, indices=None, closure=None, joker='*'):
-
-        self._joker = joker
+    def __init__(self, alphabet, indices=None):
 
         if indices is None:
             indices = list(range(len(alphabet)))
@@ -29,16 +27,12 @@ class GenericAlphabet:
             alphabet = "".join(x)
             indices = y
 
-        if closure is not None:
-            alphabet += joker*len(closure)
-            indices += closure
-
         self._alphabet = alphabet
         self._indices = indices
 
         assert isinstance(self.alphabet, str)
         assert all([isinstance(i, int) for i in self.indices])
-        assert len(set(self.alphabet)) == len(self.alphabet) or closure is not None
+        assert len(set(self.alphabet)) == len(self.alphabet)
         assert len(set(self.indices)) == len(self.indices)
         assert len(self.alphabet) == len(self.indices)
 
@@ -49,10 +43,6 @@ class GenericAlphabet:
     @property
     def alphabet(self):
         return self._alphabet
-
-    @property
-    def joker(self):
-        return self._joker
 
     @property
     def size(self):
@@ -70,8 +60,11 @@ class GenericAlphabet:
     def decode(self, s, sep=""):
         return sep.join([self.digit(i) for i in s])
 
-    def isin(self, s):
+    def contains(self, s):
         return all([(c in self.alphabet) for c in s])
+
+    def __contains__(self, item):
+        return self.contains(item)
 
     @property
     def indices(self):
