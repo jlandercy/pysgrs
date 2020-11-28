@@ -43,10 +43,10 @@ class GenericAlphabet:
 
     def __str__(self):
         if self.is_natural:
-            return "<Alphabet:{}({}) symbols='{}'>".format(self.__class__.__name__, self.size, self.symbols)
+            return "<{} size={} symbols='{}'>".format(self.__class__.__name__, self.size, self.symbols)
         else:
-            return "<Alphabet:{}({}) symbols='{}' indices={}>".format(self.__class__.__name__, self.size,
-                                                                      self.symbols, self.indices)
+            return "<{} size={} symbols='{}' indices={}>".format(self.__class__.__name__, self.size,
+                                                                 self.symbols, self.indices)
 
     @property
     def symbols(self):

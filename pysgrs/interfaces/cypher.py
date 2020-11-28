@@ -1,7 +1,8 @@
 import abc
 import sys
 
-import unidecode
+#import unidecode
+#import unicodedata
 
 from pysgrs.interfaces.alphabet import GenericAlphabet, Alphabet
 from pysgrs.errors import BadParameter, IllegalIndexer
@@ -26,7 +27,10 @@ class GenericCypher(abc.ABC):
             self._key = key
 
     def __str__(self):
-        return "<Cypher:{} symbols={}>".format(self.__class__.__name__, self.alphabet)
+        if self.keysize > 0:
+            return "<{} keysize={} alphabet={}>".format(self.__class__.__name__, self.keysize, self.alphabet)
+        else:
+            return "<{} alphabet={}>".format(self.__class__.__name__, self.alphabet)
 
     @abc.abstractmethod
     def _apply(self, s, f, strict=True, quite=False):
