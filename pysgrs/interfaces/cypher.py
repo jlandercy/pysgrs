@@ -37,10 +37,10 @@ class GenericCypher(abc.ABC):
     def _decypher(self, c, k=None):
         pass
 
-    def cypher(self, s, strict=True, quite=False):
+    def cypher(self, s, strict=False, quite=True):
         return self._apply(s, self._cypher, strict=strict, quite=quite)
 
-    def decypher(self, s, strict=True, quite=False):
+    def decypher(self, s, strict=False, quite=True):
         return self._apply(s, self._decypher, strict=strict, quite=quite)
 
     @property
