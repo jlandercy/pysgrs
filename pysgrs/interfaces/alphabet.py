@@ -7,7 +7,9 @@ from pysgrs.errors import IllegalOperation, IllegalIndexer
 class GenericAlphabet:
     """
     Generic Alphabet:
-    Mapping between
+    Mapping between symbols (characters) and indices (integers).
+    If no indices are provided range(size) is used.
+    Mapping can be provided in several fashion (list, dict)
     """
 
     def __init__(self, alphabet, indices=None):
@@ -31,7 +33,7 @@ class GenericAlphabet:
             indices = y
 
         self._alphabet = alphabet
-        self._indices = indices
+        self._indices = tuple(indices)
 
         assert isinstance(self.alphabet, str)
         assert all([isinstance(i, int) for i in self.indices])
