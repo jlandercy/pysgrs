@@ -65,18 +65,20 @@ class GenericStreamCypher(GenericCypher):
         super().__init__(alphabet=alphabet, key=key)
 
     def _apply(self, s, f, strict=False, quite=True):
+        q = 0
         r = []
         for k, c in enumerate(s):
             try:
                 if strict:
-                    x = f(c, k)
+                    x = f(c, k - q)
                 else:
-                    x = f(c.upper(), k)
+                    x = f(c.upper(), k - q)
                     if c.islower():
                         x = x.lower()
                 r.append(x)
             except IllegalIndexer as err:
                 if quite:
+                    q += 1
                     r.append(c)
                 else:
                     raise err
