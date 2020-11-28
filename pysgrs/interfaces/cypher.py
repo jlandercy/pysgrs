@@ -2,7 +2,7 @@ import abc
 import sys
 
 from pysgrs.interfaces.alphabet import GenericAlphabet, Alphabet
-from pysgrs.errors import BadParameter, IllegalCharacter
+from pysgrs.errors import BadParameter, IllegalIndexer
 
 
 class GenericCypher(abc.ABC):
@@ -18,7 +18,7 @@ class GenericCypher(abc.ABC):
                 raise BadParameter("Alphabet required, received {} instead".format(type(alphabet)))
 
         if key and not self.alphabet.contains(key):
-            raise IllegalCharacter("Key '{}' cannot be expressed using {}".format(key, self.alphabet))
+            raise IllegalIndexer("Key '{}' cannot be expressed using {}".format(key, self.alphabet))
         else:
             self._key = key
 
@@ -76,7 +76,7 @@ class GenericStreamCypher(GenericCypher):
                 if quite:
                     r.append(c)
                 else:
-                    raise IllegalCharacter("Character '{}' does not exist in {}: {}".format(c, self.alphabet, err))
+                    raise IllegalIndexer("Character '{}' does not exist in {}: {}".format(c, self.alphabet, err))
         return "".join(r)
 
     def pairs(self, s=None):

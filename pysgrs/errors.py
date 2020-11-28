@@ -15,7 +15,11 @@ class AlphabetException(GenericException):
     pass
 
 
-class IllegalCharacter(AlphabetException):
+class IllegalOperation(GenericException):
+    pass
+
+
+class IllegalIndexer(AlphabetException):
     pass
 
 

@@ -1,6 +1,8 @@
 import sys
 import itertools
 
+from pysgrs.errors import IllegalOperation, IllegalIndexer
+
 
 class GenericAlphabet:
     """
@@ -37,22 +39,42 @@ class GenericAlphabet:
         assert len(self.alphabet) == len(self.indices)
 
     def __str__(self):
-        return "<Alphabet:{} '{}' (size={}, joker={})>".format(self.__class__.__name__, self.alphabet,
-                                                               self.size, self.joker)
+        return "<Alphabet:{} '{}' (size={})>".format(self.__class__.__name__, self.alphabet, self.size)
 
     @property
     def alphabet(self):
         return self._alphabet
 
     @property
+    def indices(self):
+        return self._indices
+
+    @property
     def size(self):
         return len(self.alphabet)
 
     def index(self, c):
-        return self.indices[self.alphabet.index(c)]
+        try:
+            return self.indices[self.alphabet.index(c)]
+        except ValueError:
+            raise IllegalIndexer("Cannot index alphabet with '{}'".format(c))
 
-    def digit(self, i):
-        return self.alphabet[self.indices.index(i)]
+    def digit(self, k):
+        try:
+            return self.alphabet[self.indices.index(k)]
+        except ValueError:
+            raise IllegalIndexer("Cannot index alphabet with {}".format(k))
+
+    def __getitem__(self, item):
+        if isinstance(item, str):
+            return self.alphabet.index(item)
+        elif isinstance(item, int):
+            return self.alphabet.digit(item)
+        else:
+            raise IllegalIndexer("Bad Alphabet indexer type (str or int), received {} instead".format(type(item)))
+
+    def __setitem__(self, key, value):
+        raise IllegalOperation("Assignation is invalid for Alphabet")
 
     def encode(self, s):
         return [self.index(c) for c in s]
@@ -65,10 +87,6 @@ class GenericAlphabet:
 
     def __contains__(self, item):
         return self.contains(item)
-
-    @property
-    def indices(self):
-        return self._indices
 
     @property
     def pairs(self):
@@ -85,7 +103,7 @@ class GenericAlphabet:
     @property
     def dataframe(self):
         import pandas as pd
-        return pd.DataFrame(self.pairs, columns=['alphabet', 'indices'])
+        return pd.DataFrame(self.pairs, columns=['digit', 'index'])
 
     def product(self, n):
         for x in itertools.product(self.alphabet, repeat=n):
@@ -107,25 +125,20 @@ class GenericAlphabet:
 class Alphabet(GenericAlphabet):
 
     def __init__(self, offset=65, size=26):
+        super().__init__("".join([chr(x + offset) for x in range(size)]))
         self._offset = offset
-        self._size = size
-        super().__init__("".join([chr(x + self.offset) for x in range(self.size)]))
 
     @property
     def offset(self):
         return self._offset
-
-    @property
-    def size(self):
-        return self._size
 
     def index(self, c, quite=False):
         if not quite:
             assert 0 <= ord(c) - self.offset < self.size
         return ord(c) - self.offset
 
-    def digit(self, i):
-        return chr(i + self.offset)
+    def digit(self, k):
+        return chr(k + self.offset)
 
 
 def main():
