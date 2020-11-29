@@ -16,31 +16,31 @@ class Alphabets(unittest.TestCase):
         self.ASCII = BaseAlphabet()
 
     def test_dummy(self):
-        self.assertEqual(self.dummy.symbols, "ABC")
+        self.assertEqual(self.dummy.symbols, tuple("ABC"))
         self.assertEqual(self.dummy.indices, (0, 1, 2))
         self.assertEqual(self.dummy.encode("ABCCBA"), [0, 1, 2, 2, 1, 0])
         self.assertEqual(self.dummy.decode([0, 1, 2, 2, 1, 0]), "ABCCBA")
 
     def test_dummyindices(self):
-        self.assertEqual(self.dummyindices.symbols, "ABC")
+        self.assertEqual(self.dummyindices.symbols, tuple("ABC"))
         self.assertEqual(self.dummyindices.indices, (32, 71, -28))
         self.assertEqual(self.dummyindices.encode("ABCCBA"), [32, 71, -28, -28, 71, 32])
         self.assertEqual(self.dummyindices.decode([32, 71, -28, -28, 71, 32]), "ABCCBA")
 
     def test_dummylist(self):
-        self.assertEqual(self.dummylist.symbols, "ABC")
+        self.assertEqual(self.dummylist.symbols, tuple("ABC"))
         self.assertEqual(self.dummylist.indices, (32, 71, -28))
         self.assertEqual(self.dummylist.encode("ABCCBA"), [32, 71, -28, -28, 71, 32])
         self.assertEqual(self.dummylist.decode([32, 71, -28, -28, 71, 32]), "ABCCBA")
 
     def test_dummydict(self):
-        self.assertEqual(self.dummydict.symbols, "ABC")
+        self.assertEqual(self.dummydict.symbols, tuple("ABC"))
         self.assertEqual(self.dummydict.indices, (32, 71, -28))
         self.assertEqual(self.dummydict.encode("ABCCBA"), [32, 71, -28, -28, 71, 32])
         self.assertEqual(self.dummydict.decode([32, 71, -28, -28, 71, 32]), "ABCCBA")
 
     def test_ASCII(self):
-        self.assertEqual(self.ASCII.symbols, "".join([chr(x + 65) for x in range(26)]))
+        self.assertEqual(self.ASCII.symbols, tuple([chr(x + 65) for x in range(26)]))
         self.assertEqual(self.ASCII.indices, tuple(range(26)))
         self.assertEqual(self.ASCII.encode("ABCCBA"), [0, 1, 2, 2, 1, 0])
         self.assertEqual(self.ASCII.decode([0, 1, 2, 2, 1, 0]), "ABCCBA")

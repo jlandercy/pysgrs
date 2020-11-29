@@ -19,8 +19,12 @@ class GenericAlphabet:
 
         if isinstance(symbols, (list, tuple)):
             x = {}
-            for (c, i) in symbols:
-                x[c] = i
+            if isinstance(symbols[0], str):
+                for (c, i) in zip(symbols, indices):
+                    x[c] = i
+            else:
+                for (c, i) in symbols:
+                    x[c] = i
             symbols = x
 
         if isinstance(symbols, dict):
@@ -29,13 +33,13 @@ class GenericAlphabet:
             for k in sorted(symbols):
                 x.append(k)
                 y.append(symbols[k])
-            symbols = "".join(x)
+            symbols = x
             indices = y
 
-        self._symbols = symbols
+        self._symbols = tuple(symbols)
         self._indices = tuple(indices)
 
-        assert isinstance(self.symbols, str)
+        #assert isinstance(self.symbols, str)
         assert all([isinstance(i, int) for i in self.indices])
         assert len(set(self.symbols)) == len(self.symbols)
         assert len(set(self.indices)) == len(self.indices)
