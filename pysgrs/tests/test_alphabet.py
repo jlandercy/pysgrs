@@ -1,12 +1,15 @@
 import sys
 import unittest
 
-from pysgrs.alphabets import GenericAlphabet, BaseAlphabet
+from pysgrs.alphabets import GenericAlphabet, BaseAlphabet, BinaryAlphabet, MorseAlphabet
 from pysgrs import errors
 from pysgrs import settings
 
 
 class TestAlphabet:
+
+    def setUp(self):
+        settings.logger.debug(self.alphabet)
 
     def test_types(self):
         self.assertIsInstance(self.alphabet.symbols, str)
@@ -76,6 +79,16 @@ class TestGenericAlphabetString(TestAlphabet, unittest.TestCase):
 class TestGenericAlphabetMixed(TestAlphabet, unittest.TestCase):
 
     alphabet = GenericAlphabet("ABCDEF", indices=["AAA", -1, "ABA", 7, "BAA", 22])
+
+
+class TestBinaryAlphabet(TestAlphabet, unittest.TestCase):
+
+    alphabet = BinaryAlphabet()
+
+
+class TestMorseAlphabet(TestAlphabet, unittest.TestCase):
+
+    alphabet = MorseAlphabet()
 
 
 def main():
