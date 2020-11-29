@@ -36,7 +36,7 @@ class GenericAlphabet:
         self._indices = tuple(indices)
 
         assert isinstance(self.symbols, str)
-        assert all([isinstance(i, int) for i in self.indices])
+        assert all([isinstance(i, (int, str)) for i in self.indices])
         assert len(set(self.symbols)) == len(self.symbols)
         assert len(set(self.indices)) == len(self.indices)
         assert len(self.symbols) == len(self.indices)
@@ -68,7 +68,7 @@ class GenericAlphabet:
         try:
             return self.indices[self.symbols.index(c)]
         except ValueError:
-            raise errors.IllegalAlphabetSymbol("Cannot index with '{}' for {}".format(c, self))
+            raise errors.IllegalAlphabetIndex("Cannot index with '{}' for {}".format(c, self))
 
     def symbol(self, k):
         try:
@@ -80,15 +80,17 @@ class GenericAlphabet:
         return all([(c in self.symbols) for c in s])
 
     def __getitem__(self, item):
-        if isinstance(item, str):
+        if item in self.symbols and item in self.indices:
+            raise errors.AmbiguousAlphabetIndex("Key <{}> is present in both symbols and indices".format(item))
+        elif item in self.symbols:
             return self.index(item)
-        elif isinstance(item, int):
+        elif item in self.indices:
             return self.symbol(item)
         else:
-            raise errors.IllegalAlphabetIndexerType("Bad BaseAlphabet indexer type (str or int), received {} instead".format(type(item)))
+            raise errors.IllegalAlphabetIndex("Key <{}> is not present in both symbols and indices".format(item))
 
     def __setitem__(self, key, value):
-        raise errors.IllegalAlphabetOperation("Assignation is not allowed for BaseAlphabet")
+        raise errors.IllegalAlphabetOperation("Assignation is not allowed for Alphabet")
 
     def __contains__(self, item):
         return self.contains(item)

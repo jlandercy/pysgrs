@@ -8,7 +8,7 @@ import pandas as pd
 #import unicodedata
 
 from pysgrs.alphabets import GenericAlphabet, BaseAlphabet
-from pysgrs.errors import IllegalParameter, IllegalAlphabetIndexer
+from pysgrs.errors import IllegalParameter, IllegalAlphabetIndex
 from pysgrs.settings import settings
 
 
@@ -36,7 +36,7 @@ class GenericAlphabetCypher(GenericCypher):
                 raise IllegalParameter("Alphabet is required, received {} instead".format(type(alphabet)))
 
         if key and not(key in self.alphabet):
-            raise IllegalAlphabetIndexer("Key '{}' cannot be expressed with {}".format(key, self.alphabet))
+            raise IllegalAlphabetIndex("Key '{}' cannot be expressed with {}".format(key, self.alphabet))
         else:
             self._key = key
 
@@ -99,7 +99,7 @@ class GenericStreamCypher(GenericAlphabetCypher):
                     if c.islower():
                         x = x.lower()
                 r.append(x)
-            except IllegalAlphabetIndexer as err:
+            except IllegalAlphabetIndex as err:
                 if quite:
                     q += 1
                     r.append(c)

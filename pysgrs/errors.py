@@ -27,19 +27,11 @@ class IllegalAlphabetOperation(GenericException):
     pass
 
 
-class IllegalAlphabetIndexer(AlphabetException):
+class IllegalAlphabetIndex(AlphabetException):
     pass
 
 
-class IllegalAlphabetIndexerType(AlphabetException):
-    pass
-
-
-class IllegalAlphabetSymbol(IllegalAlphabetIndexer):
-    pass
-
-
-class IllegalAlphabetIndex(IllegalAlphabetIndexer):
+class AmbiguousAlphabetIndex(AlphabetException):
     pass
 
 
