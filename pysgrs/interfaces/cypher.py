@@ -14,6 +14,9 @@ from pysgrs.settings import settings
 
 class GenericCypher(abc.ABC):
 
+    def __str__(self):
+        return "<{}>".format(self.__class__.__name__)
+
     @abc.abstractmethod
     def cypher(self, s, **kwargs):
         pass
@@ -136,6 +139,9 @@ class GenericShapeCypher(GenericCypher):
     def __init__(self, shape=None, pad=" "):
         self._shape = shape
         self._pad = pad
+
+    def __str__(self):
+        return "<{} shape={} pad='{}'>".format(self.__class__.__name__, self.shape, self.pad)
 
     @property
     def shape(self):
