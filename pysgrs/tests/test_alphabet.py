@@ -8,9 +8,6 @@ from pysgrs import settings
 
 class TestAlphabet:
 
-    def setUp(self):
-        settings.logger.debug(self.alphabet)
-
     def test_types(self):
         self.assertIsInstance(self.alphabet.symbols, str)
         self.assertTrue(all([isinstance(i, (int, str)) for i in self.alphabet.indices]))
