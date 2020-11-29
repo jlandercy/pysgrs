@@ -10,7 +10,7 @@ class TestTranspositionCypher(TestStreamCypher, unittest.TestCase):
     cypher = TranspositionCypher()
     cyphers = [
         "ACEDFHGIKJLNMOQPRTSUWVXZYA"
-    ]
+   ]
 
 
 def main():
