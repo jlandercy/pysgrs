@@ -13,7 +13,11 @@
 
 ## PySGRS v0.0.x
 
-- [x] `v0.0.9`: **`2020-11-28`**: `add`: Added Transposition Cypher
+- [x] `v0.0.10`: **`2020-11-30`**: `add`: Improved Alphabets
+  - [x] Added Morse and Bacon Alphabet
+  - [x] Added Alphabet Unit Tests
+  - [x] Modified Alphabet index (now it accept mixed index types)
+- [x] `v0.0.9`: **`2020-11-29`**: `add`: Added Transposition Cypher
 - [x] `v0.0.8`: **`2020-11-28`**: `add`: Added Polybe Alphabet
 - [x] `v0.0.7`: **`2020-11-28`**: `add`: Added Substitution Cyphers:
   - [x] Added Permutation Cypher
