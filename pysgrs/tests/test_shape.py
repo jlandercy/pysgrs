@@ -9,7 +9,7 @@ class TestTranspositionCypher(TestStreamCypher, unittest.TestCase):
 
     cypher = TranspositionCypher()
     cyphers = [
-        "ACEDFHGIKJLNMOQPRTSUWVXZYA"
+        "AGMSYBHNTZCIOU DJPV EKQW FLRX"
    ]
 
 

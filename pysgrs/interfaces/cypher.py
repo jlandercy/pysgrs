@@ -130,12 +130,17 @@ class GenericStreamCypher(GenericAlphabetCypher):
 
 class GenericShapeCypher(GenericCypher):
 
-    def __init__(self, shape=None):
+    def __init__(self, shape=None, pad=" "):
         self._shape = shape
+        self._pad = pad
 
     @property
     def shape(self):
         return self._shape
+
+    @property
+    def pad(self):
+        return self._pad
 
 
 class GenericCodexCypher(GenericCypher):
