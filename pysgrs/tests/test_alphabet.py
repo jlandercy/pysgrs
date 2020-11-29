@@ -1,7 +1,7 @@
 import sys
 import unittest
 
-from pysgrs.alphabets import GenericAlphabet, BaseAlphabet, BinaryAlphabet, MorseAlphabet
+from pysgrs import alphabets
 from pysgrs import errors
 from pysgrs import settings
 
@@ -53,42 +53,52 @@ class TestAlphabet:
 
 class TestBaseAlphabet(TestAlphabet, unittest.TestCase):
 
-    alphabet = BaseAlphabet()
+    alphabet = alphabets.BaseAlphabet()
 
 
 class TestGenericAlphabet(TestAlphabet, unittest.TestCase):
 
-    alphabet = GenericAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    alphabet = alphabets.GenericAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 
 class TestGenericAlphabetInteger(TestAlphabet, unittest.TestCase):
 
-    alphabet = GenericAlphabet("ABCDEF", indices=[-10, -6, 0, 17, 102, -9999])
+    alphabet = alphabets.GenericAlphabet("ABCDEF", indices=[-10, -6, 0, 17, 102, -9999])
 
 
 class TestGenericAlphabetCharacters(TestAlphabet, unittest.TestCase):
 
-    alphabet = GenericAlphabet("ABCDEF", indices="MNOPQR")
+    alphabet = alphabets.GenericAlphabet("ABCDEF", indices="MNOPQR")
 
 
 class TestGenericAlphabetString(TestAlphabet, unittest.TestCase):
 
-    alphabet = GenericAlphabet("ABCDEF", indices=["AAA", "AAB", "ABA", "ABB", "BAA", "BBB"])
+    alphabet = alphabets.GenericAlphabet("ABCDEF", indices=["AAA", "AAB", "ABA", "ABB", "BAA", "BBB"])
 
 
 class TestGenericAlphabetMixed(TestAlphabet, unittest.TestCase):
 
-    alphabet = GenericAlphabet("ABCDEF", indices=["AAA", -1, "ABA", 7, "BAA", 22])
+    alphabet = alphabets.GenericAlphabet("ABCDEF", indices=["AAA", -1, "ABA", 7, "BAA", 22])
 
 
 class TestBinaryAlphabet(TestAlphabet, unittest.TestCase):
 
-    alphabet = BinaryAlphabet()
+    alphabet = alphabets.BinaryAlphabet()
+
+
+class TestPolybeAlphabet(TestAlphabet, unittest.TestCase):
+
+    alphabet = alphabets.PolybeAlphabet()
 
 
 class TestMorseAlphabet(TestAlphabet, unittest.TestCase):
 
-    alphabet = MorseAlphabet()
+    alphabet = alphabets.MorseAlphabet()
+
+
+class TestBaconAlphabet(TestAlphabet, unittest.TestCase):
+
+    alphabet = alphabets.BaconAlphabet()
 
 
 def main():

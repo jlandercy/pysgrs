@@ -24,39 +24,19 @@ class BaseAlphabet(GenericAlphabet):
         if 0 <= ord(c) - self.offset < self.size:
             return ord(c) - self.offset
         else:
-            raise errors.IllegalAlphabetIndex("Symbol '{}' outside allowed range of {}".format(c, self))
+            raise errors.IllegalAlphabetIndex("Symbol <{}> outside allowed range of {}".format(c, self))
 
     def symbol(self, k):
         if 0 <= k < self.size:
             return chr(k + self.offset)
         else:
-            raise errors.IllegalAlphabetIndex("Index {} outside allowed range of {}".format(k, self))
+            raise errors.IllegalAlphabetIndex("Index <{}> outside allowed range of {}".format(k, self))
 
 
 class BinaryAlphabet(GenericAlphabet):
 
     def __init__(self):
         super().__init__("AB")
-
-
-class MorseAlphabet(GenericAlphabet):
-
-    def __init__(self):
-        super().__init__({
-            'A': '*-',     'B': '-***',   'C': '-*-*',
-            'D': '-**',    'E': '*',      'F': '**-*',
-            'G': '--*',    'H': '****',   'I': '**',
-            'J': '*---',   'K': '-*-',    'L': '*-**',
-            'M': '--',     'N': '-*',     'O': '---',
-            'P': '*--*',   'Q': '--*-',   'R': '*-*',
-            'S': '***',    'T': '-',      'U': '**-',
-            'V': '***-',   'W': '*--',    'X': '-**-',
-            'Y': '-*--',   'Z': '--**',
-            '0': '-----',  '1': '*----',  '2': '**---',
-            '3': '***--',  '4': '****-',  '5': '*****',
-            '6': '-****',  '7': '--***',  '8': '---**',
-            '9': '----*'
-        })
 
 
 def main():

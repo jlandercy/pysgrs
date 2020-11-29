@@ -68,13 +68,13 @@ class GenericAlphabet:
         try:
             return self.indices[self.symbols.index(c)]
         except ValueError:
-            raise errors.IllegalAlphabetIndex("Cannot index with '{}' for {}".format(c, self))
+            raise errors.IllegalAlphabetIndex("Cannot index with <{}> for {}".format(c, self))
 
     def symbol(self, k):
         try:
             return self.symbols[self.indices.index(k)]
         except ValueError:
-            raise errors.IllegalAlphabetIndex("Cannot index with {} for {}".format(k, self))
+            raise errors.IllegalAlphabetIndex("Cannot index with <{}> for {}".format(k, self))
 
     def contains(self, s):
         return all([(c in self.symbols) for c in s])
