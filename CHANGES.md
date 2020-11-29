@@ -9,11 +9,11 @@
  - [ ] Prevent using non natural alphabet on cypher requiring it
  - [ ] Create iterator to consume string with variable length symbols (Morse)
  - [ ] Create parametric cleanser (can be disabled) to remove accents and uniformize special chars ('´)
- - [ ] Add Transposition Cypher (matrix swam row/column)
  - [ ] Frequentist analyst
 
 ## PySGRS v0.0.x
 
+- [x] `v0.0.9`: **`2020-11-28`**: `add`: Added Transposition Cypher
 - [x] `v0.0.8`: **`2020-11-28`**: `add`: Added Polybe Alphabet
 - [x] `v0.0.7`: **`2020-11-28`**: `add`: Added Substitution Cyphers:
   - [x] Added Permutation Cypher
