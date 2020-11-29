@@ -18,7 +18,9 @@ class TranspositionCypher(GenericShapeCypher):
         if shape["valid"]:
             s += self.pad*int(shape["padding"])
             x = np.array(list(s)).reshape(shape["shape"])
-            return "".join(x.T.flatten()).rstrip()
+            r = "".join(x.T.flatten()).rstrip()
+            settings.logger.debug("{}.{}('{}') -> '{}'".format(self, "(de)cypher", s, r))
+            return r
         else:
             raise errors.IllegalCypherParameter("Invalid shape: {}".format(shape.to_dict()))
 
