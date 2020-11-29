@@ -80,9 +80,9 @@ class GenericAlphabet:
         return all([(c in self.symbols) for c in s])
 
     def __getitem__(self, item):
-        if item in self.symbols and item in self.indices:
+        if (isinstance(item, str) and item in self.symbols) and item in self.indices:
             raise errors.AmbiguousAlphabetIndex("Key <{}> is present in both symbols and indices".format(item))
-        elif item in self.symbols:
+        elif isinstance(item, str) and item in self.symbols:
             return self.index(item)
         elif item in self.indices:
             return self.symbol(item)

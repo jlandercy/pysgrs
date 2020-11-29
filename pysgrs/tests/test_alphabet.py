@@ -6,44 +6,41 @@ from pysgrs import errors
 from pysgrs import settings
 
 
-class Alphabets(unittest.TestCase):
+class TestAlphabetIndex:
 
-    def setUp(self):
-        self.dummy = GenericAlphabet(symbols="ABC")
-        self.dummyindices = GenericAlphabet(symbols="ABC", indices=[32, 71, -28])
-        self.dummydict = GenericAlphabet(symbols={'B': 71, 'C': -28, 'A': 32})
-        self.dummylist = GenericAlphabet(symbols=[('B', 71), ('C', -28), ('A', 32)])
-        self.ASCII = BaseAlphabet()
+    def test_types(self):
+        self.assertIsInstance(self.alphabet.symbols, str)
+        self.assertTrue(all([isinstance(i, (int, str)) for i in self.alphabet.indices]))
 
-    def test_dummy(self):
-        self.assertEqual(self.dummy.symbols, "ABC")
-        self.assertEqual(self.dummy.indices, (0, 1, 2))
-        self.assertEqual(self.dummy.encode("ABCCBA"), [0, 1, 2, 2, 1, 0])
-        self.assertEqual(self.dummy.decode([0, 1, 2, 2, 1, 0]), "ABCCBA")
+    def test_uniqueness(self):
+        self.assertTrue(len(set(self.alphabet.symbols)) == len(self.alphabet.symbols))
+        self.assertTrue(len(set(self.alphabet.indices)) == len(self.alphabet.indices))
 
-    def test_dummyindices(self):
-        self.assertEqual(self.dummyindices.symbols, "ABC")
-        self.assertEqual(self.dummyindices.indices, (32, 71, -28))
-        self.assertEqual(self.dummyindices.encode("ABCCBA"), [32, 71, -28, -28, 71, 32])
-        self.assertEqual(self.dummyindices.decode([32, 71, -28, -28, 71, 32]), "ABCCBA")
+    def test_mapping(self):
+        self.assertEqual(len(self.alphabet.symbols), len(self.alphabet.indices))
 
-    def test_dummylist(self):
-        self.assertEqual(self.dummylist.symbols, "ABC")
-        self.assertEqual(self.dummylist.indices, (32, 71, -28))
-        self.assertEqual(self.dummylist.encode("ABCCBA"), [32, 71, -28, -28, 71, 32])
-        self.assertEqual(self.dummylist.decode([32, 71, -28, -28, 71, 32]), "ABCCBA")
+    def test_indexer(self):
+        for s, k in zip(self.alphabet.symbols, self.alphabet.indices):
+            self.assertEqual(s, self.alphabet.symbol(k))
+            self.assertEqual(s, self.alphabet[k])
+            self.assertEqual(k, self.alphabet.index(s))
+            self.assertEqual(k, self.alphabet[s])
 
-    def test_dummydict(self):
-        self.assertEqual(self.dummydict.symbols, "ABC")
-        self.assertEqual(self.dummydict.indices, (32, 71, -28))
-        self.assertEqual(self.dummydict.encode("ABCCBA"), [32, 71, -28, -28, 71, 32])
-        self.assertEqual(self.dummydict.decode([32, 71, -28, -28, 71, 32]), "ABCCBA")
 
-    def test_ASCII(self):
-        self.assertEqual(self.ASCII.symbols, "".join([chr(x + 65) for x in range(26)]))
-        self.assertEqual(self.ASCII.indices, tuple(range(26)))
-        self.assertEqual(self.ASCII.encode("ABCCBA"), [0, 1, 2, 2, 1, 0])
-        self.assertEqual(self.ASCII.decode([0, 1, 2, 2, 1, 0]), "ABCCBA")
+class TestAlphabetSpecificIntegerIndex(TestAlphabetIndex, unittest.TestCase):
+
+    alphabet = BaseAlphabet()
+
+    def test_isnatural(self):
+        self.assertTrue(self.alphabet.is_natural)
+
+
+class TestAlphabetSpecificIntegerIndex(TestAlphabetIndex, unittest.TestCase):
+
+    alphabet = GenericAlphabet("ABCDEF", indices=[-10, -6, 0, 17, 102, -9999])
+
+    def test_isnatural(self):
+        self.assertFalse(self.alphabet.is_natural)
 
 
 def main():
