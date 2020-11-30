@@ -1,4 +1,5 @@
 import sys
+import base64
 
 from pysgrs.interfaces import GenericBaseCypher
 from pysgrs import errors
@@ -8,19 +9,19 @@ from pysgrs.settings import settings
 class HexadecimalCypher(GenericBaseCypher):
 
     def cypher(self, s, **kwargs):
-        pass
+        return s.encode().hex()
 
     def decypher(self, s, **kwargs):
-        pass
+        return bytes.fromhex(s).decode()
 
 
 class Base64Cypher(GenericBaseCypher):
 
     def cypher(self, s, **kwargs):
-        pass
+        return base64.b64encode(s.encode()).decode()
 
     def decypher(self, s, **kwargs):
-        pass
+        return base64.b64decode(s.encode()).decode()
 
 
 class URLSafeCypher(GenericBaseCypher):

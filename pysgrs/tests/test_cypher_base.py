@@ -9,7 +9,7 @@ class TestHexadecimalCypher(TestStreamCypher, unittest.TestCase):
 
     cypher = cyphers.HexadecimalCypher()
     cyphers = [
-        "ACEDFHGIKJLNMOQPRTSUWVXZYA"
+        "4142434445464748494a4b4c4d4e4f505152535455565758595a"
     ]
 
 
@@ -17,7 +17,7 @@ class TestBase64Cypher(TestStreamCypher, unittest.TestCase):
 
     cypher = cyphers.Base64Cypher()
     cyphers = [
-        "ACEDFHGIKJLNMOQPRTSUWVXZYA"
+        "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo="
     ]
 
 
