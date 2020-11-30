@@ -7,13 +7,13 @@
  - [ ] Create iterator to consume string with variable length symbols (Morse)
  - [ ] Create parametric cleanser (can be disabled) to remove accents and uniformize special chars ('´)
  - [ ] Frequency analysis
- - [x] Make distinction on index type
- - [ ] Add is_monotone in addition of is_natural
- - [ ] Add commodities to check index symbols as well
-
 
 ## PySGRS v0.0.x
 
+- [x] `v0.0.12`: **`2020-11-30`**: `updated`: Added Alphabet index types
+  - [x] Distinction among alphabet index type is made by inheritance;
+  - [x] Add is_monotonic function for indices;
+  - [x] Add commodities to check index symbols for string based index alphabet;
 - [x] `v0.0.11`: **`2020-11-30`**: `add`: Added Base Cyphers:
   - [x] Added Base16, Base32, Base64 and Base85 Cyphers;
   - [x] Added URLQuote Cypher;
