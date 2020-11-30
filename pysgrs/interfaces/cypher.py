@@ -7,7 +7,7 @@ import pandas as pd
 #import unidecode
 #import unicodedata
 
-from pysgrs.alphabets import GenericMixedAlphabet, SimpleAlphabet
+from pysgrs import alphabets
 from pysgrs import errors
 from pysgrs.settings import settings
 
@@ -31,9 +31,9 @@ class GenericAlphabetCypher(GenericCypher):
     def __init__(self, alphabet=None, key=None):
 
         if alphabet is None:
-            self._alphabet = SimpleAlphabet()
+            self._alphabet = alphabets.SimpleAlphabet()
         else:
-            if isinstance(alphabet, GenericMixedAlphabet):
+            if isinstance(alphabet, alphabets.GenericMixedAlphabet):
                 self._alphabet = alphabet
             else:
                 raise errors.IllegalParameter("Alphabet is required, received {} instead".format(type(alphabet)))
@@ -87,6 +87,8 @@ class GenericAlphabetStreamCypher(GenericAlphabetCypher):
 
     def __init__(self, alphabet=None, key=None):
         super().__init__(alphabet=alphabet, key=key)
+        if not isinstance(self.alphabet, alphabets.GenericIntegerAlphabet):
+            raise errors.IllegalCypherParameter("Generic Stream Cypher requires Integer Alphabet.")
 
     def _apply(self, s, f, strict=False, quite=True):
         q = 0

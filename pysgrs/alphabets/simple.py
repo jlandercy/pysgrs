@@ -6,7 +6,7 @@ from pysgrs import alphabets
 from pysgrs import errors
 
 
-class SimpleAlphabet(alphabets.GenericMixedAlphabet):
+class SimpleAlphabet(alphabets.GenericIntegerAlphabet):
     """
     Base SimpleAlphabet [A-Z]:
     Using commodities from Generic SimpleAlphabet but replacing indexing by ASCII index manipulation for efficiency sake.

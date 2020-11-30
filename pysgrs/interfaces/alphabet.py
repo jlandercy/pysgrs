@@ -4,7 +4,11 @@ import itertools
 from pysgrs import errors
 
 
-class GenericMixedAlphabet:
+class GenericAlphabet:
+    pass
+
+
+class GenericMixedAlphabet(GenericAlphabet):
     """
     Generic SimpleAlphabet:
     Mapping between symbols (as a string) and indices (as a sequence of integers or strings).
