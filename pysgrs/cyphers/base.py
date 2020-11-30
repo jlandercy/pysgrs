@@ -10,7 +10,7 @@ from pysgrs.settings import settings
 class HexadecimalCypher(GenericBaseCypher):
 
     def cypher(self, s, **kwargs):
-        return s.encode().hex()
+        return s.encode().hex().upper()
 
     def decypher(self, s, **kwargs):
         return bytes.fromhex(s).decode()

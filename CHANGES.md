@@ -10,6 +10,10 @@
 
 ## PySGRS v0.0.x
 
+- [x] `v0.0.11`: **`2020-11-30`**: `add`: Added Base Cyphers:
+  - [x] Added Base16, Base32, Base64 and Base85 Cyphers;
+  - [x] Added URLQuote Cypher;
+  - [x] Refactored Cypher namespace and inheritance;
 - [x] `v0.0.10`: **`2020-11-30`**: `add+update`: Refactored Alphabet:
   - [x] Added Morse and Bacon alphabets;
   - [x] Added Alphabet unit tests;
