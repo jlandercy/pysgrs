@@ -46,6 +46,10 @@ class TestGenericStringAlphabetCharacters(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.GenericStringAlphabet("ABCDEF", indices="MNOPQR")
 
+    def test_index_size(self):
+        self.assertEqual(1, self.alphabet.index_min_size)
+        self.assertEqual(1, self.alphabet.index_max_size)
+
 
 class TestGenericMixedAlphabetString(TestAlphabet, unittest.TestCase):
 
@@ -56,6 +60,13 @@ class TestGenericStringAlphabetString(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.GenericStringAlphabet("ABCDEF", indices=["AAA", "AAB", "ABA", "ABB", "BAA", "BBB"])
 
+    def test_index_size(self):
+        self.assertEqual(3, self.alphabet.index_min_size)
+        self.assertEqual(3, self.alphabet.index_max_size)
+
+    def test_index_symbols(self):
+        self.assertEqual({"A", "B"}, self.alphabet.index_symbols)
+
 
 class TestGenericStringAlphabetStringNotMonotonic(TestAlphabet, unittest.TestCase):
 
@@ -64,6 +75,13 @@ class TestGenericStringAlphabetStringNotMonotonic(TestAlphabet, unittest.TestCas
     def test_is_monotonic(self):
         self.assertFalse(self.alphabet.is_monotonic)
 
+    def test_index_size(self):
+        self.assertEqual(3, self.alphabet.index_min_size)
+        self.assertEqual(3, self.alphabet.index_max_size)
+
+    def test_index_symbols(self):
+        self.assertEqual({"A", "B"}, self.alphabet.index_symbols)
+
 
 class TestGenericStringAlphabetStringVariableSize(TestAlphabet, unittest.TestCase):
 
@@ -71,6 +89,13 @@ class TestGenericStringAlphabetStringVariableSize(TestAlphabet, unittest.TestCas
 
     def test_is_index_size_constant(self):
         self.assertFalse(self.alphabet.is_index_size_constant)
+
+    def test_index_size(self):
+        self.assertEqual(3, self.alphabet.index_min_size)
+        self.assertEqual(4, self.alphabet.index_max_size)
+
+    def test_index_symbols(self):
+        self.assertEqual({"A", "B"}, self.alphabet.index_symbols)
 
 
 class TestGenericStringAlphabetStringNotMonotonicVariableSize(TestAlphabet, unittest.TestCase):
@@ -82,6 +107,9 @@ class TestGenericStringAlphabetStringNotMonotonicVariableSize(TestAlphabet, unit
 
     def test_is_index_size_constant(self):
         self.assertFalse(self.alphabet.is_index_size_constant)
+
+    def test_index_symbols(self):
+        self.assertEqual({"A", "B"}, self.alphabet.index_symbols)
 
 
 class TestGenericAlphabetMixed(TestAlphabet, unittest.TestCase):
