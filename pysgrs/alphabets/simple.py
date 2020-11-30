@@ -6,15 +6,15 @@ from pysgrs import alphabets
 from pysgrs import errors
 
 
-class SimpleAlphabet(alphabets.GenericIntegerAlphabet):
-    """
-    Base SimpleAlphabet [A-Z]:
-    Using commodities from Generic SimpleAlphabet but replacing indexing by ASCII index manipulation for efficiency sake.
-    """
+class AsciiAlphabet(alphabets.GenericIntegerAlphabet):
 
-    def __init__(self, offset=65, size=26):
-        super().__init__("".join([chr(x + offset) for x in range(size)]))
-        self._offset = offset
+    def __init__(self, offset=32, size=95, natural=False):
+        if natural:
+            super().__init__("".join([chr(x + offset) for x in range(size)]))
+            self._offset = offset
+        else:
+            super().__init__("".join([chr(x + offset) for x in range(size)]), indices=range(offset, offset+size))
+            self._offset = 0
 
     @property
     def offset(self):
@@ -31,6 +31,12 @@ class SimpleAlphabet(alphabets.GenericIntegerAlphabet):
             return chr(k + self.offset)
         else:
             raise errors.IllegalAlphabetIndex("Index <{}> outside allowed range of {}".format(k, self))
+
+
+class SimpleAlphabet(AsciiAlphabet):
+
+    def __init__(self):
+        super().__init__(offset=65, size=26, natural=True)
 
 
 class BinaryAlphabet(alphabets.GenericIntegerAlphabet):
