@@ -2,11 +2,11 @@ import sys
 
 from pysgrs.settings import settings
 
-from pysgrs.interfaces.alphabet import GenericAlphabet
+from pysgrs import alphabets
 from pysgrs import errors
 
 
-class SimpleAlphabet(GenericAlphabet):
+class SimpleAlphabet(alphabets.GenericMixedAlphabet):
     """
     Base SimpleAlphabet [A-Z]:
     Using commodities from Generic SimpleAlphabet but replacing indexing by ASCII index manipulation for efficiency sake.
@@ -33,7 +33,7 @@ class SimpleAlphabet(GenericAlphabet):
             raise errors.IllegalAlphabetIndex("Index <{}> outside allowed range of {}".format(k, self))
 
 
-class BinaryAlphabet(GenericAlphabet):
+class BinaryAlphabet(alphabets.GenericIntegerAlphabet):
 
     def __init__(self):
         super().__init__("AB")

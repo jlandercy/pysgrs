@@ -4,13 +4,15 @@ import itertools
 from pysgrs import errors
 
 
-class GenericAlphabet:
+class GenericMixedAlphabet:
     """
     Generic SimpleAlphabet:
     Mapping between symbols (as a string) and indices (as a sequence of integers or strings).
     If no indices are provided range(size) is used.
     Mapping can be provided in several fashions (strings, list, dict)
     """
+
+    _allowed_types = (int, str)
 
     def __init__(self, symbols, indices=None):
 
@@ -36,7 +38,7 @@ class GenericAlphabet:
         self._indices = tuple(indices)
 
         assert isinstance(self.symbols, str)
-        assert all([isinstance(i, (int, str)) for i in self.indices])
+        assert all([isinstance(i, self._allowed_types) for i in self.indices])
         assert len(set(self.symbols)) == len(self.symbols)
         assert len(set(self.indices)) == len(self.indices)
         assert len(self.symbols) == len(self.indices)
@@ -129,6 +131,16 @@ class GenericAlphabet:
     def permutations(self, n):
         for x in itertools.permutations(self.symbols, n):
             yield "".join(x)
+
+
+class GenericIntegerAlphabet(GenericMixedAlphabet):
+
+    _allowed_types = (int,)
+
+
+class GenericStringAlphabet(GenericMixedAlphabet):
+
+    _allowed_types = (str,)
 
 
 def main():

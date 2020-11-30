@@ -6,7 +6,11 @@
  - [ ] Prevent using non natural alphabet on cypher requiring it
  - [ ] Create iterator to consume string with variable length symbols (Morse)
  - [ ] Create parametric cleanser (can be disabled) to remove accents and uniformize special chars ('´)
- - [ ] Frequentist analyst
+ - [ ] Frequency analysis
+ - [ ] Make distinction on index type
+ - [ ] Add is_monotone in addition of is_natural
+ - [ ] Add commodities to check index symbols as well
+
 
 ## PySGRS v0.0.x
 

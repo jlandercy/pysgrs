@@ -7,7 +7,7 @@ import pandas as pd
 #import unidecode
 #import unicodedata
 
-from pysgrs.alphabets import GenericAlphabet, SimpleAlphabet
+from pysgrs.alphabets import GenericMixedAlphabet, SimpleAlphabet
 from pysgrs import errors
 from pysgrs.settings import settings
 
@@ -33,7 +33,7 @@ class GenericAlphabetCypher(GenericCypher):
         if alphabet is None:
             self._alphabet = SimpleAlphabet()
         else:
-            if isinstance(alphabet, GenericAlphabet):
+            if isinstance(alphabet, GenericMixedAlphabet):
                 self._alphabet = alphabet
             else:
                 raise errors.IllegalParameter("Alphabet is required, received {} instead".format(type(alphabet)))

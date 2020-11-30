@@ -12,27 +12,27 @@ class TestSimpleAlphabet(TestAlphabet, unittest.TestCase):
 
 class TestGenericAlphabet(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    alphabet = alphabets.GenericMixedAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 
 class TestGenericAlphabetInteger(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericAlphabet("ABCDEF", indices=[-10, -6, 0, 17, 102, -9999])
+    alphabet = alphabets.GenericMixedAlphabet("ABCDEF", indices=[-10, -6, 0, 17, 102, -9999])
 
 
 class TestGenericAlphabetCharacters(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericAlphabet("ABCDEF", indices="MNOPQR")
+    alphabet = alphabets.GenericMixedAlphabet("ABCDEF", indices="MNOPQR")
 
 
 class TestGenericAlphabetString(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericAlphabet("ABCDEF", indices=["AAA", "AAB", "ABA", "ABB", "BAA", "BBB"])
+    alphabet = alphabets.GenericMixedAlphabet("ABCDEF", indices=["AAA", "AAB", "ABA", "ABB", "BAA", "BBB"])
 
 
 class TestGenericAlphabetMixed(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericAlphabet("ABCDEF", indices=["AAA", -1, "ABA", 7, "BAA", 22])
+    alphabet = alphabets.GenericMixedAlphabet("ABCDEF", indices=["AAA", -1, "ABA", 7, "BAA", 22])
 
 
 class TestBinaryAlphabet(TestAlphabet, unittest.TestCase):

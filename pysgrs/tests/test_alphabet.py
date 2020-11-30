@@ -10,7 +10,7 @@ class TestAlphabet:
 
     def test_types(self):
         self.assertIsInstance(self.alphabet.symbols, str)
-        self.assertTrue(all([isinstance(i, (int, str)) for i in self.alphabet.indices]))
+        self.assertTrue(all([isinstance(i, self.alphabet._allowed_types) for i in self.alphabet.indices]))
 
     def test_uniqueness(self):
         self.assertTrue(len(set(self.alphabet.symbols)) == len(self.alphabet.symbols))

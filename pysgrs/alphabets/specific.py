@@ -2,11 +2,11 @@ import sys
 
 from pysgrs.settings import settings
 
-from pysgrs.interfaces.alphabet import GenericAlphabet
+from pysgrs import alphabets
 from pysgrs import errors
 
 
-class PolybeAlphabet(GenericAlphabet):
+class PolybeAlphabet(alphabets.GenericIntegerAlphabet):
 
     def __init__(self):
         super().__init__(
@@ -21,7 +21,7 @@ class PolybeAlphabet(GenericAlphabet):
         )
 
 
-class MorseAlphabet(GenericAlphabet):
+class MorseAlphabet(alphabets.GenericStringAlphabet):
 
     def __init__(self):
         super().__init__({
@@ -41,7 +41,7 @@ class MorseAlphabet(GenericAlphabet):
         })
 
 
-class BaconAlphabet(GenericAlphabet):
+class BaconAlphabet(alphabets.GenericStringAlphabet):
 
     def __init__(self):
         super().__init__({
