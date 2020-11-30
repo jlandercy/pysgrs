@@ -16,6 +16,15 @@ class HexadecimalCypher(GenericBaseCypher):
         return bytes.fromhex(s).decode()
 
 
+class Base16Cypher(GenericBaseCypher):
+
+    def cypher(self, s, **kwargs):
+        return base64.b16encode(s.encode()).decode()
+
+    def decypher(self, s, **kwargs):
+        return base64.b16decode(s.encode()).decode()
+
+
 class Base64Cypher(GenericBaseCypher):
 
     def cypher(self, s, **kwargs):
@@ -25,7 +34,7 @@ class Base64Cypher(GenericBaseCypher):
         return base64.b64decode(s.encode()).decode()
 
 
-class URLSafeCypher(GenericBaseCypher):
+class URLQuoteCypher(GenericBaseCypher):
 
     def cypher(self, s, **kwargs):
         return parse.quote(s)
