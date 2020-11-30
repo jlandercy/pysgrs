@@ -8,7 +8,7 @@ import pandas as pd
 #import unicodedata
 
 from pysgrs.alphabets import GenericAlphabet, SimpleAlphabet
-from pysgrs.errors import IllegalParameter, IllegalAlphabetIndex
+from pysgrs import errors
 from pysgrs.settings import settings
 
 
@@ -36,10 +36,10 @@ class GenericAlphabetCypher(GenericCypher):
             if isinstance(alphabet, GenericAlphabet):
                 self._alphabet = alphabet
             else:
-                raise IllegalParameter("Alphabet is required, received {} instead".format(type(alphabet)))
+                raise errors.IllegalParameter("Alphabet is required, received {} instead".format(type(alphabet)))
 
         if key and not(key in self.alphabet):
-            raise IllegalAlphabetIndex("Key '{}' cannot be expressed with {}".format(key, self.alphabet))
+            raise errors.IllegalAlphabetIndex("Key '{}' cannot be expressed with {}".format(key, self.alphabet))
         else:
             self._key = key
 
@@ -83,7 +83,7 @@ class GenericAlphabetCypher(GenericCypher):
             return len(self.key)
 
 
-class GenericStreamCypher(GenericAlphabetCypher):
+class GenericAlphabetStreamCypher(GenericAlphabetCypher):
 
     def __init__(self, alphabet=None, key=None):
         super().__init__(alphabet=alphabet, key=key)
@@ -102,7 +102,7 @@ class GenericStreamCypher(GenericAlphabetCypher):
                     if c.islower():
                         x = x.lower()
                 r.append(x)
-            except IllegalAlphabetIndex as err:
+            except errors.IllegalAlphabetIndex as err:
                 if quite:
                     q += 1
                     r.append(c)
@@ -132,6 +132,14 @@ class GenericStreamCypher(GenericAlphabetCypher):
             fig, axe = plt.subplots()
             nx.draw_networkx(g)
             return axe
+
+
+class GenericNaturalAlphabetStreamCypher(GenericAlphabetStreamCypher):
+
+    def __init__(self, alphabet=None, key=None):
+        super().__init__(alphabet=alphabet, key=key)
+        if not self.alphabet.is_natural:
+            raise errors.IllegalCypherParameter("Generic Stream Cypher requires Natural Alphabet.")
 
 
 class GenericShapeCypher(GenericCypher):

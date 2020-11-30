@@ -7,13 +7,13 @@ from pysgrs import cyphers
 
 class TestIdentityStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.RotationCypher(offset=0)
+    cypher = cyphers.RotationCypherNaturalAlphabet(offset=0)
     cyphers = TestStreamCypher.sentences
 
 
 class TestRotationStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.RotationCypher(offset=7)
+    cypher = cyphers.RotationCypherNaturalAlphabet(offset=7)
     cyphers = [
         "HIJKLMNOPQRSTUVWXYZABCDEFG",
         "GFEDCBAZYXWVUTSRQPONMLKJIH",
@@ -35,7 +35,7 @@ class TestRotationStreamCypher(TestStreamCypher, unittest.TestCase):
 
 class TestNegativeRotationStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.RotationCypher(offset=-7)
+    cypher = cyphers.RotationCypherNaturalAlphabet(offset=-7)
     cyphers = [
         "TUVWXYZABCDEFGHIJKLMNOPQRS"
     ]
@@ -51,7 +51,7 @@ class TestCaesarStreamCypher(TestStreamCypher, unittest.TestCase):
 
 class TestReversedStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.ReversedCypher()
+    cypher = cyphers.ReversedCypherNaturalAlphabet()
     cyphers = [
         "ZYXWVUTSRQPONMLKJIHGFEDCBA"
     ]
@@ -59,13 +59,13 @@ class TestReversedStreamCypher(TestStreamCypher, unittest.TestCase):
 
 class TestPermutationIdentityStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.PermutationCypher()
+    cypher = cyphers.PermutationCypherNaturalAlphabet()
     cyphers = TestStreamCypher.sentences
 
 
 class TestPermutationStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.PermutationCypher(
+    cypher = cyphers.PermutationCypherNaturalAlphabet(
         [
             10, 24,  8, 18, 15, 13,  1, 25,  9,
             22, 20,  6,  2,  0,  5,  3, 12, 21,
@@ -79,7 +79,7 @@ class TestPermutationStreamCypher(TestStreamCypher, unittest.TestCase):
 
 class TestAffineStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.AffineCypher()
+    cypher = cyphers.AffineCypherNaturalAlphabet()
     cyphers = [
         "INSXCHMRWBGLQVAFKPUZEJOTYD"
     ]

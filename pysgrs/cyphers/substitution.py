@@ -3,11 +3,11 @@ import sys
 
 import numpy as np
 
-from pysgrs.interfaces.cypher import GenericStreamCypher
+from pysgrs.interfaces.cypher import GenericNaturalAlphabetStreamCypher
 from pysgrs import errors
 
 
-class RotationCypher(GenericStreamCypher):
+class RotationCypherNaturalAlphabet(GenericNaturalAlphabetStreamCypher):
 
     def __init__(self, alphabet=None, offset=3):
         super().__init__(alphabet=alphabet)
@@ -24,13 +24,13 @@ class RotationCypher(GenericStreamCypher):
         return self.alphabet.symbol((self.alphabet.index(c) - self.offset) % self.alphabet.size)
 
 
-class CaesarCypher(RotationCypher):
+class CaesarCypher(RotationCypherNaturalAlphabet):
 
     def __init__(self, alphabet=None):
         super().__init__(alphabet=alphabet, offset=3)
 
 
-class ReversedCypher(GenericStreamCypher):
+class ReversedCypherNaturalAlphabet(GenericNaturalAlphabetStreamCypher):
 
     def __init__(self, alphabet=None):
         super().__init__(alphabet=alphabet)
@@ -42,7 +42,7 @@ class ReversedCypher(GenericStreamCypher):
         return self.alphabet.symbol(self.alphabet.size - self.alphabet.index(c) - 1)
 
 
-class PermutationCypher(GenericStreamCypher):
+class PermutationCypherNaturalAlphabet(GenericNaturalAlphabetStreamCypher):
 
     def __init__(self, permutations=None, alphabet=None, auto=False):
         super().__init__(alphabet=alphabet)
@@ -76,7 +76,7 @@ class PermutationCypher(GenericStreamCypher):
         return self.alphabet.symbol(self.permutations.index(self.alphabet.index(c)))
 
 
-class AffineCypher(GenericStreamCypher):
+class AffineCypherNaturalAlphabet(GenericNaturalAlphabetStreamCypher):
 
     def __init__(self, a=5, b=8, alphabet=None):
         super().__init__(alphabet=alphabet)
@@ -89,12 +89,12 @@ class AffineCypher(GenericStreamCypher):
         if a == 0:
             return b, 0, 1
         else:
-            g, y, x = AffineCypher.egcd(b % a, a)
+            g, y, x = AffineCypherNaturalAlphabet.egcd(b % a, a)
             return g, x - (b // a) * y, y
 
     @staticmethod
     def modinv(a, m):
-        g, x, y = AffineCypher.egcd(a, m)
+        g, x, y = AffineCypherNaturalAlphabet.egcd(a, m)
         if g != 1:
             raise errors.IllegalCypherParameter('Modular inverse does not exist for {} mod {}'.format(a, m))
         else:
@@ -110,7 +110,7 @@ class AffineCypher(GenericStreamCypher):
             # Only Python 3.8+
             return pow(self.a, -1, self.alphabet.size)
         except ValueError:
-            return AffineCypher.modinv(self.a, self.alphabet.size)
+            return AffineCypherNaturalAlphabet.modinv(self.a, self.alphabet.size)
 
     @property
     def b(self):

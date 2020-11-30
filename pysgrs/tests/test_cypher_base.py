@@ -5,9 +5,25 @@ from pysgrs.tests.test_cypher import TestStreamCypher
 from pysgrs import cyphers
 
 
-class TestBaseCypher(TestStreamCypher, unittest.TestCase):
+class TestHexadecimalCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.VigenereCypher(key="ABC")
+    cypher = cyphers.HexadecimalCypher()
+    cyphers = [
+        "ACEDFHGIKJLNMOQPRTSUWVXZYA"
+    ]
+
+
+class TestBase64Cypher(TestStreamCypher, unittest.TestCase):
+
+    cypher = cyphers.Base64Cypher()
+    cyphers = [
+        "ACEDFHGIKJLNMOQPRTSUWVXZYA"
+    ]
+
+
+class URLSafeCypher(TestStreamCypher, unittest.TestCase):
+
+    cypher = cyphers.URLSafeCypher()
     cyphers = [
         "ACEDFHGIKJLNMOQPRTSUWVXZYA"
     ]

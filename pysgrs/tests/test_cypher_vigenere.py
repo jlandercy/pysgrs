@@ -7,7 +7,7 @@ from pysgrs import cyphers
 
 class TestVigenereStreamCypherSmallKey(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.VigenereCypher(key="ABC")
+    cypher = cyphers.VigenereCypherNaturalAlphabet(key="ABC")
     cyphers = [
         "ACEDFHGIKJLNMOQPRTSUWVXZYA"
     ]
@@ -15,7 +15,7 @@ class TestVigenereStreamCypherSmallKey(TestStreamCypher, unittest.TestCase):
 
 class TestVigenereStreamCypherMediumKey(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.VigenereCypher(key="NATURELLEMENT")
+    cypher = cyphers.VigenereCypherNaturalAlphabet(key="NATURELLEMENT")
     cyphers = [
         "NBVXVJRSMVOYFAOIKIWEFZIBLS",
         "MYQQMYEDVCTBGZLDDZLRQIPGOT",
