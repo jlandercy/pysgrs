@@ -24,7 +24,8 @@ class TestStreamCypher:
         "Be who you are and say what you feel, because those who mind don’t matter and those who matter don’t mind.",
         "If you cannot do great things, do small things in a great way.",
         "Wise men speak because they have something to say; fools because they have to say something.",
-        "Gaga Gougou Gougou Dada"
+        "Gaga Gougou Gougou Dada",
+        "Quatre journaux hostiles sont plus a craindre que mille baionnettes."
     ]
 
     def test_reversible_direct(self):

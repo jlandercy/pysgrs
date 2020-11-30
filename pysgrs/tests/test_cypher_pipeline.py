@@ -7,7 +7,10 @@ from pysgrs import cyphers
 
 class TestPipelineCypherSimpleCase(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.PipelineCypher([cyphers.CaesarCypher(), cyphers.TranspositionCypher()])
+    cypher = cyphers.PipelineCypher([
+        cyphers.CaesarCypher(),
+        cyphers.TranspositionCypher()
+    ])
     cyphers = [
         "DJPVBEKQWCFLRX GMSY HNTZ IOUA",
         "CWQKEBVPJDAUOI ZTNH YSMG XRLF",
@@ -25,6 +28,33 @@ class TestPipelineCypherSimpleCase(TestStreamCypher, unittest.TestCase):
         "Ld krwqwiqjl k   quqvldzbrhjpq drwdvdjjbx w,ovu. g  o h frwg ld",
         "Zsvyq dkbjlhhhjixd .vd   rvyv hnwvwrhhr   krro  p pehp vwwh hhbhv krw qf wdeh k  dkkbhbvl vxdl;f dq",
         "JJxjddr rgjxJxddjr   rxG"
+    ]
+
+
+class TestPipelineCypherComplexCase(TestStreamCypher, unittest.TestCase):
+
+    cypher = P = cyphers.PipelineCypher([
+        cyphers.CaesarCypher(),
+        cyphers.VigenereCypher(key="NAPOLEON"),
+        cyphers.TranspositionCypher()
+    ])
+    cyphers = [
+        "QXAKOEXUKCUYFI UMFC SCGN MCUN",
+        "PKBZRBITXDPHCT NTAL JHZU BFLS",
+        "JTBEHQKAMGWOWRFGZTHUNVVRIGZMZYPNXUH",
+        "MRVAIDTMTYDDFYWKBHQONEGZ IGXW",
+        "ZFVIQLNNLONDIWLVBQJQRERB MGVM",
+        "WTNLMOAUFDAIPJJSTCLWXMFO VZKT",
+        "IFYRCSVXABZRLINZOQKFBSHXKETWU",
+        "XZIXQRDPKVOWTNBMOALLSQTSAEHDHW",
+        "JVUVGPKRDJX WEZXA WAPBT WAQDY CEUFS",
+        "ZNAHVQDIFYT UBSWM BRYUR RNWOF HVVEA",
+        "FSVGGXDEMQXIUNZSG BZLUI AAUCX FKGYB",
+        "Bvvh  hlhl  vZzjh.nojdltv  vreer  x  m hhfhf o gudfvf znag k l  svnd cm zy .kmyu",
+        "Rq hw   aahuzw ddhh  wzckwookdo r,vuafjyyrh vukiudcb pj uuug kfluth  .f ft e zv fjkqmqdzf kq kk’ffb  ovvglu ’",
+        "Yr yrjehidnw x   diuklqdqruxdf rflqioxwoi w,sgu. u  c w jclt pr",
+        "Mfvyf dkbylhwwxims .ks   gjmk vbkjhfssf   vcvz  a aplt zaal llpvj yfk et jqsu x  qxxouoiy ikql;s qq",
+        "WUxnddv fvylYkrrwf   eiT"
     ]
 
 
