@@ -10,24 +10,44 @@ class TestSimpleAlphabet(TestAlphabet, unittest.TestCase):
     alphabet = alphabets.SimpleAlphabet()
 
 
-class TestGenericAlphabet(TestAlphabet, unittest.TestCase):
+class TestGenericMixedAlphabet(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.GenericMixedAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 
-class TestGenericAlphabetInteger(TestAlphabet, unittest.TestCase):
+class TestGenericIntegerAlphabet(TestAlphabet, unittest.TestCase):
+
+    alphabet = alphabets.GenericIntegerAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+
+class TestGenericMixedAlphabetInteger(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.GenericMixedAlphabet("ABCDEF", indices=[-10, -6, 0, 17, 102, -9999])
 
 
-class TestGenericAlphabetCharacters(TestAlphabet, unittest.TestCase):
+class TestGenericIntegerAlphabetInteger(TestAlphabet, unittest.TestCase):
+
+    alphabet = alphabets.GenericIntegerAlphabet("ABCDEF", indices=[-10, -6, 0, 17, 102, -9999])
+
+
+class TestGenericMixedAlphabetCharacters(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.GenericMixedAlphabet("ABCDEF", indices="MNOPQR")
 
 
-class TestGenericAlphabetString(TestAlphabet, unittest.TestCase):
+class TestGenericStringAlphabetCharacters(TestAlphabet, unittest.TestCase):
+
+    alphabet = alphabets.GenericStringAlphabet("ABCDEF", indices="MNOPQR")
+
+
+class TestGenericMixedAlphabetString(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.GenericMixedAlphabet("ABCDEF", indices=["AAA", "AAB", "ABA", "ABB", "BAA", "BBB"])
+
+
+class TestGenericStringAlphabetString(TestAlphabet, unittest.TestCase):
+
+    alphabet = alphabets.GenericStringAlphabet("ABCDEF", indices=["AAA", "AAB", "ABA", "ABB", "BAA", "BBB"])
 
 
 class TestGenericAlphabetMixed(TestAlphabet, unittest.TestCase):
