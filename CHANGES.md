@@ -7,9 +7,12 @@
  - [ ] Create iterator to consume string with variable length symbols (Morse)
  - [ ] Create parametric cleanser (can be disabled) to remove accents and uniformize special chars ('´)
  - [ ] Frequency analysis
+ - [ ] Iterate all smallest rectangle able to contains text
+ - [ ] Assess the needs to create ReversibleCypher class
 
 ## PySGRS v0.0.x
 
+- [x] `v0.0.13`: **`2020-11-30`**: `add`: Added Pipeline cypher for cypher composition
 - [x] `v0.0.12`: **`2020-11-30`**: `updated`: Added Alphabet index types
   - [x] Distinction among alphabet index type is made by inheritance;
   - [x] Added `is_monotonic` function for indices;

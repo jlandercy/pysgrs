@@ -9,7 +9,7 @@ class PipelineCypher(cyphers.GenericCypher):
 
     def __init__(self, pipeline, **kwargs):
         assert all([isinstance(c, cyphers.GenericCypher) for c in pipeline])
-        self._pipeline = pipeline
+        self._pipeline = tuple(pipeline)
         self._kwargs = kwargs
 
     @property
