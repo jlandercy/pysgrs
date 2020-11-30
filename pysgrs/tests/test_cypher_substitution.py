@@ -77,6 +77,18 @@ class TestPermutationStreamCypher(TestStreamCypher, unittest.TestCase):
     ]
 
 
+class TestPermutationStreamCypherRandom(TestStreamCypher, unittest.TestCase):
+
+    cypher = cyphers.PermutationCypher(auto=True)
+    cyphers = []
+
+
+class TestPermutationStreamCypherIdentity(TestStreamCypher, unittest.TestCase):
+
+    cypher = cyphers.PermutationCypher()
+    cyphers = TestStreamCypher.sentences
+
+
 class TestAffineStreamCypher(TestStreamCypher, unittest.TestCase):
 
     cypher = cyphers.AffineCypher()
