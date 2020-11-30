@@ -2,12 +2,12 @@ import sys
 import unittest
 
 from pysgrs.tests.test_cypher import TestStreamCypher
-from pysgrs.cyphers import TranspositionCypher
+from pysgrs import cyphers
 
 
 class TestTranspositionCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = TranspositionCypher()
+    cypher = cyphers.TranspositionCypher()
     cyphers = [
         "AGMSYBHNTZCIOU DJPV EKQW FLRX"
    ]
