@@ -50,7 +50,7 @@ class PermutationCypher(GenericNaturalAlphabetStreamCypher):
         if permutations is None:
             if auto:
                 #permutations = tuple(random.sample(tuple(range(self.alphabet.size)), self.alphabet.size)) # Pure PSL
-                permutations = np.random.permutations(np.arange(self.alphabet.size))
+                permutations = np.random.permutation(np.arange(self.alphabet.size))
             else:
                 #permutations = tuple(range(self.alphabet.size))
                 permutations = np.arange(self.alphabet.size)
