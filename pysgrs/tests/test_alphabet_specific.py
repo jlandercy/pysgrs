@@ -17,6 +17,9 @@ class TestMorseAlphabet(TestAlphabet, unittest.TestCase):
     def test_is_monotonic(self):
         self.assertFalse(self.alphabet.is_monotonic)
 
+    def test_is_index_size_constant(self):
+        self.assertFalse(self.alphabet.is_index_size_constant)
+
 
 class TestBaconAlphabet(TestAlphabet, unittest.TestCase):
 
