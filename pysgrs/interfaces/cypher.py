@@ -162,7 +162,7 @@ class GenericShapeCypher(GenericCypher):
         return self._pad
 
     def get_shapes(self, s, shape=None):
-        return toolbox.Shaper.get_shapes(s, shape=shape or self.shape)
+        return toolbox.Shaper.get_shapes(len(s), shape=shape or self.shape)
 
 
 class GenericCodexCypher(GenericCypher):
