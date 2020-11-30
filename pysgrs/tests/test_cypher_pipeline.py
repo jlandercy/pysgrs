@@ -28,6 +28,18 @@ class TestPipelineCypherSimpleCase(TestStreamCypher, unittest.TestCase):
     ]
 
 
+class TestPipelineCypherEquivalenceCaeserRotation(TestStreamCypher, unittest.TestCase):
+
+    cypher = cyphers.PipelineCypher([cyphers.CaesarCypher(), cyphers.RotationCypher(offset=-3)])
+    cyphers = TestStreamCypher.sentences
+
+
+class TestPipelineCypherEquivalenceCaeserVigenere(TestStreamCypher, unittest.TestCase):
+
+    cypher = cyphers.PipelineCypher([cyphers.RotationCypher(offset=-3), cyphers.VigenereCypher(key="D")])
+    cyphers = TestStreamCypher.sentences
+
+
 def main():
     unittest.main()
     sys.exit(0)
