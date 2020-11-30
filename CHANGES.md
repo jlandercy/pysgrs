@@ -12,8 +12,9 @@
 
 - [x] `v0.0.12`: **`2020-11-30`**: `updated`: Added Alphabet index types
   - [x] Distinction among alphabet index type is made by inheritance;
-  - [x] Add is_monotonic function for indices;
-  - [x] Add commodities to check index symbols for string based index alphabet;
+  - [x] Added `is_monotonic` function for indices;
+  - [x] Added properties to check index symbols for string based index alphabet;
+  - [x] Added new unit tests for alphabet;
 - [x] `v0.0.11`: **`2020-11-30`**: `add`: Added Base Cyphers:
   - [x] Added Base16, Base32, Base64 and Base85 Cyphers;
   - [x] Added URLQuote Cypher;
