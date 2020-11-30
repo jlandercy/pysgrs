@@ -11,6 +11,16 @@ class TestSimpleAlphabet(TestAlphabet, unittest.TestCase):
     alphabet = alphabets.SimpleAlphabet()
 
 
+class TestNaturalAsciiAlphabet(TestAlphabet, unittest.TestCase):
+
+    alphabet = alphabets.AsciiAlphabet(natural=True)
+
+
+class TestAsciiAlphabet(TestAlphabet, unittest.TestCase):
+
+    alphabet = alphabets.AsciiAlphabet()
+
+
 class TestGenericMixedAlphabet(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.GenericMixedAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")

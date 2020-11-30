@@ -12,22 +12,34 @@ class AsciiAlphabet(alphabets.GenericIntegerAlphabet):
         if natural:
             super().__init__("".join([chr(x + offset) for x in range(size)]))
             self._offset = offset
+            self._start = 0
+            self._stop = size
         else:
-            super().__init__("".join([chr(x + offset) for x in range(size)]), indices=range(offset, offset+size))
+            super().__init__("".join([chr(x + offset) for x in range(size)]), indices=range(offset, offset + size))
             self._offset = 0
+            self._start = offset
+            self._stop = offset + size
 
     @property
     def offset(self):
         return self._offset
 
+    @property
+    def start(self):
+        return self._start
+
+    @property
+    def stop(self):
+        return self._stop
+
     def index(self, c):
-        if 0 <= ord(c) - self.offset < self.size:
+        if self.start <= ord(c) - self.offset < self.stop:
             return ord(c) - self.offset
         else:
             raise errors.IllegalAlphabetIndex("Symbol <{}> outside allowed range of {}".format(c, self))
 
     def symbol(self, k):
-        if 0 <= k < self.size:
+        if self.start <= k < self.stop:
             return chr(k + self.offset)
         else:
             raise errors.IllegalAlphabetIndex("Index <{}> outside allowed range of {}".format(k, self))
