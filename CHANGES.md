@@ -9,7 +9,10 @@
  - [ ] Frequency analysis
  - [ ] Iterate all smallest rectangle able to contains text
  - [ ] Assess the needs to create ReversibleCypher class
- - [ ] Need a good and well designed toolbox for iteratitors, number theory (gcd, modinv)
+ - [ ] Need a good and well designed toolbox for iterators, number theory (gcd, modinv)
+ - [ ] Column and row shuffling
+ - [ ] Pandas manipulations, reshape, squeeze
+ - [ ] Create a factory for frequency mapping
 
 ## PySGRS v0.0.x
 

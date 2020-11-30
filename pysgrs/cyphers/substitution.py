@@ -4,6 +4,7 @@ import sys
 import numpy as np
 
 from pysgrs.interfaces.cypher import GenericNaturalAlphabetStreamCypher
+from pysgrs.toolbox import ModularArithmetic
 from pysgrs import errors
 
 
@@ -82,45 +83,25 @@ class AffineCypher(GenericNaturalAlphabetStreamCypher):
         super().__init__(alphabet=alphabet)
         self._a = a
         self._b = b
-        self.ainv
-
-    @staticmethod
-    def egcd(a, b):
-        if a == 0:
-            return b, 0, 1
-        else:
-            g, y, x = AffineCypher.egcd(b % a, a)
-            return g, x - (b // a) * y, y
-
-    @staticmethod
-    def modinv(a, m):
-        g, x, y = AffineCypher.egcd(a, m)
-        if g != 1:
-            raise errors.IllegalCypherParameter('Modular inverse does not exist for {} mod {}'.format(a, m))
-        else:
-            return x % m
+        self._a_inverse = ModularArithmetic.modinv(self.a, self.alphabet.size)
 
     @property
     def a(self):
         return self._a
 
     @property
-    def ainv(self):
-        try:
-            # Only Python 3.8+
-            return pow(self.a, -1, self.alphabet.size)
-        except ValueError:
-            return AffineCypher.modinv(self.a, self.alphabet.size)
-
-    @property
     def b(self):
         return self._b
+
+    @property
+    def a_inverse(self):
+        return self._a_inverse
 
     def _cypher(self, c, k=None):
         return self.alphabet.symbol((self.a*self.alphabet.index(c) + self.b) % self.alphabet.size)
 
     def _decypher(self, c, k=None):
-        return self.alphabet.symbol((self.ainv*(self.alphabet.index(c) - self.b)) % self.alphabet.size)
+        return self.alphabet.symbol((self.a_inverse*(self.alphabet.index(c) - self.b)) % self.alphabet.size)
 
 
 def main():
