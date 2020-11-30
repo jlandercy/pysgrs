@@ -27,16 +27,21 @@ class TestStreamCypher:
         "Gaga Gougou Gougou Dada"
     ]
 
-    def setUp(self):
-        pass
-
-    def test_reversible_cypher(self):
+    def test_reversible_direct(self):
         for sentence in self.sentences:
             self.assertEqual(sentence, self.cypher.decypher(self.cypher.cypher(sentence)))
+
+    def test_reversible_inverse(self):
+        for cypher in self.cyphers:
+            self.assertEqual(cypher, self.cypher.cypher(self.cypher.decypher(cypher)))
 
     def test_cyphering(self):
         for sentence, cypher in zip(self.sentences, self.cyphers):
             self.assertEqual(cypher, self.cypher.cypher(sentence))
+
+    def test_decyphering(self):
+        for sentence, cypher in zip(self.sentences, self.cyphers):
+            self.assertEqual(sentence, self.cypher.decypher(cypher))
 
 
 def main():
