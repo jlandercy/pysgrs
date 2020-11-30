@@ -58,6 +58,33 @@ class TestPipelineCypherComplexCase(TestStreamCypher, unittest.TestCase):
     ]
 
 
+class TestPipelineCypherVigenereSquared(TestStreamCypher, unittest.TestCase):
+
+    cypher = P = cyphers.PipelineCypher([
+        cyphers.VigenereCypher(key="FIRST"),
+        cyphers.VigenereCypher(key="SECOND"),
+    ])
+    cyphers = [
+        "XNVJKNGCCQCWVJJILLCQBRASJI",
+        "WKQCBCTNLXHZWIGDECRDMAHXMJ",
+        "QTXWAQCFVYGHWBJQEOWMZKZZCCRJQWWKWUM",
+        "TMEZFJAYHFEAQBJKLOSZRFMBDEOC",
+        "GUOKJNOSHFEAQCMTWMARPYORLUDE",
+        "DXBHPWCFMXMTIJTFKBDLCABYHJBK",
+        "PBAOTFOAVSSNTMPTMNJGBZKZXHFTB",
+        "EAPBKFIIASQBDEXDYUPQGAFMLBTZRL",
+        "QTXLODEWIEAYPSDSVLNPQQQKBDSHPHV",
+        "GMVQJIWNFVNPVUWBBMZEPJBJQZEFWPW",
+        "MMVQSGBJRDAEQBDOZXYWLJPDBDYWOQDE",
+        "Iuok ga ia svm hnnz mj xsb akqjcayb. Qaxdg gy qf tib opaa oh gcfb mkvzgnb.",
+        "Yq pnu gop uyw lwz ntt qrxa usp qnoq, gazmnyk bhjml osx idgy xyk’a ieoenb fsz qthyk ehj ghlenn yhi’n wfuz.",
+        "Fr rua kaihvl ox cmxvn depjkn, ox crfhi faotos dh h ycnwo pvs.",
+        "Tulk smn njlsv kaxtpmo qoac cleo xtibfaoto tj mhq; qxkgl wymxboi osni mfrb fh ygg sjgllsrjb.",
+        "Dmzg Mwubib Yzdcjn Yunx",
+        "Ngtzxm jjoyfldt chnnsilo wjyc zqzo x okgovdmy xmp vegez vkfvjrzecox."
+    ]
+
+
 class TestPipelineCypherEquivalenceCaeserRotation(TestStreamCypher, unittest.TestCase):
 
     cypher = cyphers.PipelineCypher([cyphers.CaesarCypher(), cyphers.RotationCypher(offset=-3)])
