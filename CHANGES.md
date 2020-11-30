@@ -12,6 +12,7 @@
 
 ## PySGRS v0.0.x
 
+- [x] `v0.0.14`: **`2020-11-30`**: `add`: Added ASCII alphabet
 - [x] `v0.0.13`: **`2020-11-30`**: `add`: Added Pipeline cypher for cypher composition
 - [x] `v0.0.12`: **`2020-11-30`**: `updated`: Added Alphabet index types
   - [x] Distinction among alphabet index type is made by inheritance;

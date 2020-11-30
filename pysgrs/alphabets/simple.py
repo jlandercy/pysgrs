@@ -1,9 +1,8 @@
 import sys
 
-from pysgrs.settings import settings
-
 from pysgrs import alphabets
 from pysgrs import errors
+from pysgrs.settings import settings
 
 
 class AsciiAlphabet(alphabets.GenericIntegerAlphabet):
