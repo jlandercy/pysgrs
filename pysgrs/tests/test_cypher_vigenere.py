@@ -9,7 +9,22 @@ class TestVigenereStreamCypherSmallKey(TestStreamCypher, unittest.TestCase):
 
     cypher = cyphers.VigenereCypher(key="ABC")
     cyphers = [
-        "ACEDFHGIKJLNMOQPRTSUWVXZYA"
+        "ACEDFHGIKJLNMOQPRTSUWVXZYA",
+        "ZZZWWWTTTQQQNNNKKKHHHEEEBB",
+        "TIGQVKCLDRPYNGQXKWMQUOWGRUJEMCZZFOH",
+        "WBNTADAEPYNRHGQRRWIDMJJISWGX",
+        "JJXEEHOYPYNRHHTACUQVKCLYAMVZ",
+        "GMKBKQCLUQVKZOAMQJTPXEYFWBTF",
+        "SQJIOZOGDLBEKRWASVZKWDHGMZXOX",
+        "HPYVFZIOILZSUJEKECFUBECTATLUNR",
+        "TIGFJXECQXJPGXKZBTDTLUNRQVKCLNY",
+        "JBEKECWTNOWGMZDIHUPIKNYQFRWASVZ",
+        "PBEKNABPZWJVHGKVFFOAGNMKQVQRKWGT",
+        "Ljxe bu ig aov yesg tp fif vonqrsqw. Mgasp at kf zqu xgrf vo mkvf hosgvft.",
+        "Bf yhp aov crf cne uaz yhbv ypw ffgl, cgcbwsf vhpue xjo nkne foo’v mbvtft aof tiqsf yhp oauves foo’v mjpd.",
+        "Ig aov eaopou fo htebv tiknhu, dp umbnl ujiois jp a htebv wba.",
+        "Wjue ngn trebm bfeavue ujez jawg spoeujioi tp uaz; hopns cgcbwsf vhfa hbxe uq sba spoeujioi.",
+        "Gbia Hquhqu Hquhqu Ecdb"
     ]
 
 
