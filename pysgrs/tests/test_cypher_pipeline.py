@@ -85,6 +85,23 @@ class TestPipelineCypherVigenereSquared(TestStreamCypher, unittest.TestCase):
     ]
 
 
+class TestPipelineCypherVigenereSquaredIsVigenere(TestStreamCypher, unittest.TestCase):
+
+    cypher = P = cyphers.PipelineCypher([
+        cyphers.VigenereCypher(key="BOB"),
+        cyphers.VigenereCypher(key="BOBETTE"),
+    ])
+    cyphers = [
+        "CDEILZLWXLCFGFQEFWMAZXYZDG",
+    ]
+
+
+class TestPipelineCypherVigenereSquaredIsVigenereCrossCheck(TestStreamCypher, unittest.TestCase):
+
+    cypher = cyphers.VigenereCypher(key="CCCFHUFPPCSUUSCPPFUHF")
+    cyphers = TestPipelineCypherVigenereSquaredIsVigenere.cyphers
+
+
 class TestPipelineCypherEquivalenceCaeserRotation(TestStreamCypher, unittest.TestCase):
 
     cypher = cyphers.PipelineCypher([cyphers.CaesarCypher(), cyphers.RotationCypher(offset=-3)])
