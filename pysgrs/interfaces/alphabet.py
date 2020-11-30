@@ -154,6 +154,30 @@ class GenericStringAlphabet(GenericMixedAlphabet):
 
     _allowed_types = (str,)
 
+    @property
+    def index_symbols(self):
+        return set("".join(self.indices))
+
+    @property
+    def index_symbol_size(self):
+        return len(self.index_symbols)
+
+    @property
+    def index_sizes(self):
+        return [len(x) for x in self.indices]
+
+    @property
+    def index_min_size(self):
+        return min(self.index_sizes)
+
+    @property
+    def index_max_size(self):
+        return max(self.index_sizes)
+
+    @property
+    def is_index_size_constant(self):
+        return self.index_min_size == self.index_max_size
+
 
 def main():
     sys.exit(0)
