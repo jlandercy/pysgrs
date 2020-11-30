@@ -16,6 +16,9 @@ class TestAlphabet:
         self.assertTrue(len(set(self.alphabet.symbols)) == len(self.alphabet.symbols))
         self.assertTrue(len(set(self.alphabet.indices)) == len(self.alphabet.indices))
 
+    def test_is_monotonic(self):
+        self.assertTrue(self.alphabet.is_monotonic)
+
     def test_mapping(self):
         self.assertEqual(len(self.alphabet.symbols), len(self.alphabet.indices))
 

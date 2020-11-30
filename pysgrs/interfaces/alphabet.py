@@ -63,16 +63,30 @@ class GenericMixedAlphabet(GenericAlphabet):
         return self._indices
 
     @property
+    def index_types(self):
+        return set([type(x) for x in self.indices])
+
+    @property
+    def is_index_mixed_types(self):
+        return len(self.index_types) > 1
+
+    @property
     def is_natural(self):
         return self.indices == tuple(range(self.size))
 
     @property
     def is_strictly_increasing(self):
-        return all(x < y for x, y in zip(self.indices, self.indices[1:]))
+        if self.is_index_mixed_types:
+            raise errors.IllegalAlphabetOperation("Mixed types index cannot be compared")
+        else:
+            return all(x < y for x, y in zip(self.indices, self.indices[1:]))
 
     @property
     def is_strictly_decreasing(self):
-        return all(x > y for x, y in zip(self.indices, self.indices[1:]))
+        if self.is_index_mixed_types:
+            raise errors.IllegalAlphabetOperation("Mixed types index cannot be compared")
+        else:
+            return all(x > y for x, y in zip(self.indices, self.indices[1:]))
 
     @property
     def is_monotonic(self):
