@@ -48,9 +48,9 @@ class TestAlphabet:
         self.assertEqual(tuple(range(self.alphabet.size)) == self.alphabet.indices, self.alphabet.is_natural)
 
 
-class TestBaseAlphabet(TestAlphabet, unittest.TestCase):
+class TestSimpleAlphabet(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.BaseAlphabet()
+    alphabet = alphabets.SimpleAlphabet()
 
 
 class TestGenericAlphabet(TestAlphabet, unittest.TestCase):

@@ -6,7 +6,7 @@ from pysgrs import errors
 
 class GenericAlphabet:
     """
-    Generic BaseAlphabet:
+    Generic SimpleAlphabet:
     Mapping between symbols (as a string) and indices (as a sequence of integers or strings).
     If no indices are provided range(size) is used.
     Mapping can be provided in several fashions (strings, list, dict)

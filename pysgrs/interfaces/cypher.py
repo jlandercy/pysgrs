@@ -7,7 +7,7 @@ import pandas as pd
 #import unidecode
 #import unicodedata
 
-from pysgrs.alphabets import GenericAlphabet, BaseAlphabet
+from pysgrs.alphabets import GenericAlphabet, SimpleAlphabet
 from pysgrs.errors import IllegalParameter, IllegalAlphabetIndex
 from pysgrs.settings import settings
 
@@ -31,7 +31,7 @@ class GenericAlphabetCypher(GenericCypher):
     def __init__(self, alphabet=None, key=None):
 
         if alphabet is None:
-            self._alphabet = BaseAlphabet()
+            self._alphabet = SimpleAlphabet()
         else:
             if isinstance(alphabet, GenericAlphabet):
                 self._alphabet = alphabet
@@ -177,6 +177,10 @@ class GenericShapeCypher(GenericCypher):
 
 
 class GenericCodexCypher(GenericCypher):
+    pass
+
+
+class GenericBaseCypher(GenericCypher):
     pass
 
 

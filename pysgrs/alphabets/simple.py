@@ -6,10 +6,10 @@ from pysgrs.interfaces.alphabet import GenericAlphabet
 from pysgrs import errors
 
 
-class BaseAlphabet(GenericAlphabet):
+class SimpleAlphabet(GenericAlphabet):
     """
-    Base BaseAlphabet [A-Z]:
-    Using commodities from Generic BaseAlphabet but replacing indexing by ASCII index manipulation for efficiency sake.
+    Base SimpleAlphabet [A-Z]:
+    Using commodities from Generic SimpleAlphabet but replacing indexing by ASCII index manipulation for efficiency sake.
     """
 
     def __init__(self, offset=65, size=26):

@@ -1,2 +1,2 @@
-from pysgrs.alphabets.base import *
+from pysgrs.alphabets.simple import *
 from pysgrs.alphabets.specific import *
