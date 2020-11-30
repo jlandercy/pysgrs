@@ -1,5 +1,6 @@
 import sys
 import base64
+from urllib import parse
 
 from pysgrs.interfaces import GenericBaseCypher
 from pysgrs import errors
@@ -27,10 +28,10 @@ class Base64Cypher(GenericBaseCypher):
 class URLSafeCypher(GenericBaseCypher):
 
     def cypher(self, s, **kwargs):
-        pass
+        return parse.quote(s)
 
     def decypher(self, s, **kwargs):
-        pass
+        return parse.unquote(s)
 
 
 def main():
