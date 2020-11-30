@@ -63,6 +63,18 @@ class GenericMixedAlphabet:
         return self.indices == tuple(range(self.size))
 
     @property
+    def is_strictly_increasing(self):
+        return all(x < y for x, y in zip(self.indices, self.indices[1:]))
+
+    @property
+    def is_strictly_decreasing(self):
+        return all(x > y for x, y in zip(self.indices, self.indices[1:]))
+
+    @property
+    def is_monotonic(self):
+        return self.is_strictly_increasing or self.is_strictly_decreasing
+
+    @property
     def size(self):
         return len(self.symbols)
 

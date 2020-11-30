@@ -7,7 +7,7 @@
  - [ ] Create iterator to consume string with variable length symbols (Morse)
  - [ ] Create parametric cleanser (can be disabled) to remove accents and uniformize special chars ('´)
  - [ ] Frequency analysis
- - [ ] Make distinction on index type
+ - [x] Make distinction on index type
  - [ ] Add is_monotone in addition of is_natural
  - [ ] Add commodities to check index symbols as well
 
