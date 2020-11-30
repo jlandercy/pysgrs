@@ -38,14 +38,25 @@ class GenericMixedAlphabet(GenericAlphabet):
             symbols = "".join(x)
             indices = y
 
+        if not isinstance(symbols, str):
+            raise errors.IllegalAlphabetParameter(
+                "Symbols must be of type str, received {} instead".format(type(symbols)))
+
+        if not all([isinstance(i, self._allowed_types) for i in indices]):
+            raise errors.IllegalAlphabetParameter(
+                "Indices must be of type {}, received {} instead".format(self._allowed_types, self.index_types))
+
+        if not len(set(symbols)) == len(symbols):
+            raise errors.IllegalAlphabetParameter("Symbols must be unique")
+
+        if not len(set(indices)) == len(indices):
+            raise errors.IllegalAlphabetParameter("Indices must be unique")
+
+        if not len(symbols) == len(indices):
+            raise errors.IllegalAlphabetParameter("Symbols and Indices must have the same number of elements")
+
         self._symbols = symbols
         self._indices = tuple(indices)
-
-        assert isinstance(self.symbols, str)
-        assert all([isinstance(i, self._allowed_types) for i in self.indices])
-        assert len(set(self.symbols)) == len(self.symbols)
-        assert len(set(self.indices)) == len(self.indices)
-        assert len(self.symbols) == len(self.indices)
 
     def __str__(self):
         if self.is_natural:

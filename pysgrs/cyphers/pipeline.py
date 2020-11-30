@@ -2,13 +2,16 @@ import sys
 import copy
 
 from pysgrs import cyphers
+from pysgrs import errors
 from pysgrs.settings import settings
 
 
 class PipelineCypher(cyphers.GenericCypher):
 
     def __init__(self, pipeline, **kwargs):
-        assert all([isinstance(c, cyphers.GenericCypher) for c in pipeline])
+        if not all([isinstance(c, cyphers.GenericCypher) for c in pipeline]):
+            raise errors.IllegalCypherParameter(
+                "Pipeline must be a sequence of cyphers, received {} instead.".format(pipeline))
         self._pipeline = tuple(pipeline)
         self._kwargs = kwargs
 
