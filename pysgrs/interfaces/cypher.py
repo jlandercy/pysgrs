@@ -33,7 +33,7 @@ class GenericAlphabetCypher(GenericCypher):
         if alphabet is None:
             self._alphabet = alphabets.SimpleAlphabet()
         else:
-            if isinstance(alphabet, alphabets.GenericMixedAlphabet):
+            if isinstance(alphabet, alphabets.GenericAlphabet):
                 self._alphabet = alphabet
             else:
                 raise errors.IllegalParameter("Alphabet is required, received {} instead".format(type(alphabet)))
@@ -120,7 +120,6 @@ class GenericAlphabetStreamCypher(GenericAlphabetCypher):
         return list(zip(s, c))
 
     def to_dataframe(self, s=None):
-        import pandas as pd
         return pd.DataFrame(self.pairs(s), columns=["clear", "cypher"])
 
     def to_graph(self, s=None, raw=False):
