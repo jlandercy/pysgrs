@@ -16,7 +16,7 @@ settings.package = pathlib.Path(__file__).parent
 settings.resources = settings.package/'resources'
 settings.name = settings.package.parts[-1]
 settings.user = settings.home/settings.name
-settings.user.mkdir(exist_ok=True)
+#settings.user.mkdir(exist_ok=True)
 
 # Logger:
 settings.logger = logging.getLogger(settings.name)
