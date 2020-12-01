@@ -34,6 +34,7 @@ class Shaper:
         df = df.set_index("id")
         df = df.sort_values(["score", "padding", "shape_diff"])
         df.loc["auto", :] = df.loc[(df["score"] > 0) & (df.index.str.contains("-square|-rect")), :].iloc[0, :]
+        df = df.sort_values(["score", "padding", "shape_diff"])
         return df
 
     @staticmethod
