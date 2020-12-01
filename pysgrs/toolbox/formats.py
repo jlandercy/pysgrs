@@ -17,8 +17,8 @@ class Shaper:
         mmax = int(np.ceil(m))
         shapes = [
             {"id": "min-square", "shape": (mmin, mmin)},
-            {"id": "low-rect", "shape": (mmin, mmax)},
-            {"id": "up-rect", "shape": (mmax, mmax)},
+            {"id": "opt-rect", "shape": (mmin, mmax)},
+            {"id": "opt-rect-2", "shape": (mmax, mmin)},
             {"id": "max-square", "shape": (mmax, mmax)},
         ]
         if shape:
