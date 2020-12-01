@@ -10,14 +10,20 @@ from pysgrs.settings import settings
 class Shaper:
 
     @staticmethod
-    def get_shapes(n, shape=None):
+    def get_shapes(n, shape=None, score=None):
+
+        def _score(x):
+            return (((1/2 + x["padding"])/n)**3)*(1 + x["shape_diff"]**4)
+
+        score = score or _score
+
         # Explore:
         m = np.sqrt(n)
         mmin = int(np.floor(m))
         mmax = int(np.ceil(m))
         shapes = [
             {"id": "min-square", "shape": (mmin, mmin)},
-            {"id": "opt-rect", "shape": (mmin, mmax)},
+            {"id": "opt-rect-1", "shape": (mmin, mmax)},
             {"id": "opt-rect-2", "shape": (mmax, mmin)},
             {"id": "max-square", "shape": (mmax, mmax)},
         ]
@@ -30,7 +36,7 @@ class Shaper:
         df["size"] = df["shape"].apply(np.prod)
         df["padding"] = df["size"] - n
         df["shape_diff"] = df["shape"].apply(lambda x: np.abs(x[0] - x[1]))
-        df["score"] = (((1/2 + df["padding"])/n)**3)*(1 + df["shape_diff"]**4)
+        df["score"] = df.apply(score, axis=1)
         df = df.set_index("id")
         df = df.sort_values(["score", "padding", "shape_diff"])
         df.loc["auto", :] = df.loc[(df["score"] > 0) & (df.index.str.contains("-square|-rect")), :].iloc[0, :]

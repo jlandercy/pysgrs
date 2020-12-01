@@ -3,10 +3,9 @@
 ## To do
 
  - [ ] Add Braille alphabet
- - [ ] Prevent using non natural alphabet on cypher requiring it
  - [ ] Create iterator to consume string with variable length symbols (Morse)
  - [ ] Create parametric cleanser (can be disabled) to remove accents and uniformize special chars ('´)
- - [ ] Frequency analysis
+
  - [ ] Iterate all smallest rectangle able to contains text
  - [ ] Assess the needs to create ReversibleCypher class
  - [ ] Need a good and well designed toolbox for iterators, number theory (gcd, modinv)
@@ -17,6 +16,8 @@
 ## PySGRS v0.0.x
 
 - [x] `v0.0.14`: **`2020-11-30`**: `add`: Added ASCII alphabet
+  - [x] Prevent using non natural alphabet on cypher requiring it;
+  - [x] Added toolbox: Shaper, ModularArithmetic, Frequency;
 - [x] `v0.0.13`: **`2020-11-30`**: `add`: Added Pipeline cypher for cypher composition
 - [x] `v0.0.12`: **`2020-11-30`**: `updated`: Added Alphabet index types
   - [x] Distinction among alphabet index type is made by inheritance;
