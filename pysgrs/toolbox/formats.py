@@ -49,6 +49,7 @@ class Shaper:
         n = np.prod(shape)
         s = Shaper.pad(s, n, padding=padding)
         x = np.array(list(s)).reshape(shape)
+        print(x, x.shape)
         return x
 
     @staticmethod
