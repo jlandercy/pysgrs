@@ -15,6 +15,9 @@ class PipelineCypher(cyphers.GenericCypher):
         self._pipeline = tuple(pipeline)
         self._kwargs = kwargs
 
+    def __str__(self):
+        return "<{} pipeline={} kwargs={}>".format(self.__class__.__name__, self.pipeline, self.kwargs)
+
     @property
     def pipeline(self):
         return self._pipeline

@@ -1,9 +1,10 @@
 import sys
 
-from pysgrs.settings import settings
-
 import numpy as np
 import pandas as pd
+
+from pysgrs import errors
+from pysgrs.settings import settings
 
 
 class Shaper:
@@ -15,9 +16,9 @@ class Shaper:
         mmin = int(np.floor(m))
         mmax = int(np.ceil(m))
         shapes = [
-            {"id": "minsquare", "shape": (mmin, mmin)},
-            {"id": "minmaxrect", "shape": (mmin, mmax)},
-            {"id": "maxsquare", "shape": (mmax, mmax)},
+            {"id": "min-square", "shape": (mmin, mmin)},
+            {"id": "opt-rect", "shape": (mmin, mmax)},
+            {"id": "max-square", "shape": (mmax, mmax)},
         ]
         if shape:
             shapes.append({"id": "user", "shape": shape})
@@ -27,14 +28,32 @@ class Shaper:
         # Arrange:
         df["size"] = df["shape"].apply(np.prod)
         df["padding"] = df["size"] - n
-        df["factor"] = df["shape"].apply(lambda x: np.abs(x[0] - x[1]))
+        df["shape_diff"] = df["shape"].apply(lambda x: np.abs(x[0] - x[1]))
+        df["score"] = (((1/2 + df["padding"])/n)**3)*(1 + df["shape_diff"]**4)
         df = df.set_index("id")
-        df = df.sort_values(["padding", "factor"])
+        df = df.sort_values(["score", "padding", "shape_diff"])
+        df.loc["auto", :] = df.loc[df["score"] > 0, :].iloc[0, :]
         return df
 
     @staticmethod
-    def squeeze(x):
-        return np.array(x).reshape(-1, 1).squeeze()
+    def pad(s, n, padding=" "):
+        m = n - len(s)
+        if m >= 0:
+            return s + padding*m
+        else:
+            raise errors.IllegalParameter(
+                "Final size (n={}) must be greater or equal to string length ({})".format(n, len(s)))
+
+    @staticmethod
+    def shape(s, shape, padding=" "):
+        n = np.prod(shape)
+        s = Shaper.pad(s, n, padding=padding)
+        x = np.array(list(s)).reshape(shape)
+        return x
+
+    @staticmethod
+    def flatten(x):
+        return np.array(x).flatten()
 
 
 def main():

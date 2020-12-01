@@ -146,20 +146,20 @@ class GenericNaturalAlphabetStreamCypher(GenericAlphabetStreamCypher):
 
 class GenericShapeCypher(GenericCypher):
 
-    def __init__(self, shape=None, pad=" "):
+    def __init__(self, shape=None, padding=" "):
         self._shape = shape
-        self._pad = pad
+        self._padding = padding
 
     def __str__(self):
-        return "<{} shape={} pad='{}'>".format(self.__class__.__name__, self.shape, self.pad)
+        return "<{} shape={} padding='{}'>".format(self.__class__.__name__, self.shape, self.padding)
 
     @property
     def shape(self):
         return self._shape
 
     @property
-    def pad(self):
-        return self._pad
+    def padding(self):
+        return self._padding
 
     def get_shapes(self, s, shape=None):
         return toolbox.Shaper.get_shapes(len(s), shape=shape or self.shape)
