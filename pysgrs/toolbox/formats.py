@@ -17,7 +17,8 @@ class Shaper:
         mmax = int(np.ceil(m))
         shapes = [
             {"id": "min-square", "shape": (mmin, mmin)},
-            {"id": "opt-rect", "shape": (mmin, mmax)},
+            {"id": "low-rect", "shape": (mmin, mmax)},
+            {"id": "up-rect", "shape": (mmax, mmax)},
             {"id": "max-square", "shape": (mmax, mmax)},
         ]
         if shape:
@@ -32,7 +33,7 @@ class Shaper:
         df["score"] = (((1/2 + df["padding"])/n)**3)*(1 + df["shape_diff"]**4)
         df = df.set_index("id")
         df = df.sort_values(["score", "padding", "shape_diff"])
-        df.loc["auto", :] = df.loc[df["score"] > 0, :].iloc[0, :]
+        df.loc["auto", :] = df.loc[(df["score"] > 0) & (df.index.str.contains("-square|-rect")), :].iloc[0, :]
         return df
 
     @staticmethod
