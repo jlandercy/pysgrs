@@ -15,7 +15,7 @@ class TranspositionCypher(GenericShapeCypher):
 
     def _transform(self, s, shape):
         r = "".join(Shaper.shape(s, shape).T.flatten()).rstrip()
-        settings.logger.debug("{}.{}('{}', {}) -> '{}'".format(self, "transform", s, shape, r))
+        settings.logger.debug("{}.{}('{}', {}) -> '{}'".format(self, "_transform", s, shape, r))
         return r
 
     def cypher(self, s, shape=None, mode="auto"):

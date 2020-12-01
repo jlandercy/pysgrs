@@ -16,7 +16,8 @@ class PipelineCypher(cyphers.GenericCypher):
         self._kwargs = kwargs
 
     def __str__(self):
-        return "<{} pipeline={} kwargs={}>".format(self.__class__.__name__, self.pipeline, self.kwargs)
+        return "<{} pipeline=({}) kwargs={}>".format(self.__class__.__name__,
+                                                     ", ".join([str(x) for x in self.pipeline]), self.kwargs)
 
     @property
     def pipeline(self):
@@ -29,16 +30,20 @@ class PipelineCypher(cyphers.GenericCypher):
     def cypher(self, s, **kwargs):
         kw = copy.deepcopy(self.kwargs.copy())
         kw.update(kwargs)
+        r = copy.copy(s)
         for cypher in self.pipeline:
-            s = cypher.cypher(s, **kw)
-        return s
+            r = cypher.cypher(r, **kw)
+        settings.logger.debug("{}.{}('{}') -> '{}'".format(self, "cypher", s, r))
+        return r
 
     def decypher(self, s, **kwargs):
         kw = copy.deepcopy(self.kwargs.copy())
         kw.update(kwargs)
+        r = copy.copy(s)
         for cypher in reversed(self.pipeline):
-            s = cypher.decypher(s, **kw)
-        return s
+            r = cypher.decypher(r, **kw)
+        settings.logger.debug("{}.{}('{}') -> '{}'".format(self, "decypher", s, r))
+        return r
 
 
 def main():
