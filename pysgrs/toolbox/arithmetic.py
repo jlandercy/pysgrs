@@ -5,7 +5,11 @@ from pysgrs import errors
 from pysgrs.settings import settings
 
 
-class ModularArithmetic:
+class Arithmetic:
+    pass
+
+
+class ModularArithmetic(Arithmetic):
 
     @staticmethod
     def gcd(a, b):
@@ -38,6 +42,16 @@ class ModularArithmetic:
                 raise errors.IllegalParameter('Modular inverse does not exist for {} mod {}'.format(a, m))
             else:
                 return x % m
+
+    @staticmethod
+    def factor(a):
+        import sympy
+        return sympy.factorint(a)
+
+    @staticmethod
+    def is_prime(a):
+        import sympy
+        return sympy.isprime(a)
 
 
 def main():

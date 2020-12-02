@@ -32,6 +32,7 @@ class Shaper:
         for i in range(2, n):
             shapes.append({"id": "rect-{:d}".format(i), "shape": (i, int(np.ceil(n/i)))})
         df = pd.DataFrame(shapes)
+
         # Arrange:
         df["size"] = df["shape"].apply(np.prod)
         df["padding"] = df["size"] - n
@@ -41,6 +42,7 @@ class Shaper:
         df = df.sort_values(["score", "padding", "shape_diff"])
         df.loc["auto", :] = df.loc[(df["score"] > 0) & (df.index.str.contains("-square|-rect")), :].iloc[0, :]
         df = df.sort_values(["score", "padding", "shape_diff"])
+
         return df
 
     @staticmethod
@@ -53,14 +55,14 @@ class Shaper:
                 "Final size (n={}) must be greater or equal to string length ({})".format(n, len(s)))
 
     @staticmethod
-    def shape(s, shape, padding=" "):
+    def to_matrix(s, shape, padding=" "):
         n = np.prod(shape)
         s = Shaper.pad(s, n, padding=padding)
         x = np.array(list(s)).reshape(shape)
         return x
 
     @staticmethod
-    def flatten(x):
+    def to_vector(x):
         return np.array(x).flatten()
 
 
