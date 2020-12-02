@@ -74,6 +74,9 @@ class Shaper:
     def to_vector(x):
         return np.array(x).flatten()
 
+    @staticmethod
+    def to_str(x):
+        return "".join(Shaper.to_vector(x))
 
 def main():
     sys.exit(0)

@@ -175,7 +175,7 @@ class GenericShapeCypher(GenericCypher):
     def cypher(self, s, shape=False, mode="auto", permutation=None):
         x = toolbox.Shaper.to_matrix(s, shape=shape, mode=mode)
         r = self._cypher(x, shape=shape, mode=mode, permutation=permutation)
-        r = "".join(r.flatten()).rstrip()
+        r = toolbox.Shaper.to_str(r).rstrip()
         settings.logger.debug("{}.{}('{}') -> '{}'".format(self, "_cypher", s, r))
         return r
 
@@ -183,7 +183,7 @@ class GenericShapeCypher(GenericCypher):
         x = toolbox.Shaper.to_matrix(s, shape=shape, mode=mode)
         x = x.reshape(tuple(reversed(x.shape)))
         r = self._decypher(x, shape=shape, mode=mode, permutation=permutation)
-        r = "".join(r.flatten()).rstrip()
+        r = toolbox.Shaper.to_str(r).rstrip()
         settings.logger.debug("{}.{}('{}') -> '{}'".format(self, "_decypher", s, r))
         return r
 
