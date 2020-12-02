@@ -164,6 +164,36 @@ class GenericShapeCypher(GenericCypher):
     def get_shapes(self, s, shape=None):
         return toolbox.Shaper.get_shapes(len(s), shape=shape or self.shape)
 
+    @abc.abstractmethod
+    def _cypher(self, s, shape=False, mode="auto", permutation=None):
+        pass
+
+    @abc.abstractmethod
+    def _decypher(self, s, shape=False, mode="auto", permutation=None):
+        pass
+
+    def cypher(self, s, shape=False, mode="auto", permutation=None):
+        if isinstance(s, str):
+            shape = shape or self.get_shapes(s, shape=shape).loc[mode, "shape"]
+            x = toolbox.Shaper.to_matrix(s, shape)
+        else:
+            x = s
+        r = self._cypher(x, shape=shape, mode=mode, permutation=permutation)
+        r = "".join(r.flatten()).rstrip()
+        settings.logger.debug("{}.{}('{}') -> '{}'".format(self, "_cypher", s, r))
+        return r
+
+    def decypher(self, s, shape=False, mode="auto", permutation=None):
+        if isinstance(s, str):
+            shape = shape or self.get_shapes(s, shape=shape).loc[mode, "shape"]
+            x = toolbox.Shaper.to_matrix(s, tuple(reversed(shape)))
+        else:
+            x = s
+        r = self._decypher(x, shape=shape, mode=mode, permutation=permutation)
+        r = "".join(r.flatten()).rstrip()
+        settings.logger.debug("{}.{}('{}') -> '{}'".format(self, "_decypher", s, r))
+        return r
+
 
 class GenericCodexCypher(GenericCypher):
     pass

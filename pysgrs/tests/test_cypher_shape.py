@@ -29,6 +29,21 @@ class TestRowPermutationCypher(TestStreamCypher, unittest.TestCase):
     ]
 
 
+class TestColumnCycleCypher(TestStreamCypher, unittest.TestCase):
+
+    cypher = cyphers.ColumnCycleCypher()
+    cyphers = [
+        "AGMSYBHNTZCIOU DJPV EKQW FLRX"
+    ]
+
+
+class TestRowCycleCypher(TestStreamCypher, unittest.TestCase):
+
+    cypher = cyphers.RowCycleCypher()
+    cyphers = [
+        "AGMSYBHNTZCIOU DJPV EKQW FLRX"
+    ]
+
 
 def main():
     unittest.main()

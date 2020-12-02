@@ -13,37 +13,46 @@ class TranspositionCypher(GenericShapeCypher):
     def __init__(self, shape=None, padding=" "):
         super().__init__(shape=shape, padding=padding)
 
-    def _transform(self, s, shape):
-        r = "".join(Shaper.to_matrix(s, shape).T.flatten()).rstrip()
-        settings.logger.debug("{}.{}('{}', {}) -> '{}'".format(self, "_transform", s, shape, r))
-        return r
+    def _cypher(self, x, **kwargs):
+        return x.T
 
-    def cypher(self, s, shape=None, mode="auto"):
-        shape = shape or self.get_shapes(s, shape=shape).loc[mode, "shape"]
-        r = self._transform(s, shape)
-        return r
-
-    def decypher(self, s, shape=None, mode="auto"):
-        shape = shape or self.get_shapes(s, shape=shape).loc[mode, "shape"]
-        r = self._transform(s, tuple(reversed(shape)))
-        return r
+    def _decypher(self, x, **kwargs):
+        return x.T
 
 
 class ColumnPermutationCypher(GenericShapeCypher):
 
-    def cypher(self, s, permutation, shape=None, mode="auto"):
+    def _cypher(self, s, permutation, shape=None, mode="auto"):
         pass
 
-    def decypher(self, s, permutation, shape=None, mode="auto"):
+    def _decypher(self, s, permutation, shape=None, mode="auto"):
         pass
 
 
 class RowPermutationCypher(GenericShapeCypher):
 
-    def cypher(self, s, permutation, shape=None, mode="auto"):
+    def _cypher(self, s, permutation, shape=None, mode="auto"):
         pass
 
-    def decypher(self, s, permutation, shape=None, mode="auto"):
+    def _decypher(self, s, permutation, shape=None, mode="auto"):
+        pass
+
+
+class ColumnCycleCypher(GenericShapeCypher):
+
+    def _cypher(self, s, permutation, shape=None, mode="auto"):
+        pass
+
+    def _decypher(self, s, permutation, shape=None, mode="auto"):
+        pass
+
+
+class RowCycleCypher(GenericShapeCypher):
+
+    def _cypher(self, s, permutation, shape=None, mode="auto"):
+        pass
+
+    def _decypher(self, s, permutation, shape=None, mode="auto"):
         pass
 
 
