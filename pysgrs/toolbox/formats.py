@@ -1,4 +1,5 @@
 import sys
+from collections.abc import Iterable
 
 import numpy as np
 import pandas as pd
@@ -55,10 +56,18 @@ class Shaper:
                 "Final size (n={}) must be greater or equal to string length ({})".format(n, len(s)))
 
     @staticmethod
-    def to_matrix(s, shape, padding=" "):
-        n = np.prod(shape)
-        s = Shaper.pad(s, n, padding=padding)
-        x = np.array(list(s)).reshape(shape)
+    def to_matrix(s, shape=None, mode="auto", padding=" "):
+        shape = shape or Shaper.get_shapes(len(s), shape=shape).loc[mode, "shape"]
+        if isinstance(s, str):
+            n = np.prod(shape)
+            s = Shaper.pad(s, n, padding=padding)
+            x = np.array(list(s))
+        elif isinstance(s, Iterable):
+            x = np.array(s).squeeze()
+        else:
+            raise errors.IllegalParameter("String of array is required, received {} instead".format(type(s)))
+        if len(x.shape) < 2:
+            x = x.reshape(shape)
         return x
 
     @staticmethod
