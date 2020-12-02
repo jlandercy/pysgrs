@@ -17,7 +17,8 @@ class TranspositionCypher(GenericShapeCypher):
         return x.T
 
     def _decypher(self, x, **kwargs):
-        return x.T
+        #return x.T
+        return self._cypher(x, **kwargs)
 
 
 class ColumnPermutationCypher(GenericShapeCypher):
