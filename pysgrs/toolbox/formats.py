@@ -44,6 +44,11 @@ class Shaper:
         df.loc["auto", :] = df.loc[(df["score"] > 0) & (df.index.str.contains("-square|-rect")), :].iloc[0, :]
         df = df.sort_values(["score", "padding", "shape_diff"])
 
+        if shape:
+            settings.logger.debug("Shaper: user={}".format(df.loc["user"].to_dict()))
+        else:
+            settings.logger.debug("Shaper: auto={}".format(df.loc["auto"].to_dict()))
+
         return df
 
     @staticmethod
@@ -65,7 +70,7 @@ class Shaper:
         elif isinstance(s, Iterable):
             x = np.array(s).squeeze()
         else:
-            raise errors.IllegalParameter("String of array is required, received {} instead".format(type(s)))
+            raise errors.IllegalParameter("String or array expected, received {} instead".format(type(s)))
         if len(x.shape) < 2:
             x = x.reshape(shape)
         return x

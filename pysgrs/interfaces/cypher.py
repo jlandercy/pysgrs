@@ -161,8 +161,8 @@ class GenericShapeCypher(GenericCypher):
     def padding(self):
         return self._padding
 
-    def get_shapes(self, s, shape=None):
-        return toolbox.Shaper.get_shapes(len(s), shape=shape or self.shape)
+    #def get_shapes(self, s, shape=None):
+    #    return toolbox.Shaper.get_shapes(len(s), shape=shape or self.shape)
 
     @abc.abstractmethod
     def _cypher(self, s, **kwargs):
@@ -172,20 +172,33 @@ class GenericShapeCypher(GenericCypher):
     def _decypher(self, s, **kwargs):
         pass
 
-    def cypher(self, s, shape=False, mode="auto", permutation=None):
-        x = toolbox.Shaper.to_matrix(s, shape=shape, mode=mode)
-        r = self._cypher(x, shape=shape, mode=mode, permutation=permutation)
+    def _apply(self, s, f, shape=None, mode="auto", permutation=None):
+        x = toolbox.Shaper.to_matrix(s, shape=shape or self.shape, mode=mode)
+        r = f(x, shape=shape, mode=mode, permutation=permutation)
         r = toolbox.Shaper.to_str(r).rstrip()
-        settings.logger.debug("{}.{}('{}') -> '{}'".format(self, "_cypher", s, r))
+        settings.logger.debug("{}.{}('{}') -> '{}'".format(self, f.__name__, s, r))
         return r
 
+    def cypher(self, s, shape=None, mode="auto", permutation=None):
+        return self._apply(s, self._cypher, shape=shape, mode=mode, permutation=permutation)
+
     def decypher(self, s, shape=None, mode="auto", permutation=None):
-        x = toolbox.Shaper.to_matrix(s, shape=shape, mode=mode)
-        x = x.reshape(tuple(reversed(x.shape)))
-        r = self._decypher(x, shape=shape, mode=mode, permutation=permutation)
-        r = toolbox.Shaper.to_str(r).rstrip()
-        settings.logger.debug("{}.{}('{}') -> '{}'".format(self, "_decypher", s, r))
-        return r
+        return self._apply(s, self._decypher, shape=shape, mode=mode, permutation=permutation)
+
+
+class GenericPermutationShapeCypher(GenericShapeCypher):
+
+    def __init__(self, permutation, shape, padding=" "):
+        super().__init__(shape=shape, padding=padding)
+        self._permutation = permutation
+
+    def __str__(self):
+        return "<{} permutation={} shape={} padding='{}'>".format(self.__class__.__name__, self.permutation,
+                                                                  self.shape, self.padding)
+
+    @property
+    def permutation(self):
+        return self._permutation
 
 
 class GenericCodexCypher(GenericCypher):

@@ -1,14 +1,15 @@
 import sys
 
 import numpy as np
+import pandas as pd
 
-from pysgrs.interfaces.cypher import GenericShapeCypher
+from pysgrs import cyphers
 from pysgrs.toolbox import Shaper
 from pysgrs import errors
 from pysgrs.settings import settings
 
 
-class TranspositionCypher(GenericShapeCypher):
+class TranspositionCypher(cyphers.GenericShapeCypher):
 
     def __init__(self, shape=None, padding=" "):
         super().__init__(shape=shape, padding=padding)
@@ -17,44 +18,52 @@ class TranspositionCypher(GenericShapeCypher):
         return x.T
 
     def _decypher(self, x, **kwargs):
-        #return x.T
-        return self._cypher(x, **kwargs)
+        #return self._cypher(x, **kwargs)
+        return x.reshape(tuple(reversed(x.shape))).T
 
 
-class ColumnPermutationCypher(GenericShapeCypher):
+class ColumnPermutationCypher(cyphers.GenericPermutationShapeCypher):
 
-    def _cypher(self, s, permutation=None, shape=None, mode="auto"):
-        return s
+    def _cypher(self, x, **kwargs):
+        return pd.DataFrame(x).iloc[:, self.permutation].values
 
-    def _decypher(self, s, permutation=None, shape=None, mode="auto"):
-        return s
-
-
-class RowPermutationCypher(GenericShapeCypher):
-
-    def _cypher(self, s, permutation=None, shape=None, mode="auto"):
-        return s
-
-    def _decypher(self, s, permutation=None, shape=None, mode="auto"):
-        return s
+    def _decypher(self, x, **kwargs):
+        return pd.DataFrame(x).iloc[:, np.argsort(self.permutation)].values
 
 
-class ColumnCycleCypher(GenericShapeCypher):
+class RowPermutationCypher(cyphers.GenericPermutationShapeCypher):
 
-    def _cypher(self, s, permutation=None, shape=None, mode="auto"):
-        return s
+    def _cypher(self, x, **kwargs):
+        return pd.DataFrame(x).iloc[self.permutation, :].values
 
-    def _decypher(self, s, permutation=None, shape=None, mode="auto"):
-        return s
+    def _decypher(self, x, **kwargs):
+        return pd.DataFrame(x).iloc[np.argsort(self.permutation), :].values
 
 
-class RowCycleCypher(GenericShapeCypher):
+class ColumnCycleCypher(cyphers.GenericPermutationShapeCypher):
 
-    def _cypher(self, s, permutation=None, shape=None, mode="auto"):
-        return s
+    def _cypher(self, x, **kwargs):
+        for i, n in enumerate(self.permutation):
+            x[:, i] = np.roll(x[:, i], n)
+        return x
 
-    def _decypher(self, s, permutation=None, shape=None, mode="auto"):
-        return s
+    def _decypher(self, x, **kwargs):
+        for i, n in enumerate(self.permutation):
+            x[:, i] = np.roll(x[:, i], -n)
+        return x
+
+
+class RowCycleCypher(cyphers.GenericPermutationShapeCypher):
+
+    def _cypher(self, x, **kwargs):
+        for i, n in enumerate(self.permutation):
+            x[i, :] = np.roll(x[i, :], n)
+        return x
+
+    def _decypher(self, x, **kwargs):
+        for i, n in enumerate(self.permutation):
+            x[i, :] = np.roll(x[i, :], -n)
+        return x
 
 
 def main():
