@@ -5,6 +5,7 @@ import numpy as np
 
 from pysgrs.tests.test_cypher import TestStreamCypher
 from pysgrs import cyphers
+from pysgrs import toolbox
 
 
 class TestTranspositionCypher(TestStreamCypher, unittest.TestCase):
