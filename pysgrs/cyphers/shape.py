@@ -29,6 +29,24 @@ class TranspositionCypher(GenericShapeCypher):
         return r
 
 
+class ColumnPermutationCypher(GenericShapeCypher):
+
+    def cypher(self, s, permutation, shape=None, mode="auto"):
+        pass
+
+    def decypher(self, s, permutation, shape=None, mode="auto"):
+        pass
+
+
+class RowPermutationCypher(GenericShapeCypher):
+
+    def cypher(self, s, permutation, shape=None, mode="auto"):
+        pass
+
+    def decypher(self, s, permutation, shape=None, mode="auto"):
+        pass
+
+
 def main():
     sys.exit(0)
 

@@ -10,7 +10,24 @@ class TestTranspositionCypher(TestStreamCypher, unittest.TestCase):
     cypher = cyphers.TranspositionCypher()
     cyphers = [
         "AGMSYBHNTZCIOU DJPV EKQW FLRX"
-   ]
+    ]
+
+
+class TestColumnPermutationCypher(TestStreamCypher, unittest.TestCase):
+
+    cypher = cyphers.ColumnPermutationCypher()
+    cyphers = [
+        "AGMSYBHNTZCIOU DJPV EKQW FLRX"
+    ]
+
+
+class TestRowPermutationCypher(TestStreamCypher, unittest.TestCase):
+
+    cypher = cyphers.RowPermutationCypher()
+    cyphers = [
+        "AGMSYBHNTZCIOU DJPV EKQW FLRX"
+    ]
+
 
 
 def main():

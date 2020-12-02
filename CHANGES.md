@@ -5,13 +5,13 @@
  - [ ] Add Braille alphabet
  - [ ] Create iterator to consume string with variable length symbols (Morse)
  - [ ] Create parametric cleanser (can be disabled) to remove accents and uniformize special chars ('´)
-
  - [ ] Iterate all smallest rectangle able to contains text
  - [ ] Assess the needs to create ReversibleCypher class
  - [ ] Need a good and well designed toolbox for iterators, number theory (gcd, modinv)
  - [ ] Column and row shuffling
  - [ ] Pandas manipulations, reshape, squeeze
  - [ ] Create a factory for frequency mapping
+ - [ ] Make Shape cyphers standards about shape selection and create an _apply method
 
 ## PySGRS v0.0.x
 
