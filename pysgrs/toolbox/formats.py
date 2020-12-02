@@ -78,6 +78,7 @@ class Shaper:
     def to_str(x):
         return "".join(Shaper.to_vector(x))
 
+
 def main():
     sys.exit(0)
 

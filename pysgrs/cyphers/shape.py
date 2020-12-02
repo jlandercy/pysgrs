@@ -22,38 +22,38 @@ class TranspositionCypher(GenericShapeCypher):
 
 class ColumnPermutationCypher(GenericShapeCypher):
 
-    def _cypher(self, s, permutation, shape=None, mode="auto"):
-        pass
+    def _cypher(self, s, permutation=None, shape=None, mode="auto"):
+        return s
 
-    def _decypher(self, s, permutation, shape=None, mode="auto"):
-        pass
+    def _decypher(self, s, permutation=None, shape=None, mode="auto"):
+        return s
 
 
 class RowPermutationCypher(GenericShapeCypher):
 
-    def _cypher(self, s, permutation, shape=None, mode="auto"):
-        pass
+    def _cypher(self, s, permutation=None, shape=None, mode="auto"):
+        return s
 
-    def _decypher(self, s, permutation, shape=None, mode="auto"):
-        pass
+    def _decypher(self, s, permutation=None, shape=None, mode="auto"):
+        return s
 
 
 class ColumnCycleCypher(GenericShapeCypher):
 
-    def _cypher(self, s, permutation, shape=None, mode="auto"):
-        pass
+    def _cypher(self, s, permutation=None, shape=None, mode="auto"):
+        return s
 
-    def _decypher(self, s, permutation, shape=None, mode="auto"):
-        pass
+    def _decypher(self, s, permutation=None, shape=None, mode="auto"):
+        return s
 
 
 class RowCycleCypher(GenericShapeCypher):
 
-    def _cypher(self, s, permutation, shape=None, mode="auto"):
-        pass
+    def _cypher(self, s, permutation=None, shape=None, mode="auto"):
+        return s
 
-    def _decypher(self, s, permutation, shape=None, mode="auto"):
-        pass
+    def _decypher(self, s, permutation=None, shape=None, mode="auto"):
+        return s
 
 
 def main():

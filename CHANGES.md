@@ -15,6 +15,7 @@
 
 ## PySGRS v0.0.x
 
+- [x] `v0.0.15`: **`2020-12-02`**: `update`: Refactored Shape cypher to include more cyphers
 - [x] `v0.0.14`: **`2020-11-30`**: `add`: Added ASCII alphabet
   - [x] Prevent using non natural alphabet on cypher requiring it;
   - [x] Added toolbox: Shaper, ModularArithmetic, Frequency;
