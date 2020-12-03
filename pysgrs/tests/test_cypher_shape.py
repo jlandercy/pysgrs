@@ -42,7 +42,7 @@ class TestColumnCycleCypher(TestStreamCypher, unittest.TestCase):
 
 class TestRowCycleCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.RowCycleCypher(shape=(11, 10), permutation=np.arange(10))
+    cypher = cyphers.RowCycleCypher(shape=(11, 10), permutation=np.arange(11))
     cyphers = [
         "AGMSYBHNTZCIOU DJPV EKQW FLRX"
     ]

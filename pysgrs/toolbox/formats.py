@@ -61,16 +61,26 @@ class Shaper:
                 "Final size (n={}) must be greater or equal to string length ({})".format(n, len(s)))
 
     @staticmethod
-    def to_matrix(s, shape=None, mode="auto", padding=" "):
+    def to_matrix(s, shape=None, mode="auto", padding=" ", row_separator="\n"):
         shape = shape or Shaper.get_shapes(len(s), shape=shape).loc[mode, "shape"]
         if isinstance(s, str):
-            n = np.prod(shape)
-            s = Shaper.pad(s, n, padding=padding)
-            x = np.array(list(s))
+            if row_separator in s:
+                x = s.split(row_separator)
+                x[-1] = Shaper.pad(x[-1], len(x[0]), padding=padding)
+                x = [list(t) for t in x]
+                if not all([len(s) == len(x[0]) for s in x]):
+                    raise errors.IllegalParameter(
+                        "All rows must have the same length unless the last which may be padded")
+            else:
+                n = np.prod(shape)
+                s = Shaper.pad(s, n, padding=padding)
+                x = list(s)
+            x = np.array(x)
         elif isinstance(s, Iterable):
-            x = np.array(s).squeeze()
+            x = np.array(s)
         else:
             raise errors.IllegalParameter("String or array expected, received {} instead".format(type(s)))
+        x = x.squeeze()
         if len(x.shape) < 2:
             x = x.reshape(shape)
         return x
