@@ -10,22 +10,6 @@ from pysgrs import settings
 
 class TestFormatShaper(unittest.TestCase):
 
-    sentences = [
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-        "ABCDE\nFGHIJ\nKLMNO\nPQRST\nUVWXY\nZ",
-        "ABCDE\nFGHIJ\nKLMNO\nPQRST\nUVWXY\nZ    ",
-    ]
-
-    def setUp(self):
-        self.shaper = toolbox.Shaper
-
-    def test_to_matrix(self):
-        for sentence in self.sentences:
-            r = self.shaper.to_matrix(sentence)
-
-
-class TestFormatShaperInputsOutputs(unittest.TestCase):
-
     def setUp(self):
         self.shaper = toolbox.Shaper
 
