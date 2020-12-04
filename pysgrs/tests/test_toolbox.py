@@ -24,6 +24,16 @@ class TestFormatShaper(unittest.TestCase):
             print(r)
 
 
+class TestFormatShaperSpecialCase(unittest.TestCase):
+
+    def setUp(self):
+        self.shaper = toolbox.Shaper
+
+    def test_shape_string_auto_square(self):
+        x = self.shaper.to_matrix("ABCDEFGIH")
+        self.assertEqual((3, 3), x.shape)
+
+
 def main():
     unittest.main()
     sys.exit(0)

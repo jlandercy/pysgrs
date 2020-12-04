@@ -62,8 +62,9 @@ class Shaper:
 
     @staticmethod
     def to_matrix(s, shape=None, mode="auto", padding=" ", row_separator="\n"):
-        shape = shape or Shaper.get_shapes(len(s), shape=shape).loc[mode, "shape"]
         if isinstance(s, str):
+            if shape:
+                s = s.replace(row_separator, "")
             if row_separator in s:
                 x = s.split(row_separator)
                 x[-1] = Shaper.pad(x[-1], len(x[0]), padding=padding)
@@ -72,6 +73,7 @@ class Shaper:
                     raise errors.IllegalParameter(
                         "All rows must have the same length unless the last which may be padded")
             else:
+                shape = shape or Shaper.get_shapes(len(s), shape=shape).loc[mode, "shape"]
                 n = np.prod(shape)
                 s = Shaper.pad(s, n, padding=padding)
                 x = list(s)
