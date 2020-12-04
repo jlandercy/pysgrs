@@ -29,7 +29,10 @@ class Shaper:
             {"id": "max-square", "shape": (mmax, mmax)},
         ]
         if shape:
-            shapes.append({"id": "user", "shape": shape})
+            modekey = "user"
+            shapes.append({"id": modekey, "shape": shape})
+        else:
+            modekey = "auto"
         for i in range(2, n):
             shapes.append({"id": "rect-{:d}".format(i), "shape": (i, int(np.ceil(n/i)))})
         df = pd.DataFrame(shapes)
@@ -44,10 +47,7 @@ class Shaper:
         df.loc["auto", :] = df.loc[(df["score"] > 0) & (df.index.str.contains("-square|-rect")), :].iloc[0, :]
         df = df.sort_values(["score", "padding", "shape_diff"])
 
-        if shape:
-            settings.logger.debug("Shaper: user={}".format(df.loc["user"].to_dict()))
-        else:
-            settings.logger.debug("Shaper: auto={}".format(df.loc["auto"].to_dict()))
+        settings.logger.debug("Shaper: {}={}".format(modekey, df.loc[modekey].to_dict()))
 
         return df
 
@@ -55,6 +55,7 @@ class Shaper:
     def pad(s, n, padding=" "):
         m = n - len(s)
         if m >= 0:
+            settings.logger.debug("Shaper: {}-pad string of length {} with '{}'".format(m, len(s), padding))
             return s + padding*m
         else:
             raise errors.IllegalParameter(
@@ -82,9 +83,9 @@ class Shaper:
             x = np.array(s)
         else:
             raise errors.IllegalParameter("String or array expected, received {} instead".format(type(s)))
-        x = x.squeeze()
-        if len(x.shape) < 2:
+        if len(x.shape) < 2 or shape:
             x = x.reshape(shape)
+        settings.logger.debug("Shaper: {} of size {} shaped to {}-matrix.".format(type(s), len(s), x.shape))
         return x
 
     @staticmethod
