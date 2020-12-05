@@ -4,21 +4,22 @@
 
  - [ ] Add Braille alphabet
  - [ ] Create parametric cleanser (can be disabled) to remove accents and uniformize special chars ('´)
- - [ ] Iterate all smallest rectangle able to contains text
+ - [x] Iterate all smallest rectangle able to contains text
  - [ ] Assess the needs to create ReversibleCypher class
- - [ ] Need a good and well designed toolbox for iterators, number theory (gcd, modinv)
+ - [x] Need a good and well-designed toolbox for iterators, number theory (gcd, modinv)
  - [ ] Column and row shuffling
- - [ ] Pandas manipulations, reshape, squeeze
+ - [x] Pandas manipulations, reshape, squeeze
  - [ ] Create a factory for frequency mapping
  - [ ] Make Shape cyphers standards about shape selection and create an _apply method
  - [ ] Consider the need to create a Message object (CypherMessage and ClearMessage) holding necessary properties
    (as alphabet, shape, separators, specials chars, etc.) and helping to discriminate among forms (str, block, vector and matrix)
  - [ ] Challenge your library against previous SGRS quiz with answers
+ - [ ] Properly document function as soon as you fixed the interface
 
 ## PySGRS v0.0.x
 
-- [x] `v0.0.16`: **`2020-12-05`**: `add`: Added parser for Morse and Bacon Cyphers with no separator
-  - [x] Created iterator to consume string with variable length symbols and no separator;
+- [x] `v0.0.16`: **`2020-12-05`**: `add`: Added parser for Morse and Bacon Cyphers without separator
+  - [x] Created iterator to consume string with variable length symbols;
 - [x] `v0.0.15`: **`2020-12-02`**: `update`: Refactored Shape cypher to include more cyphers
 - [x] `v0.0.14`: **`2020-11-30`**: `add`: Added ASCII alphabet
   - [x] Prevent using non natural alphabet on cypher requiring it;
