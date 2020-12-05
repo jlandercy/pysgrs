@@ -8,7 +8,7 @@ from pysgrs.tests.test_alphabet import TestAlphabet
 
 class TestSimpleAlphabet(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.SimpleAlphabet()
+    alphabet = alphabets.BasicAlphabet()
 
 
 class TestNaturalAsciiAlphabet(TestAlphabet, unittest.TestCase):

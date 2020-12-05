@@ -32,7 +32,7 @@ class GenericAlphabetCypher(GenericCypher):
     def __init__(self, alphabet=None, key=None):
 
         if alphabet is None:
-            self._alphabet = alphabets.SimpleAlphabet()
+            self._alphabet = alphabets.BasicAlphabet()
         else:
             if isinstance(alphabet, alphabets.GenericAlphabet):
                 self._alphabet = alphabet

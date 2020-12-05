@@ -44,7 +44,7 @@ class AsciiAlphabet(alphabets.GenericIntegerAlphabet):
             raise errors.IllegalAlphabetIndex("Index <{}> outside allowed range of {}".format(k, self))
 
 
-class SimpleAlphabet(AsciiAlphabet):
+class BasicAlphabet(AsciiAlphabet):
 
     def __init__(self):
         super().__init__(offset=65, size=26, natural=True)
