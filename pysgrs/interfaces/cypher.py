@@ -170,13 +170,9 @@ class GenericShapeCypher(GenericCypher):
         pass
 
     def _apply(self, s, f, shape=None, mode="auto", permutation=None):
-        print(s)
         x = toolbox.Shaper.to_matrix(s, shape=shape or self.shape, mode=mode)
-        print(x)
         r = f(x, shape=shape, mode=mode, permutation=permutation)
-        print(r)
         r = toolbox.Shaper.to_str(r).rstrip()
-        print(r)
         settings.logger.debug("{}.{}('{}') -> '{}'".format(self, f.__name__, s, r))
         return r
 
