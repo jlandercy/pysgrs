@@ -45,6 +45,14 @@ class TestStreamCypher:
             self.assertEqual(sentence, self.cypher.decypher(cypher))
 
 
+class TestShapeCypher(TestStreamCypher):
+
+    sentences = [
+        "ABCDEFGHIKLMNOPQRSTUVWXYZ",
+        #"ABCDE\nFGHIK\nLMNOP\nQRSTU\nVWXYZ"
+    ]
+
+
 def main():
     unittest.main()
     sys.exit(0)

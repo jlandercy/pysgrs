@@ -3,48 +3,48 @@ import unittest
 
 import numpy as np
 
-from pysgrs.tests.test_cypher import TestStreamCypher
+from pysgrs.tests.test_cypher import TestShapeCypher
 from pysgrs import cyphers
 from pysgrs import toolbox
 
 
-class TestTranspositionCypher(TestStreamCypher, unittest.TestCase):
+class TestTranspositionCypher(TestShapeCypher, unittest.TestCase):
 
-    cypher = cyphers.TranspositionCypher()
+    cypher = cyphers.TranspositionCypher(shape=(5, 5))
     cyphers = [
-        "AGMSYBHNTZCIOU DJPV EKQW FLRX"
+        "AFLQVBGMRWCHNSXDIOTYEKPUZ",
     ]
 
 
-class TestColumnPermutationCypher(TestStreamCypher, unittest.TestCase):
+class TestColumnPermutationCypherIdentity(TestShapeCypher, unittest.TestCase):
 
-    cypher = cyphers.ColumnPermutationCypher(shape=(11, 10), permutation=np.arange(10))
+    cypher = cyphers.ColumnPermutationCypher(shape=(5, 5), permutation=np.arange(5))
     cyphers = [
-        "AGMSYBHNTZCIOU DJPV EKQW FLRX"
+        "ABCDEFGHIKLMNOPQRSTUVWXYZ",
     ]
 
 
-class TestRowPermutationCypher(TestStreamCypher, unittest.TestCase):
+class TestRowPermutationCypherIdentity(TestShapeCypher, unittest.TestCase):
 
-    cypher = cyphers.RowPermutationCypher(shape=(11, 10), permutation=np.arange(11))
+    cypher = cyphers.RowPermutationCypher(shape=(5, 5), permutation=np.arange(5))
     cyphers = [
-        "AGMSYBHNTZCIOU DJPV EKQW FLRX"
+        "ABCDEFGHIKLMNOPQRSTUVWXYZ",
     ]
 
 
-class TestColumnCycleCypher(TestStreamCypher, unittest.TestCase):
+class TestColumnCycleCypherIdentity(TestShapeCypher, unittest.TestCase):
 
-    cypher = cyphers.ColumnCycleCypher(shape=(11, 10), permutation=np.arange(10))
+    cypher = cyphers.ColumnCycleCypher(shape=(5, 5), permutation=np.zeros(5))
     cyphers = [
-        "AGMSYBHNTZCIOU DJPV EKQW FLRX"
+        "ABCDEFGHIKLMNOPQRSTUVWXYZ",
     ]
 
 
-class TestRowCycleCypher(TestStreamCypher, unittest.TestCase):
+class TestRowCycleCypherIdentity(TestShapeCypher, unittest.TestCase):
 
-    cypher = cyphers.RowCycleCypher(shape=(11, 10), permutation=np.arange(11))
+    cypher = cyphers.RowCycleCypher(shape=(5, 5), permutation=np.zeros(5))
     cyphers = [
-        "AGMSYBHNTZCIOU DJPV EKQW FLRX"
+        "ABCDEFGHIKLMNOPQRSTUVWXYZ",
     ]
 
 
