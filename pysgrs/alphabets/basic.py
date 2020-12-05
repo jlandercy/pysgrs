@@ -8,13 +8,14 @@ from pysgrs.settings import settings
 class AsciiAlphabet(alphabets.GenericIntegerAlphabet):
 
     def __init__(self, offset=32, size=95, natural=False):
+        symbols = "".join([chr(x + offset) for x in range(size)])
         if natural:
-            super().__init__("".join([chr(x + offset) for x in range(size)]))
+            super().__init__(symbols)
             self._offset = offset
             self._start = 0
             self._stop = size
         else:
-            super().__init__("".join([chr(x + offset) for x in range(size)]), indices=range(offset, offset + size))
+            super().__init__(symbols, indices=range(offset, offset + size))
             self._offset = 0
             self._start = offset
             self._stop = offset + size
