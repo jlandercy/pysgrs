@@ -8,6 +8,37 @@ from pysgrs import errors
 from pysgrs import settings
 
 
+class TestModularArithmetic(unittest.TestCase):
+
+    gcd_values = [
+        ((54, 24), 6),
+        ((12, 8), 4),
+        ((13, 17), 1),
+        ((60, 36), 12),
+        ((60, 32), 4),
+        ((60, 30), 30),
+    ]
+
+    modinv_values = [
+        ((3504, 385), 79),
+        ((8, 5), 2),
+        ((29, 7), 1),
+        ((67, 13), 7),
+    ]
+
+    def test_gcd(self):
+        for value in self.gcd_values:
+            self.assertEqual(value[1], toolbox.ModularArithmetic.gcd(*value[0]))
+
+    def test_egcd(self):
+        for value in self.gcd_values:
+            self.assertEqual(value[1], toolbox.ModularArithmetic.egcd(*value[0])[0])
+
+    def test_modinv(self):
+        for value in self.modinv_values:
+            self.assertEqual(value[1], toolbox.ModularArithmetic.modinv(*value[0]))
+
+
 class TestFormatShaper(unittest.TestCase):
 
     def setUp(self):
