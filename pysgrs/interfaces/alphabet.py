@@ -207,6 +207,19 @@ class GenericStringAlphabet(GenericMixedAlphabet):
     def is_index_size_constant(self):
         return self.index_min_size == self.index_max_size
 
+    def parse(self, s, max_length=128):
+        if max_length <= 0:
+            return
+        for size in range(self.index_min_size, self.index_max_size + 1):
+            c = s[:size]
+            if c not in self.indices:
+                continue
+            t = s[size:]
+            if not t:
+                yield self.symbol(c)
+            for u in self.parse(t, max_length - 1):
+                yield self.symbol(c) + u
+
 
 def main():
     sys.exit(0)
