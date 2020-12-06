@@ -46,7 +46,23 @@ class TestCaesarStreamCypher(TestStreamCypher, unittest.TestCase):
 
     cypher = cyphers.CaesarCypher()
     cyphers = [
-        "DEFGHIJKLMNOPQRSTUVWXYZABC"
+        "DEFGHIJKLMNOPQRSTUVWXYZABC",
+        "CBAZYXWVUTSRQPONMLKJIHGFED",
+        "WKHTXLFNEURZQIRAMXPSVRYHUWKHODCBGRJ",
+        "ZDOWCEDGQBPSKIRUTXLFNMLJVYHA",
+        "MLYHGIRAQBPSKJUDEVTXLFNZDOWC",
+        "JOLEMRFNVTXLCQBPSKWRYHAGZDUI",
+        "VSKLQARIEODFNTXDUWCMXGJHPBYRZ",
+        "KRZYHALQJOBTXLFNGDIWCHEUDVMXPS",
+        "WKHILYHERALQJZLCDUGVMXPSTXLFNOB",
+        "MDFNGDZVORYHPBELJVSKLQARITXDUWC",
+        "SDFNPBERAZLWKILYHGRCHQOLTXRUMXJV",
+        "Olyh dv li brx zhuh wr glh wrpruurz. Ohduq dv li brx zhuh wr olyh iruhyhu.",
+        "Eh zkr brx duh dqg vdb zkdw brx ihho, ehfdxvh wkrvh zkr plqg grq’w pdwwhu dqg wkrvh zkr pdwwhu grq’w plqg.",
+        "Li brx fdqqrw gr juhdw wklqjv, gr vpdoo wklqjv lq d juhdw zdb.",
+        "Zlvh phq vshdn ehfdxvh wkhb kdyh vrphwklqj wr vdb; irrov ehfdxvh wkhb kdyh wr vdb vrphwklqj.",
+        "Jdjd Jrxjrx Jrxjrx Gdgd",
+        "Txdwuh mrxuqdxa krvwlohv vrqw soxv d fudlqguh txh plooh edlrqqhwwhv.", # This one is a bit ironic!
     ]
 
 
@@ -58,15 +74,13 @@ class TestReversedStreamCypher(TestStreamCypher, unittest.TestCase):
     ]
 
 
-# class TestAlphabetStreamCypher(TestStreamCypher, unittest.TestCase):
-#
-#     cypher = cyphers.AlphabetCypher(
-#         alphabet=alphabets.GenericStringAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-#                                                  indices="DEFGHIJKLMNOPQRSTUVWXYZABC")
-#     )
-#     cyphers = [
-#         "ZYXWVUTSRQPONMLKJIHGFEDCBA"
-#     ]
+class TestAlphabetStreamCypher(TestStreamCypher, unittest.TestCase):
+
+    cypher = cyphers.AlphabetCypher(
+        alphabet=alphabets.GenericStringAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                                                 indices="DEFGHIJKLMNOPQRSTUVWXYZABC")
+    )
+    cyphers = TestCaesarStreamCypher.cyphers
 
 
 class TestPermutationIdentityStreamCypher(TestStreamCypher, unittest.TestCase):

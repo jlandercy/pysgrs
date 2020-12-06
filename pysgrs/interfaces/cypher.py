@@ -24,45 +24,6 @@ class GenericCypher(abc.ABC):
         pass
 
 
-class GenericAlphabetCypher(GenericCypher):
-
-    def __init__(self, alphabet=None, key=None):
-
-        if alphabet is None:
-            self._alphabet = alphabets.BasicAlphabet()
-        else:
-            if isinstance(alphabet, alphabets.GenericAlphabet):
-                self._alphabet = alphabet
-            else:
-                raise errors.IllegalParameter("Alphabet is required, received {} instead".format(type(alphabet)))
-
-        if key and not(key in self.alphabet):
-            raise errors.IllegalAlphabetIndex("Key '{}' cannot be expressed with {}".format(key, self.alphabet))
-        else:
-            self._key = key
-
-    def __str__(self):
-        if self.keysize > 0:
-            return "<{} keysize={} alphabet={}>".format(self.__class__.__name__, self.keysize, self.alphabet)
-        else:
-            return "<{} alphabet={}>".format(self.__class__.__name__, self.alphabet)
-
-    @property
-    def alphabet(self):
-        return self._alphabet
-
-    @property
-    def key(self):
-        return self._key
-
-    @property
-    def keysize(self):
-        if self.key is None:
-            return 0
-        else:
-            return len(self.key)
-
-
 class GenericFunctionalCypher(GenericCypher):
 
     @abc.abstractmethod
@@ -107,6 +68,45 @@ class GenericStreamCypher(GenericFunctionalCypher):
         r = "".join(r)
         settings.logger.debug("{}.{}('{}') -> '{}'".format(self, f.__name__, s, r))
         return r
+
+
+class GenericAlphabetCypher(GenericCypher):
+
+    def __init__(self, alphabet=None, key=None):
+
+        if alphabet is None:
+            self._alphabet = alphabets.BasicAlphabet()
+        else:
+            if isinstance(alphabet, alphabets.GenericAlphabet):
+                self._alphabet = alphabet
+            else:
+                raise errors.IllegalParameter("Alphabet is required, received {} instead".format(type(alphabet)))
+
+        if key and not(key in self.alphabet):
+            raise errors.IllegalAlphabetIndex("Key '{}' cannot be expressed with {}".format(key, self.alphabet))
+        else:
+            self._key = key
+
+    def __str__(self):
+        if self.keysize > 0:
+            return "<{} keysize={} alphabet={}>".format(self.__class__.__name__, self.keysize, self.alphabet)
+        else:
+            return "<{} alphabet={}>".format(self.__class__.__name__, self.alphabet)
+
+    @property
+    def alphabet(self):
+        return self._alphabet
+
+    @property
+    def key(self):
+        return self._key
+
+    @property
+    def keysize(self):
+        if self.key is None:
+            return 0
+        else:
+            return len(self.key)
 
 
 class GenericAlphabetStreamCypher(GenericAlphabetCypher, GenericStreamCypher):

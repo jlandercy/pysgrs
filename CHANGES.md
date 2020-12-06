@@ -18,7 +18,10 @@
 
 ## PySGRS v0.0.x
 
-- [x] `v0.0.17`: **`2020-12-05`**: `add`: Added new tools for Crypto Analysis:
+- [x] `v0.0.18`: **`2020-12-06`**: `updated+add`: Updated Cyphers model and added Cypher
+  - [x] Refactored Cypher model to make distinction between Functional, Stream, Alphabet and IntegerAlphabet cyphers;
+  - [x] Added non constrained Alphabet cypher (making Alphabet encode/decode mapped to cypher/decypher);
+- [x] `v0.0.17`: **`2020-12-06`**: `add`: Added new tools for Crypto Analysis:
   - [x] Created cleanser for accents, punctuation and special chars, added tests;
   - [x] Create Frequency Analyser, added public domain french books.
 - [x] `v0.0.16`: **`2020-12-05`**: `add`: Added parser for Morse and Bacon Cyphers without separator

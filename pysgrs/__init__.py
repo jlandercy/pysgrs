@@ -5,7 +5,7 @@ from pysgrs.alphabets import *
 from pysgrs.cyphers import *
 #from pysgrs.toolbox import *
 
-__version__ = "0.0.17"
+__version__ = "0.0.18"
 
 warnings.simplefilter("always")
 

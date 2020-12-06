@@ -43,20 +43,16 @@ class ReversedCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):
         return self.alphabet.symbol(self.alphabet.size - self.alphabet.index(c) - 1)
 
 
-# class AlphabetCypher(cypher.GenericAlphabetCypher):
-#
-#     def __init__(self, alphabet=None, auto=False):
-#         super().__init__(alphabet=alphabet)
-#
-#     @property
-#     def permutations(self):
-#         return self._permutations
-#
-#     def _cypher(self, c, k=None):
-#         return self.alphabet.symbol(self.permutations[self.alphabet.index(c)])
-#
-#     def _decypher(self, c, k=None):
-#         return self.alphabet.symbol(self.permutations.index(self.alphabet.index(c)))
+class AlphabetCypher(cypher.GenericAlphabetStreamCypher):
+
+    def __init__(self, alphabet=None):
+        super().__init__(alphabet=alphabet)
+
+    def _cypher(self, c, k=None):
+        return self.alphabet.index(c)
+
+    def _decypher(self, c, k=None):
+        return self.alphabet.symbol(c)
 
 
 class PermutationCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):
