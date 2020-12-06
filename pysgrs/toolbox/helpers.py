@@ -75,7 +75,9 @@ class FrequencyAnalyzer:
         frequencies = []
         for counter in counters:
             df = pd.DataFrame.from_dict(dict(counter), orient="index", columns=["count"])
-            df["frequency"] = df["count"]/df["count"].sum()
+            n = df["count"].sum()
+            df["frequency"] = df["count"]/n
+            df["coincidence"] = df.shape[0]*df["count"]*(df["count"] - 1)/(n*(n-1))
             df = df.sort_values("frequency", ascending=False)
             frequencies.append(df)
         return frequencies
