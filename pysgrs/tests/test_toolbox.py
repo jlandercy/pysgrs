@@ -84,7 +84,7 @@ class TestFormatShaper(unittest.TestCase):
             self.assertEqual((i+1, 6), x.shape)
 
 
-class TestHelperCleaner(unittest.TestCase):
+class TestHelperCleanerStripAccents(unittest.TestCase):
 
     sentences = [
         ("áàâäã", "aaaaa"),
@@ -95,10 +95,24 @@ class TestHelperCleaner(unittest.TestCase):
         ("ç", "c")
     ]
 
-    def test_strip_accents(self):
+    def test_sentence_cleaning(self):
         for sentence in self.sentences:
             self.assertEqual(sentence[1], toolbox.Cleaner.strip_accents(sentence[0]))
             self.assertEqual(sentence[1].upper(), toolbox.Cleaner.strip_accents(sentence[0].upper()))
+
+
+class TestHelperCleanerRemovePunctuation(unittest.TestCase):
+
+    sentences = [
+        ("Cette phrase - bien qu'ennuyeuse - sert de test: vous pouvez vérifiez!",
+         "Cette phrase bien qu ennuyeuse sert de test vous pouvez vérifiez"),
+        ("Les  espaces ne sont: pas:forcement bien mis  , allez savoir après,plusieurs!manipulations",
+         "Les espaces ne sont pas forcement bien mis allez savoir après plusieurs manipulations")
+    ]
+
+    def test_sentence_cleaning(self):
+        for sentence in self.sentences:
+            self.assertEqual(sentence[1], toolbox.Cleaner.remove_punctuation(sentence[0]))
 
 
 def main():
