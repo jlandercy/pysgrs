@@ -8,7 +8,7 @@ from pysgrs import errors
 class GenericAlphabet(abc.ABC):
 
     @abc.abstractmethod
-    def encode(self, s: str, **kwargs) -> str:
+    def encode(self, s: str) -> str:
         pass
 
     @abc.abstractmethod
@@ -40,7 +40,7 @@ class MixedAlphabet(GenericAlphabet):
         if isinstance(symbols, dict):
             x = []
             y = []
-            for k in sorted(symbols):
+            for k in symbols:
                 x.append(k)
                 y.append(symbols[k])
             symbols = "".join(x)
@@ -90,7 +90,7 @@ class MixedAlphabet(GenericAlphabet):
 
     @property
     def index_types(self):
-        return set([type(x) for x in self.indices])
+        return set(type(x) for x in self.indices)
 
     @property
     def is_index_mixed_types(self):
@@ -127,14 +127,14 @@ class MixedAlphabet(GenericAlphabet):
             #return self.indices[self.symbols.index(c)] # Value Error
             return self._symbols[c]
         except KeyError:
-            raise errors.IllegalAlphabetIndex("Cannot index with <{}> for {}".format(c, self))
+            raise errors.IllegalAlphabetIndex("Cannot index symbols with <{}> for {}".format(c, self))
 
     def symbol(self, k):
         try:
             #return self.symbols[self.indices.index(k)] # Value Error
             return self._indices[k]
         except KeyError:
-            raise errors.IllegalAlphabetIndex("Cannot index with <{}> for {}".format(k, self))
+            raise errors.IllegalAlphabetIndex("Cannot index indices with <{}> for {}".format(k, self))
 
     def contains(self, s):
         return all((c in self._symbols) for c in s)
