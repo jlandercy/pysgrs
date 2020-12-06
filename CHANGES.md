@@ -3,13 +3,13 @@
 ## To do
 
  - [ ] Add Braille alphabet
- - [ ] Create parametric cleanser (can be disabled) to remove accents and uniformize special chars ('´)
+ - [x] Create parametric cleanser (can be disabled) to remove accents and uniformize special chars ('´)
  - [x] Iterate all smallest rectangle able to contains text
  - [ ] Assess the needs to create ReversibleCypher class
  - [x] Need a good and well-designed toolbox for iterators, number theory (gcd, modinv)
  - [ ] Column and row shuffling
  - [x] Pandas manipulations, reshape, squeeze
- - [ ] Create a factory for frequency mapping
+ - [x] Create a factory for frequency mapping
  - [ ] Make Shape cyphers standards about shape selection and create an _apply method
  - [ ] Consider the need to create a Message object (CypherMessage and ClearMessage) holding necessary properties
    (as alphabet, shape, separators, specials chars, etc.) and helping to discriminate among forms (str, block, vector and matrix)
@@ -18,6 +18,9 @@
 
 ## PySGRS v0.0.x
 
+- [x] `v0.0.17`: **`2020-12-05`**: `add`: Added new tools for Crypto Analysis:
+  - [x] Created cleanser for accents, punctuation and special chars, added tests;
+  - [x] Create Frequency Analyser, added public domain french books.
 - [x] `v0.0.16`: **`2020-12-05`**: `add`: Added parser for Morse and Bacon Cyphers without separator
   - [x] Created iterator to consume string with variable length symbols;
 - [x] `v0.0.15`: **`2020-12-02`**: `update`: Refactored Shape cypher to include more cyphers

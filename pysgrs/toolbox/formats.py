@@ -59,7 +59,7 @@ class Shaper:
             return s + padding*m
         else:
             raise errors.IllegalParameter(
-                "Final size (n={}) must be greater or equal to string length ({})".format(n, len(s)))
+                "Final size (max_ngram={}) must be greater or equal to string length ({})".format(n, len(s)))
 
     @staticmethod
     def to_matrix(s, shape=None, mode="auto", padding=" ", row_separator="\n"):

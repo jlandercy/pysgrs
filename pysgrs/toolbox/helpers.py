@@ -37,11 +37,11 @@ class Cleaner:
         return s
 
 
-class FrequencyAnalysis:
+class FrequencyAnalyzer:
 
     @staticmethod
-    def get_counts(source=None, n=3):
-        counters = [collections.Counter() for i in range(n)]
+    def get_counts(source=None, max_ngram=3):
+        counters = [collections.Counter() for i in range(max_ngram)]
         # Parse arguments:
         if source is None:
             return counters
@@ -51,9 +51,9 @@ class FrequencyAnalysis:
         elif isinstance(source, str):
             text = source
         elif isinstance(source, Iterable):
-            global_counters = FrequencyAnalysis.get_counts()
+            global_counters = FrequencyAnalyzer.get_counts()
             for path in source:
-                counters = FrequencyAnalysis.get_counts(path)
+                counters = FrequencyAnalyzer.get_counts(path)
                 for c0, c1 in zip(global_counters, counters):
                     c0 += c1
             settings.logger.debug("Analysed {} source(s): {}".format(len(source), global_counters))
@@ -67,7 +67,7 @@ class FrequencyAnalysis:
                 m = len(word)
                 for k, counter in enumerate(counters):
                     counter.update(word[i:i+k+1] for i in range(m-k))
-        settings.logger.debug("Analysed a single source '{}': {}".format(str(source), counters))
+        settings.logger.debug("Analysed source '{}': {}".format(str(source), counters))
         return counters
 
     @staticmethod
@@ -81,15 +81,16 @@ class FrequencyAnalysis:
         return frequencies
 
     @staticmethod
-    def analyze(source, n=3):
-        counts = FrequencyAnalysis.get_counts(source, n=n)
-        frequencies = FrequencyAnalysis.to_frequencies(counts)
+    def analyze(source=None, max_ngram=3, language="fr"):
+        if source is None:
+            source = list((settings.resources / "books/{}/".format(language)).glob("*.txt"))
+        counts = FrequencyAnalyzer.get_counts(source, max_ngram=max_ngram)
+        frequencies = FrequencyAnalyzer.to_frequencies(counts)
         return frequencies
 
 
 def main():
-    paths = list((settings.resources/"books/fr/").glob("*.txt"))
-    freqs = FrequencyAnalysis.analyze(paths)
+    freqs = FrequencyAnalyzer.analyze()
     for f in freqs:
         print(f.iloc[:500,:].reset_index().to_json(orient="records"))
 
