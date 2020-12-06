@@ -11,6 +11,7 @@ import pandas as pd
 
 from pysgrs.settings import settings
 from pysgrs import errors
+from pysgrs.toolbox.formats import Shaper
 
 
 class Cleaner:
@@ -89,6 +90,19 @@ class FrequencyAnalyzer:
         counts = FrequencyAnalyzer.get_counts(source, max_ngram=max_ngram)
         frequencies = FrequencyAnalyzer.to_frequencies(counts)
         return frequencies
+
+    @staticmethod
+    def keysize_coincidences(s, max_keysize=25):
+        code_size = len(s)
+        coincidences = []
+        for ncol in np.arange(1, max_keysize + 1):
+            nrow = int(np.ceil(code_size / ncol))
+            block = Shaper.to_matrix(s, shape=(nrow, ncol))
+            for k in np.arange(ncol):
+                column = Shaper.to_str(block[:, k])
+                coincidence = FrequencyAnalyzer.analyze(column, max_ngram=1)[0].sum()["coincidence"]
+                coincidences.append({"keysize": ncol, "column": k, "coincidence": coincidence})
+        return pd.DataFrame(coincidence)
 
 
 def main():
