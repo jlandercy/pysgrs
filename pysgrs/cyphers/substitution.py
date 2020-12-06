@@ -20,7 +20,7 @@ class AlphabetCypher(cypher.GenericAlphabetStreamCypher):
         return self.alphabet.symbol(c)
 
 
-class RotationCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):
+class RotationCypher(cypher.GenericNaturalAlphabetStreamCypher):
 
     def __init__(self, alphabet=None, offset=3):
         super().__init__(alphabet=alphabet)
@@ -43,7 +43,7 @@ class CaesarCypher(RotationCypher):
         super().__init__(alphabet=alphabet, offset=3)
 
 
-class ReversedCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):
+class ReversedCypher(cypher.GenericNaturalAlphabetStreamCypher):
 
     def __init__(self, alphabet=None):
         super().__init__(alphabet=alphabet)
@@ -55,7 +55,7 @@ class ReversedCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):
         return self.alphabet.symbol(self.alphabet.size - self.alphabet.index(c) - 1)
 
 
-class PermutationCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):
+class PermutationCypher(cypher.GenericNaturalAlphabetStreamCypher):
 
     def __init__(self, permutations=None, alphabet=None, auto=False):
         super().__init__(alphabet=alphabet)
@@ -89,7 +89,7 @@ class PermutationCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):
         return self.alphabet.symbol(self.permutations.index(self.alphabet.index(c)))
 
 
-class AffineCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):
+class AffineCypher(cypher.GenericNaturalAlphabetStreamCypher):
 
     def __init__(self, a=5, b=8, alphabet=None):
         super().__init__(alphabet=alphabet)

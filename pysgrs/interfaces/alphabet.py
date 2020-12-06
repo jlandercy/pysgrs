@@ -1,11 +1,19 @@
+import abc
 import sys
 import itertools
 
 from pysgrs import errors
 
 
-class GenericAlphabet:
-    pass
+class GenericAlphabet(abc.ABC):
+
+    @abc.abstractmethod
+    def encode(self):
+        pass
+
+    @abc.abstractmethod
+    def decode(self):
+        pass
 
 
 class GenericMixedAlphabet(GenericAlphabet):

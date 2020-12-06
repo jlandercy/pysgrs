@@ -143,7 +143,7 @@ class GenericIntegerAlphabetStreamCypher(GenericAlphabetStreamCypher):
             raise errors.IllegalCypherParameter("Generic Stream Cypher requires Integer Alphabet.")
 
 
-class GenericNaturalIntegerAlphabetStreamCypher(GenericIntegerAlphabetStreamCypher):
+class GenericNaturalAlphabetStreamCypher(GenericIntegerAlphabetStreamCypher):
 
     def __init__(self, alphabet=None, key=None):
         super().__init__(alphabet=alphabet, key=key)
