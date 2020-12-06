@@ -8,6 +8,18 @@ from pysgrs.toolbox import ModularArithmetic
 from pysgrs import errors
 
 
+class AlphabetCypher(cypher.GenericAlphabetStreamCypher):
+
+    def __init__(self, alphabet=None):
+        super().__init__(alphabet=alphabet)
+
+    def _cypher(self, c, k=None):
+        return self.alphabet.index(c)
+
+    def _decypher(self, c, k=None):
+        return self.alphabet.symbol(c)
+
+
 class RotationCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):
 
     def __init__(self, alphabet=None, offset=3):
@@ -41,18 +53,6 @@ class ReversedCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):
 
     def _decypher(self, c, k=None):
         return self.alphabet.symbol(self.alphabet.size - self.alphabet.index(c) - 1)
-
-
-class AlphabetCypher(cypher.GenericAlphabetStreamCypher):
-
-    def __init__(self, alphabet=None):
-        super().__init__(alphabet=alphabet)
-
-    def _cypher(self, c, k=None):
-        return self.alphabet.index(c)
-
-    def _decypher(self, c, k=None):
-        return self.alphabet.symbol(c)
 
 
 class PermutationCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):

@@ -15,6 +15,7 @@
    (as alphabet, shape, separators, specials chars, etc.) and helping to discriminate among forms (str, block, vector and matrix)
  - [ ] Challenge your library against previous SGRS quiz with answers
  - [ ] Properly document function as soon as you fixed the interface
+ - [ ] Raise error or warning if parse cannot consume completely the string
 
 ## PySGRS v0.0.x
 
