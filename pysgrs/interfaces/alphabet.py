@@ -8,11 +8,11 @@ from pysgrs import errors
 class GenericAlphabet(abc.ABC):
 
     @abc.abstractmethod
-    def encode(self):
+    def encode(self, s: str, **kwargs) -> str:
         pass
 
     @abc.abstractmethod
-    def decode(self):
+    def decode(self, s: str, **kwargs) -> str:
         pass
 
 
@@ -63,8 +63,13 @@ class MixedAlphabet(GenericAlphabet):
         if not len(symbols) == len(indices):
             raise errors.IllegalAlphabetParameter("Symbols and Indices must have the same number of elements")
 
-        self._symbols = symbols
-        self._indices = tuple(indices)
+        # Old interface: order was a priority before time complexity
+        #self._symbols = symbols
+        #self._indices = tuple(indices)
+
+        # Python 3.7+ preserve insertion order and allows to have index in O(1)
+        self._symbols = {c: k for (c, k) in zip(symbols, indices)}
+        self._indices = {k: c for (c, k) in zip(symbols, indices)}
 
     def __str__(self):
         if self.is_natural:
@@ -75,11 +80,13 @@ class MixedAlphabet(GenericAlphabet):
 
     @property
     def symbols(self):
-        return self._symbols
+        #return self._symbols
+        return "".join(self._symbols.keys())
 
     @property
     def indices(self):
-        return self._indices
+        # return self._indices
+        return tuple(self._indices.keys())
 
     @property
     def index_types(self):
@@ -117,25 +124,27 @@ class MixedAlphabet(GenericAlphabet):
 
     def index(self, c):
         try:
-            return self.indices[self.symbols.index(c)]
-        except ValueError:
+            #return self.indices[self.symbols.index(c)] # Value Error
+            return self._symbols[c]
+        except KeyError:
             raise errors.IllegalAlphabetIndex("Cannot index with <{}> for {}".format(c, self))
 
     def symbol(self, k):
         try:
-            return self.symbols[self.indices.index(k)]
-        except ValueError:
+            #return self.symbols[self.indices.index(k)] # Value Error
+            return self._indices[k]
+        except KeyError:
             raise errors.IllegalAlphabetIndex("Cannot index with <{}> for {}".format(k, self))
 
     def contains(self, s):
-        return all([(c in self.symbols) for c in s])
+        return all((c in self._symbols) for c in s)
 
     def __getitem__(self, item):
-        if (isinstance(item, str) and item in self.symbols) and item in self.indices:
+        if (isinstance(item, str) and item in self._symbols) and item in self._indices:
             raise errors.AmbiguousAlphabetIndex("Key <{}> is present in both symbols and indices".format(item))
-        elif isinstance(item, str) and item in self.symbols:
+        elif isinstance(item, str) and item in self._symbols:
             return self.index(item)
-        elif item in self.indices:
+        elif item in self._indices:
             return self.symbol(item)
         else:
             raise errors.IllegalAlphabetIndex("Key <{}> is not present in both symbols and indices".format(item))
