@@ -91,7 +91,7 @@ def main():
     paths = list((settings.resources/"books/fr/").glob("*.txt"))
     freqs = FrequencyAnalysis.analyze(paths)
     for f in freqs:
-        print(f)
+        print(f.iloc[:500,:].reset_index().to_json(orient="records"))
 
 
 if __name__ == "__main__":

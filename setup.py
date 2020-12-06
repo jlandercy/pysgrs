@@ -20,10 +20,15 @@ setup(
 
     packages=find_packages(exclude=[]),
     package_data={
-       _PACKAGE: ['resources/*']
+       _PACKAGE: [
+           'resources/*.json',
+           'resources/books/**/*.txt',
+           'resources/notebooks/*.ipynb',
+           'toolbox/resources/*.json'
+       ]
     },
     scripts=[],
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     install_requires=reqs,
     classifiers=[
          "Intended Audience :: Science/Research",
