@@ -106,8 +106,8 @@ class TestHelperCleanerRemovePunctuation(unittest.TestCase):
     sentences = [
         ("Cette phrase - bien qu'ennuyeuse - sert de test: vous pouvez vérifiez!",
          "Cette phrase bien qu ennuyeuse sert de test vous pouvez vérifiez"),
-        ("Les  espaces ne sont: pas:forcement bien mis  , allez savoir après,plusieurs!manipulations",
-         "Les espaces ne sont pas forcement bien mis allez savoir après plusieurs manipulations")
+        ("Les  espaces ne sont: pas:forcément bien mis  , allez savoir après,plusieurs!manipulations...",
+         "Les espaces ne sont pas forcément bien mis allez savoir après plusieurs manipulations")
     ]
 
     def test_sentence_cleaning(self):
