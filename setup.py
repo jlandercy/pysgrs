@@ -3,24 +3,23 @@ from setuptools import setup, find_packages
 
 from pysgrs import __version__
 
-_PATH = pathlib.Path(__file__).resolve().parents[0]
-_PACKAGE = _PATH.parts[-1]
+path = pathlib.Path(__file__).resolve().parents[0]
+package = path.parts[-1]
 
-with (_PATH/'requirements.txt').open() as fh:
-    reqs = fh.read().splitlines()
+with (path / 'requirements.txt').open() as file_handler:
+    requirements = file_handler.read().splitlines()
 
 setup(
-    name=_PACKAGE,
+    name=package,
     version=__version__,
-    url='https://github.com/jlandercy/{package:}'.format(package=_PACKAGE),
-    license='GPL v.3',
+    url='https://github.com/jlandercy/{package:}'.format(package=package),
+    license='BSD 3-Clause License',
     author='Jean Landercy',
     author_email='jeanlandercy@live.com',
-    description='Minimal Python 3 Package',
-
+    description='Pyhon SGRS Package',
     packages=find_packages(exclude=[]),
     package_data={
-       _PACKAGE: [
+       package: [
            'resources/*.json',
            'resources/books/**/*.txt',
            'resources/notebooks/*.ipynb',
@@ -29,15 +28,24 @@ setup(
     },
     scripts=[],
     python_requires='>=3.7',
-    install_requires=reqs,
+    install_requires=requirements,
     classifiers=[
-         "Intended Audience :: Science/Research",
-         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-         "Operating System :: OS Independent",
-         "Topic :: Scientific/Engineering",
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Science/Research",
+        "Intended Audience :: Education",
+        "License :: OSI Approved :: BSD License",
+        "Natural Language :: English",
+        "Natural Language :: French",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3.7",
+        "Topic :: Education",
+        "Topic :: Games/Entertainment :: Puzzle Games",
+        "Topic :: Security :: Cryptography",
+        "Topic :: Software Development",
+        "Topic :: Utilities"
     ],
     entry_points={
-        'console_scripts': ['{package:}={package:}.run:main'.format(package=_PACKAGE)]
+        'console_scripts': ['{package:}={package:}._new:main'.format(package=package)]
     },
     zip_safe=False,
 )

@@ -19,7 +19,8 @@
 
 ## PySGRS v0.0.x
 
-- [x] `v0.0.18`: **`2020-12-06`**: `updated+add`: Updated Cyphers model and added Cypher
+- [x] `v0.0.19`: **`2020-12-06`**: `update`: Changed Alphabet O(1) indexer from dictionary (requires Python3.7+) 
+- [x] `v0.0.18`: **`2020-12-06`**: `add+update`: Updated Cyphers model and added Cypher
   - [x] Refactored Cypher model to make distinction between Functional, Stream, Alphabet and IntegerAlphabet cyphers;
   - [x] Added non constrained Alphabet cypher (making Alphabet encode/decode mapped to cypher/decypher);
 - [x] `v0.0.17`: **`2020-12-06`**: `add`: Added new tools for Crypto Analysis:
