@@ -5,7 +5,7 @@ from pysgrs import errors
 from pysgrs.settings import settings
 
 
-class AsciiAlphabet(alphabets.GenericIntegerAlphabet):
+class AsciiAlphabet(alphabets.IntegerAlphabet):
 
     def __init__(self, offset=32, size=95, natural=False):
         symbols = "".join([chr(x + offset) for x in range(size)])
@@ -51,7 +51,7 @@ class BasicAlphabet(AsciiAlphabet):
         super().__init__(offset=65, size=26, natural=True)
 
 
-class BinaryAlphabet(alphabets.GenericIntegerAlphabet):
+class BinaryAlphabet(alphabets.IntegerAlphabet):
 
     def __init__(self):
         super().__init__("AB")

@@ -16,7 +16,7 @@ class GenericAlphabet(abc.ABC):
         pass
 
 
-class GenericMixedAlphabet(GenericAlphabet):
+class MixedAlphabet(GenericAlphabet):
     """
     Generic BasicAlphabet:
     Mapping between symbols (as a string) and indices (as a sequence of integers or strings).
@@ -182,12 +182,12 @@ class GenericMixedAlphabet(GenericAlphabet):
             yield "".join(x)
 
 
-class GenericIntegerAlphabet(GenericMixedAlphabet):
+class IntegerAlphabet(MixedAlphabet):
 
     _allowed_types = (int,)
 
 
-class GenericStringAlphabet(GenericMixedAlphabet):
+class StringAlphabet(MixedAlphabet):
 
     _allowed_types = (str,)
 

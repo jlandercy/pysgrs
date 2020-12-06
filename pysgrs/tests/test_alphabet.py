@@ -51,7 +51,7 @@ class TestAlphabet:
         self.assertTrue(self.alphabet.is_monotonic)
 
     def test_is_index_size_constant(self):
-        if isinstance(self.alphabet, alphabets.GenericStringAlphabet):
+        if isinstance(self.alphabet, alphabets.StringAlphabet):
             self.assertTrue(self.alphabet.is_index_size_constant)
 
 

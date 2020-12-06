@@ -23,17 +23,17 @@ class TestAsciiAlphabet(TestAlphabet, unittest.TestCase):
 
 class TestGenericMixedAlphabet(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericMixedAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    alphabet = alphabets.MixedAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 
 class TestGenericIntegerAlphabet(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericIntegerAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    alphabet = alphabets.IntegerAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 
 class TestGenericMixedAlphabetInteger(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericMixedAlphabet("ABCDEF", indices=[-10, -6, 0, 17, 102, -9999])
+    alphabet = alphabets.MixedAlphabet("ABCDEF", indices=[-10, -6, 0, 17, 102, -9999])
 
     def test_is_monotonic(self):
         self.assertFalse(self.alphabet.is_monotonic)
@@ -41,7 +41,7 @@ class TestGenericMixedAlphabetInteger(TestAlphabet, unittest.TestCase):
 
 class TestGenericIntegerAlphabetInteger(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericIntegerAlphabet("ABCDEF", indices=[-10, -6, 0, 17, 102, -9999])
+    alphabet = alphabets.IntegerAlphabet("ABCDEF", indices=[-10, -6, 0, 17, 102, -9999])
 
     def test_is_monotonic(self):
         self.assertFalse(self.alphabet.is_monotonic)
@@ -49,12 +49,12 @@ class TestGenericIntegerAlphabetInteger(TestAlphabet, unittest.TestCase):
 
 class TestGenericMixedAlphabetCharacters(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericMixedAlphabet("ABCDEF", indices="MNOPQR")
+    alphabet = alphabets.MixedAlphabet("ABCDEF", indices="MNOPQR")
 
 
 class TestGenericStringAlphabetCharacters(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericStringAlphabet("ABCDEF", indices="MNOPQR")
+    alphabet = alphabets.StringAlphabet("ABCDEF", indices="MNOPQR")
 
     def test_index_size(self):
         self.assertEqual(1, self.alphabet.index_min_size)
@@ -63,12 +63,12 @@ class TestGenericStringAlphabetCharacters(TestAlphabet, unittest.TestCase):
 
 class TestGenericMixedAlphabetString(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericMixedAlphabet("ABCDEF", indices=["AAA", "AAB", "ABA", "ABB", "BAA", "BBB"])
+    alphabet = alphabets.MixedAlphabet("ABCDEF", indices=["AAA", "AAB", "ABA", "ABB", "BAA", "BBB"])
 
 
 class TestGenericStringAlphabetString(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericStringAlphabet("ABCDEF", indices=["AAA", "AAB", "ABA", "ABB", "BAA", "BBB"])
+    alphabet = alphabets.StringAlphabet("ABCDEF", indices=["AAA", "AAB", "ABA", "ABB", "BAA", "BBB"])
 
     def test_index_size(self):
         self.assertEqual(3, self.alphabet.index_min_size)
@@ -80,7 +80,7 @@ class TestGenericStringAlphabetString(TestAlphabet, unittest.TestCase):
 
 class TestGenericStringAlphabetStringNotMonotonic(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericStringAlphabet("ABCDEF", indices=["BBB", "AAA", "AAB", "ABA", "ABB", "BAA"])
+    alphabet = alphabets.StringAlphabet("ABCDEF", indices=["BBB", "AAA", "AAB", "ABA", "ABB", "BAA"])
 
     def test_is_monotonic(self):
         self.assertFalse(self.alphabet.is_monotonic)
@@ -95,7 +95,7 @@ class TestGenericStringAlphabetStringNotMonotonic(TestAlphabet, unittest.TestCas
 
 class TestGenericStringAlphabetStringVariableSize(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericStringAlphabet("ABCDEF", indices=["AAA", "AABB", "ABAB", "ABBB", "BAAB", "BBBB"])
+    alphabet = alphabets.StringAlphabet("ABCDEF", indices=["AAA", "AABB", "ABAB", "ABBB", "BAAB", "BBBB"])
 
     def test_is_index_size_constant(self):
         self.assertFalse(self.alphabet.is_index_size_constant)
@@ -110,7 +110,7 @@ class TestGenericStringAlphabetStringVariableSize(TestAlphabet, unittest.TestCas
 
 class TestGenericStringAlphabetStringNotMonotonicVariableSize(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericStringAlphabet("ABCDEF", indices=["BBBB", "AAA", "AABB", "ABAB", "ABBB", "BAAB"])
+    alphabet = alphabets.StringAlphabet("ABCDEF", indices=["BBBB", "AAA", "AABB", "ABAB", "ABBB", "BAAB"])
 
     def test_is_monotonic(self):
         self.assertFalse(self.alphabet.is_monotonic)
@@ -124,7 +124,7 @@ class TestGenericStringAlphabetStringNotMonotonicVariableSize(TestAlphabet, unit
 
 class TestGenericAlphabetMixed(TestAlphabet, unittest.TestCase):
 
-    alphabet = alphabets.GenericMixedAlphabet("ABCDEF", indices=["AAA", -1, "ABA", 7, "BAA", 22])
+    alphabet = alphabets.MixedAlphabet("ABCDEF", indices=["AAA", -1, "ABA", 7, "BAA", 22])
 
     def test_is_monotonic(self):
         with self.assertRaises(errors.IllegalAlphabetOperation):

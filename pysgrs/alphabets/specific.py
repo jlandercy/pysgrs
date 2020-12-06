@@ -6,7 +6,7 @@ from pysgrs import alphabets
 from pysgrs import errors
 
 
-class PolybeAlphabet(alphabets.GenericIntegerAlphabet):
+class PolybeAlphabet(alphabets.IntegerAlphabet):
 
     def __init__(self):
         super().__init__(
@@ -21,7 +21,7 @@ class PolybeAlphabet(alphabets.GenericIntegerAlphabet):
         )
 
 
-class MorseAlphabet(alphabets.GenericStringAlphabet):
+class MorseAlphabet(alphabets.StringAlphabet):
 
     def __init__(self):
         super().__init__({
@@ -41,7 +41,7 @@ class MorseAlphabet(alphabets.GenericStringAlphabet):
         })
 
 
-class BaconAlphabet(alphabets.GenericStringAlphabet):
+class BaconAlphabet(alphabets.StringAlphabet):
 
     def __init__(self):
         super().__init__({

@@ -77,8 +77,8 @@ class TestReversedStreamCypher(TestStreamCypher, unittest.TestCase):
 class TestAlphabetStreamCypher(TestStreamCypher, unittest.TestCase):
 
     cypher = cyphers.AlphabetCypher(
-        alphabet=alphabets.GenericStringAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-                                                 indices="DEFGHIJKLMNOPQRSTUVWXYZABC")
+        alphabet=alphabets.StringAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                                          indices="DEFGHIJKLMNOPQRSTUVWXYZABC")
     )
     cyphers = TestCaesarStreamCypher.cyphers
 
