@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 
 from pysgrs.settings import settings
+from pysgrs import errors
 
 
 class Cleaner:
@@ -35,37 +36,29 @@ class Cleaner:
         return s
 
 
-class FrequencyHelper:
+class FrequencyAnalysis:
 
     @staticmethod
-    def counts(s):
-        return collections.Counter(s)
-
-
-class Book:
-
-    def __init__(self, path):
-
-        self._path = pathlib.Path(path)
-
-    @property
-    def path(self):
-        return self._path
-
-    def get_counts(self, n=3, counters=None):
-        counters = counters or [collections.Counter() for i in range(n)]
-        with self.path.open("r", encoding="utf-8") as file_handler:
-            for line in file_handler:
-                line = Cleaner.clean(line).upper()
-                for word in line.split(" "):
-                    m = len(word)
-                    for k, counter in enumerate(counters):
-                        counter.update(word[i:i+k+1] for i in range(m-k))
+    def get_counts(source, n=3):
+        if isinstance(source, pathlib.Path):
+            with pathlib.Path(source).open("r", encoding="utf-8") as file_handler:
+                text = file_handler.read()
+        elif isinstance(source, str):
+            text = source
+        else:
+            raise errors.IllegalParameter("Expect a Path or a str, received {} instead.".format(type(source)))
+        counters = [collections.Counter() for i in range(n)]
+        for line in text.split("\n"):
+            line = Cleaner.clean(line).upper()
+            for word in line.split(" "):
+                m = len(word)
+                for k, counter in enumerate(counters):
+                    counter.update(word[i:i+k+1] for i in range(m-k))
         return counters
 
-    def get_frequencies(self, n=3):
+    @staticmethod
+    def get_frequencies(counters):
         frequencies = []
-        counters = self.get_counts(n=n)
         for counter in counters:
             df = pd.DataFrame.from_dict(dict(counter), orient="index", columns=["count"])
             df["frequency"] = df["count"]/df["count"].sum()
@@ -75,11 +68,9 @@ class Book:
 
 
 def main():
-    p = settings.resources/"books/fr/JulleVerne_20000LieuesSousLesMers.txt"
-    cs = Book(p).get_frequencies()
-    for c in cs:
-        print(c)
-    sys.exit(0)
+    paths = (settings.resources/"books/fr/").glob("*.txt")
+    counters = FrequencyAnalysis.get_counts("")
+    print(counters)
 
 
 if __name__ == "__main__":
