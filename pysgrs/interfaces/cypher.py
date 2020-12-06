@@ -4,9 +4,6 @@ import sys
 import numpy as np
 import pandas as pd
 
-#import unidecode
-#import unicodedata
-
 from pysgrs import alphabets
 from pysgrs import errors
 from pysgrs import toolbox
@@ -50,6 +47,24 @@ class GenericAlphabetCypher(GenericCypher):
         else:
             return "<{} alphabet={}>".format(self.__class__.__name__, self.alphabet)
 
+    @property
+    def alphabet(self):
+        return self._alphabet
+
+    @property
+    def key(self):
+        return self._key
+
+    @property
+    def keysize(self):
+        if self.key is None:
+            return 0
+        else:
+            return len(self.key)
+
+
+class GenericFunctionalCypher(GenericCypher):
+
     @abc.abstractmethod
     def _apply(self, s, f, strict=True, quite=False):
         pass
@@ -68,28 +83,8 @@ class GenericAlphabetCypher(GenericCypher):
     def decypher(self, s, strict=False, quite=True):
         return self._apply(s, self._decypher, strict=strict, quite=quite)
 
-    @property
-    def alphabet(self):
-        return self._alphabet
 
-    @property
-    def key(self):
-        return self._key
-
-    @property
-    def keysize(self):
-        if self.key is None:
-            return 0
-        else:
-            return len(self.key)
-
-
-class GenericAlphabetStreamCypher(GenericAlphabetCypher):
-
-    def __init__(self, alphabet=None, key=None):
-        super().__init__(alphabet=alphabet, key=key)
-        if not isinstance(self.alphabet, alphabets.GenericIntegerAlphabet):
-            raise errors.IllegalCypherParameter("Generic Stream Cypher requires Integer Alphabet.")
+class GenericStreamCypher(GenericFunctionalCypher):
 
     def _apply(self, s, f, strict=False, quite=True):
         q = 0
@@ -99,8 +94,6 @@ class GenericAlphabetStreamCypher(GenericAlphabetCypher):
                 if strict:
                     x = f(c, k - q)
                 else:
-                    #c = unicodedata.normalize('NFD', c).encode("ascii", "ignore").decode("utf-8")
-                    #c = unidecode.unidecode(c)
                     x = f(c.upper(), k - q)
                     if c.islower():
                         x = x.lower()
@@ -114,6 +107,12 @@ class GenericAlphabetStreamCypher(GenericAlphabetCypher):
         r = "".join(r)
         settings.logger.debug("{}.{}('{}') -> '{}'".format(self, f.__name__, s, r))
         return r
+
+
+class GenericAlphabetStreamCypher(GenericAlphabetCypher, GenericStreamCypher):
+
+    def __init__(self, alphabet=None, key=None):
+        super().__init__(alphabet=alphabet, key=key)
 
     def pairs(self, s=None):
         s = s or self.alphabet.symbols
@@ -136,7 +135,15 @@ class GenericAlphabetStreamCypher(GenericAlphabetCypher):
             return axe
 
 
-class GenericNaturalAlphabetStreamCypher(GenericAlphabetStreamCypher):
+class GenericIntegerAlphabetStreamCypher(GenericAlphabetStreamCypher):
+
+    def __init__(self, alphabet=None, key=None):
+        super().__init__(alphabet=alphabet, key=key)
+        if not isinstance(self.alphabet, alphabets.GenericIntegerAlphabet):
+            raise errors.IllegalCypherParameter("Generic Stream Cypher requires Integer Alphabet.")
+
+
+class GenericNaturalIntegerAlphabetStreamCypher(GenericIntegerAlphabetStreamCypher):
 
     def __init__(self, alphabet=None, key=None):
         super().__init__(alphabet=alphabet, key=key)

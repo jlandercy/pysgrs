@@ -2,6 +2,7 @@ import sys
 import unittest
 
 from pysgrs.tests.test_cypher import TestStreamCypher
+from pysgrs import alphabets
 from pysgrs import cyphers
 
 
@@ -55,6 +56,17 @@ class TestReversedStreamCypher(TestStreamCypher, unittest.TestCase):
     cyphers = [
         "ZYXWVUTSRQPONMLKJIHGFEDCBA"
     ]
+
+
+# class TestAlphabetStreamCypher(TestStreamCypher, unittest.TestCase):
+#
+#     cypher = cyphers.AlphabetCypher(
+#         alphabet=alphabets.GenericStringAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+#                                                  indices="DEFGHIJKLMNOPQRSTUVWXYZABC")
+#     )
+#     cyphers = [
+#         "ZYXWVUTSRQPONMLKJIHGFEDCBA"
+#     ]
 
 
 class TestPermutationIdentityStreamCypher(TestStreamCypher, unittest.TestCase):

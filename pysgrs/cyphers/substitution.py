@@ -3,12 +3,12 @@ import sys
 
 import numpy as np
 
-from pysgrs.interfaces.cypher import GenericNaturalAlphabetStreamCypher
+from pysgrs.interfaces import cypher
 from pysgrs.toolbox import ModularArithmetic
 from pysgrs import errors
 
 
-class RotationCypher(GenericNaturalAlphabetStreamCypher):
+class RotationCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):
 
     def __init__(self, alphabet=None, offset=3):
         super().__init__(alphabet=alphabet)
@@ -31,7 +31,7 @@ class CaesarCypher(RotationCypher):
         super().__init__(alphabet=alphabet, offset=3)
 
 
-class ReversedCypher(GenericNaturalAlphabetStreamCypher):
+class ReversedCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):
 
     def __init__(self, alphabet=None):
         super().__init__(alphabet=alphabet)
@@ -43,7 +43,23 @@ class ReversedCypher(GenericNaturalAlphabetStreamCypher):
         return self.alphabet.symbol(self.alphabet.size - self.alphabet.index(c) - 1)
 
 
-class PermutationCypher(GenericNaturalAlphabetStreamCypher):
+# class AlphabetCypher(cypher.GenericAlphabetCypher):
+#
+#     def __init__(self, alphabet=None, auto=False):
+#         super().__init__(alphabet=alphabet)
+#
+#     @property
+#     def permutations(self):
+#         return self._permutations
+#
+#     def _cypher(self, c, k=None):
+#         return self.alphabet.symbol(self.permutations[self.alphabet.index(c)])
+#
+#     def _decypher(self, c, k=None):
+#         return self.alphabet.symbol(self.permutations.index(self.alphabet.index(c)))
+
+
+class PermutationCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):
 
     def __init__(self, permutations=None, alphabet=None, auto=False):
         super().__init__(alphabet=alphabet)
@@ -77,7 +93,7 @@ class PermutationCypher(GenericNaturalAlphabetStreamCypher):
         return self.alphabet.symbol(self.permutations.index(self.alphabet.index(c)))
 
 
-class AffineCypher(GenericNaturalAlphabetStreamCypher):
+class AffineCypher(cypher.GenericNaturalIntegerAlphabetStreamCypher):
 
     def __init__(self, a=5, b=8, alphabet=None):
         super().__init__(alphabet=alphabet)
