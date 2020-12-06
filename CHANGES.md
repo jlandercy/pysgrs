@@ -19,6 +19,7 @@
 
 ## PySGRS v0.0.x
 
+- [x] `v0.0.20`: **`2020-12-07`**: `add`: Added key size coincidence helper
 - [x] `v0.0.19`: **`2020-12-06`**: `update`: Changed Alphabet O(1) indexer from dictionary (requires Python3.7+) 
 - [x] `v0.0.18`: **`2020-12-06`**: `add+update`: Updated Cyphers model and added Cypher
   - [x] Refactored Cypher model to make distinction between Functional, Stream, Alphabet and IntegerAlphabet cyphers;

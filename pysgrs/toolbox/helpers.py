@@ -102,7 +102,7 @@ class FrequencyAnalyzer:
                 column = Shaper.to_str(block[:, k])
                 coincidence = FrequencyAnalyzer.analyze(column, max_ngram=1)[0].sum()["coincidence"]
                 coincidences.append({"keysize": ncol, "column": k, "coincidence": coincidence})
-        return pd.DataFrame(coincidence)
+        return pd.DataFrame(coincidences)
 
 
 def main():
