@@ -95,6 +95,8 @@ def main():
     freqs = FrequencyAnalyzer.analyze()
     for f in freqs:
         print(f.iloc[:500,:].reset_index().to_json(orient="records"))
+        print(f)
+        print(f.sum())
 
 
 if __name__ == "__main__":
