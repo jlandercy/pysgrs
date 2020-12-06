@@ -84,6 +84,23 @@ class TestFormatShaper(unittest.TestCase):
             self.assertEqual((i+1, 6), x.shape)
 
 
+class TestHelperCleaner(unittest.TestCase):
+
+    sentences = [
+        ("áàâäã", "aaaaa"),
+        ("éèêë", "eeee"),
+        ("íìîï", "iiii"),
+        ("óòôöõ", "ooooo"),
+        ("úùûü", "uuuu"),
+        ("ç", "c")
+    ]
+
+    def test_strip_accents(self):
+        for sentence in self.sentences:
+            self.assertEqual(sentence[1], toolbox.Cleaner.strip_accents(sentence[0]))
+            self.assertEqual(sentence[1].upper(), toolbox.Cleaner.strip_accents(sentence[0].upper()))
+
+
 def main():
     unittest.main()
     sys.exit(0)
