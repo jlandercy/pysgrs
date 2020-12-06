@@ -1,5 +1,6 @@
 import sys
 import collections
+from collections.abc import Iterable
 import pathlib
 import string
 import unicodedata
@@ -45,6 +46,14 @@ class FrequencyAnalysis:
                 text = file_handler.read()
         elif isinstance(source, str):
             text = source
+        elif isinstance(source, Iterable):
+            global_counters = FrequencyAnalysis.get_counts("")
+            for path in source:
+                counters = FrequencyAnalysis.get_counts(path)
+                for c0, c1 in zip(global_counters, counters):
+                    c0 += c1
+            settings.logger.debug("Analysed {} source(s): {}".format(len(source), global_counters))
+            return global_counters
         else:
             raise errors.IllegalParameter("Expect a Path or a str, received {} instead.".format(type(source)))
         counters = [collections.Counter() for i in range(n)]
@@ -54,6 +63,7 @@ class FrequencyAnalysis:
                 m = len(word)
                 for k, counter in enumerate(counters):
                     counter.update(word[i:i+k+1] for i in range(m-k))
+        settings.logger.debug("Analysed a single source: {}".format(counters))
         return counters
 
     @staticmethod
@@ -69,8 +79,7 @@ class FrequencyAnalysis:
 
 def main():
     paths = (settings.resources/"books/fr/").glob("*.txt")
-    counters = FrequencyAnalysis.get_counts("")
-    print(counters)
+    c = FrequencyAnalysis.get_counts(paths)
 
 
 if __name__ == "__main__":
