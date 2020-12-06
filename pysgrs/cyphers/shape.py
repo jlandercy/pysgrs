@@ -18,7 +18,6 @@ class TranspositionCypher(cyphers.GenericShapeCypher):
         return x.T
 
     def _decypher(self, x, **kwargs):
-        #return self._cypher(x, **kwargs)
         return x.reshape(tuple(reversed(x.shape))).T
 
 
