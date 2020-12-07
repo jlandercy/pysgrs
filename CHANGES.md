@@ -16,6 +16,11 @@
  - [ ] Challenge your library against previous SGRS quiz with answers
  - [ ] Properly document function as soon as you fixed the interface
  - [ ] Raise error or warning if parse cannot consume completely the string
+ - [ ] Add Autokey Cypher (https://en.wikipedia.org/wiki/Autokey_cipher)
+ - [ ] Add Code Breakers:
+    - https://www.guballa.de/implementierung-eines-vigenere-solvers
+    - https://gitlab.com/guballa/SubstitutionBreaker/-/tree/development/subbreaker
+    - https://www.guballa.de/vigenere-solver
 
 ## PySGRS v0.0.x
 
