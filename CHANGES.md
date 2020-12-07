@@ -17,6 +17,7 @@
  - [ ] Properly document function as soon as you fixed the interface
  - [ ] Raise error or warning if parse cannot consume completely the string
  - [ ] Add Autokey Cypher (https://en.wikipedia.org/wiki/Autokey_cipher)
+ - [ ] Add Chao Cypher (https://en.wikipedia.org/wiki/Chaocipher)  
  - [ ] Add Code Breakers:
     - https://www.guballa.de/implementierung-eines-vigenere-solvers
     - https://gitlab.com/guballa/SubstitutionBreaker/-/tree/development/subbreaker
