@@ -32,10 +32,21 @@ class Cleaner:
         return s.strip()
 
     @staticmethod
+    def remove_non_letters(s):
+        s = Cleaner._non_letters.sub("", s)
+        return s
+
+    @staticmethod
     def clean(s):
         s = Cleaner.remove_punctuation(s)
         s = Cleaner.strip_accents(s)
-        s = Cleaner._non_letters.sub("", s)
+        s = Cleaner.remove_non_letters(s)
+        return s
+
+    @staticmethod
+    def normalize(s):
+        s = Cleaner.clean(s)
+        s = s.replace(" ", "").upper()
         return s
 
 

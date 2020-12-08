@@ -7,6 +7,7 @@ import numpy as np
 
 from pysgrs.settings import settings
 from pysgrs import errors
+from pysgrs.toolbox.helpers import Cleaner
 
 
 class NGram:
@@ -93,7 +94,9 @@ class NGram:
     def __contains__(self, item):
         return self.contains(item)
 
-    def score(self, text):
+    def score(self, text, normalize=True):
+        if normalize:
+            text = Cleaner.normalize(text)
         n = len(text)
         score = 0.
         for k in range(n - self.size + 1):
