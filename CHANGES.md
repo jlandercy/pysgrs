@@ -24,6 +24,8 @@
     - https://www.guballa.de/implementierung-eines-vigenere-solvers
     - https://gitlab.com/guballa/SubstitutionBreaker/-/tree/development/subbreaker
     - https://www.guballa.de/vigenere-solver
+ - [ ] Make you library compliant with pycipher interface (https://github.com/jameslyons/pycipher)
+ - [ ] Check out how it then breaks codes: https://github.com/jameslyons/python_cryptanalysis
 
 ## PySGRS v0.0.x
 
