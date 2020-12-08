@@ -17,16 +17,19 @@
  - [ ] Properly document function as soon as you fixed the interface
  - [ ] Raise error or warning if parse cannot consume completely the string
  - [ ] Add Autokey Cypher (https://en.wikipedia.org/wiki/Autokey_cipher)
- - [ ] Add Chao Cypher (https://en.wikipedia.org/wiki/Chaocipher)  
+ - [ ] Add Chao Cypher (https://en.wikipedia.org/wiki/Chaocipher)
+ - [ ] Add Hill Cypher (https://en.wikipedia.org/wiki/Hill_cipher)  
  - [ ] Add Code Breakers:
+    - Documentations 
     - https://www.guballa.de/implementierung-eines-vigenere-solvers
     - https://gitlab.com/guballa/SubstitutionBreaker/-/tree/development/subbreaker
     - https://www.guballa.de/vigenere-solver
 
 ## PySGRS v0.0.x
 
+- [x] `v0.0.21`: **`2020-12-08`**: `add`: Added n-gram score
 - [x] `v0.0.20`: **`2020-12-07`**: `add`: Added key size coincidence helper
-- [x] `v0.0.19`: **`2020-12-06`**: `update`: Changed Alphabet O(1) indexer from dictionary (requires Python3.7+) 
+- [x] `v0.0.19`: **`2020-12-06`**: `update`: Changed Alphabet O(1) indexer from dictionnary (requires Python3.7+) 
 - [x] `v0.0.18`: **`2020-12-06`**: `add+update`: Updated Cyphers model and added Cypher
   - [x] Refactored Cypher model to make distinction between Functional, Stream, Alphabet and IntegerAlphabet cyphers;
   - [x] Added non constrained Alphabet cypher (making Alphabet encode/decode mapped to cypher/decypher);

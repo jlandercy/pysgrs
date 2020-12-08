@@ -105,6 +105,57 @@ class FrequencyAnalyzer:
         return pd.DataFrame(coincidences)
 
 
+class NGramScorer:
+
+    def __init__(self, ngrams, floor=1e-10):
+
+        self._order = len(ngrams[tuple(ngrams.keys())[0]])
+        self._ngrams = ngrams
+        self._floor = floor
+
+        if not isinstance(ngrams, dict):
+            raise errors.IllegalParameter("Requires a dict or a path, received {} instead".format(type(ngrams)))
+
+        if not all(len(ngram) == self.order for ngram in ngrams):
+            raise errors.IllegalParameter("All keys must have the same length")
+
+        if not np.isclose(sum(ngrams.values()), 0):
+            raise errors.IllegalParameter("Probability sum must converge to unit")
+
+    @property
+    def order(self):
+        return self._order
+
+    @property
+    def floor(self):
+        return self._floor
+
+    @property
+    def ngrams(self):
+        return self._ngrams
+
+    @property
+    def size(self):
+        return len(self.ngrams)
+
+    def __len__(self):
+        return self.size
+
+    def contains(self, item):
+        return item in self.ngrams
+
+    def __contains__(self, item):
+        return self.contains(item)
+
+    def score(self, text):
+        n = len(text)
+        score = 0.
+        for k in range(n - self.size + 1):
+            ngram = text[k:(k+self.size)]
+            score += self.ngrams.get(ngram, self.floor)
+        return score
+
+
 def main():
     freqs = FrequencyAnalyzer.analyze()
     for f in freqs:
