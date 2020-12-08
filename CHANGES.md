@@ -27,7 +27,8 @@
 
 ## PySGRS v0.0.x
 
-- [x] `v0.0.21`: **`2020-12-08`**: `add`: Added n-gram score
+- [x] `v0.0.21`: **`2020-12-08`**: `add+updated`: Added n-grams object for statistical crypto-analysis
+  - [x] **Breaking change** Refactored complete namespace to modernize names to cipher instead of cypher
 - [x] `v0.0.20`: **`2020-12-07`**: `add`: Added key size coincidence helper
 - [x] `v0.0.19`: **`2020-12-06`**: `update`: Changed Alphabet O(1) indexer from dictionnary (requires Python3.7+) 
 - [x] `v0.0.18`: **`2020-12-06`**: `add+update`: Updated Cyphers model and added Cypher
