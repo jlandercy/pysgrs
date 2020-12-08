@@ -180,6 +180,8 @@ def main():
         print(f)
         print(f.sum())
 
+    sys.exit(0)
+
 
 if __name__ == "__main__":
     main()
