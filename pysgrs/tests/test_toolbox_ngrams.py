@@ -30,7 +30,7 @@ class TestNGramsOnCipherKeySpace:
                 self.plaintexts.append({
                     "text": text,
                     "normalized": plaintext,
-                    "scores": self.analyzer.scores(plaintext)
+                    "score": self.analyzer.score(plaintext)
                 })
 
     def generate_keyspace(self, keyspace):
@@ -56,7 +56,7 @@ class TestNGramsOnCipherKeySpace:
             for key in self.generate_keyspace(self.breaker_keyspace):
                 cipher = self.factory(**key)
                 plaintext = cipher.decipher(ciphertext["ciphertext"])
-                key["scores"] = self.analyzer.scores(plaintext)
+                key["score"] = self.analyzer.score(plaintext)
                 scores.append(key)
             ciphertext["breaker"] = scores
 
@@ -68,7 +68,7 @@ class TestNGramsOnCipherKeySpace:
     def test_inspect_ngrams(self):
         for results in self.ciphertexts:
             df = pd.io.json.json_normalize(results["breaker"])
-            score_keys = list(df.filter(regex="scores.").columns)
+            score_keys = list(df.filter(regex="score.").columns)
             df = df.sort_values(score_keys, ascending=False)
             key_keys = list(set(df.columns).difference(set(score_keys)))
             solution = df.loc[:, key_keys].iloc[0, :].to_dict()
