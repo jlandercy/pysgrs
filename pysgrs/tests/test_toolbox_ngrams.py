@@ -14,7 +14,8 @@ from pysgrs import settings
 class TestNGramsOnCipherKeySpace:
 
     factory = None
-    keyspace = None
+    cipher_keyspace = None
+    breaker_keyspace = None
     analyzer = toolbox.NGrams(language="fr")
 
     paths = (settings.resources / 'texts/fr').glob("*.txt")
@@ -24,34 +25,60 @@ class TestNGramsOnCipherKeySpace:
     def load_texts(self):
         for path in self.paths:
             with path.open(encoding='utf-8') as fh:
-                text = toolbox.Cleaner.strip_accents(fh.read())
-                self.plaintexts.append(text)
+                text = fh.read()
+                plaintext = toolbox.Cleaner.strip_accents(text)
+                self.plaintexts.append({
+                    "text": text,
+                    "normalized": plaintext,
+                    "scores": self.analyzer.scores(plaintext)
+                })
 
-    def generate_keyspace(self):
-        for values in itertools.product(*self.keyspace.values()):
-            yield {k: v for k, v in zip(self.keyspace.keys(), values)}
+    def generate_keyspace(self, keyspace):
+        for values in itertools.product(*keyspace.values()):
+            yield {k: v for k, v in zip(keyspace.keys(), values)}
 
     def generate_ciphers(self):
-        for plaintext in self.plaintexts:
-            for key in self.generate_keyspace():
+        for i, plaintext in enumerate(self.plaintexts):
+            for key in self.generate_keyspace(self.cipher_keyspace):
                 cipher = self.factory(**key)
-                ciphertext = cipher.encipher(plaintext)
-                key.update({
+                ciphertext = cipher.encipher(plaintext["normalized"])
+                obj = {
+                    "key": key,
                     "cipher": cipher,
                     "plaintext": plaintext,
                     "ciphertext": ciphertext
-                })
-                self.ciphertexts.append(key)
+                }
+                self.ciphertexts.append(obj)
+
+    def apply_breaker(self):
+        for ciphertext in self.ciphertexts:
+            scores = []
+            for key in self.generate_keyspace(self.breaker_keyspace):
+                cipher = self.factory(**key)
+                plaintext = cipher.decipher(ciphertext["ciphertext"])
+                key["scores"] = self.analyzer.scores(plaintext)
+                scores.append(key)
+            ciphertext["breaker"] = scores
 
     def setUp(self):
         self.load_texts()
         self.generate_ciphers()
+        self.apply_breaker()
+
+    def test_inspect_ngrams(self):
+        for results in self.ciphertexts:
+            df = pd.DataFrame(results["breaker"])
+            df["index"] = df["scores"].apply(lambda x: list(range(len(x))))
+            df = df.set_index("offset").apply(pd.Series.explode).astype(float).reset_index()
+            df = df.pivot_table(index='offset', columns='index', values='scores')
+            df = df.sort_values()
 
 
 class TestNGramOnRotationCipher(TestNGramsOnCipherKeySpace, unittest.TestCase):
 
     factory = ciphers.RotationCipher
-    keyspace = {"offset": [3, 7, 12, 16, 21, 24]}
+    cipher_keyspace = {"offset": [3, 7, 12, 16, 21, 24]}
+    breaker_keyspace = {"offset": range(1, 26)}
 
 
 def main():

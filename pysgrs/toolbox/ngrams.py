@@ -130,6 +130,9 @@ class NGrams:
     def ngrams(self):
         return self._ngrams
 
+    def scores(self, text):
+        return [ngram.score(text) for ngram in self.ngrams.values()]
+
 
 def main():
 
