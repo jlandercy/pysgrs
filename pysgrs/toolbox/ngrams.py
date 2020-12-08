@@ -99,8 +99,8 @@ class NGram:
             text = Cleaner.normalize(text)
         n = len(text)
         score = 0.
-        for k in range(n - self.size + 1):
-            ngram = text[k:(k+self.size)]
+        for k in range(n - self.order + 1):
+            ngram = text[k:(k+self.order)]
             score += self.likelihood.get(ngram, self.floor)
         return score
 

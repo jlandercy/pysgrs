@@ -26,6 +26,9 @@ class RotationCipher(cipher.GenericNaturalAlphabetStreamCipher):
         super().__init__(alphabet=alphabet)
         self._offset = offset
 
+    def __str__(self):
+        return "<{} offset={} alphabet={}>".format(self.__class__.__name__, self._offset, self.alphabet)
+
     @property
     def offset(self):
         return self._offset

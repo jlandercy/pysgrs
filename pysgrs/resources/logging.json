@@ -22,7 +22,7 @@
   "loggers": {
     "default": {
       "handlers": ["console"],
-      "level": "DEBUG"
+      "level": "INFO"
     }
   }
 }
