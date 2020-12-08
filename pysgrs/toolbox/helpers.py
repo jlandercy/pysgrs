@@ -52,12 +52,12 @@ class FrequencyAnalyzer:
         elif isinstance(source, str):
             text = source
         elif isinstance(source, Iterable):
-            global_counters = FrequencyAnalyzer.get_counts()
+            global_counters = FrequencyAnalyzer.get_counts(max_ngram=max_ngram)
             for path in source:
-                counters = FrequencyAnalyzer.get_counts(path)
+                counters = FrequencyAnalyzer.get_counts(path, max_ngram=max_ngram)
                 for c0, c1 in zip(global_counters, counters):
                     c0 += c1
-            settings.logger.debug("Analysed {} source(s): {}".format(len(source), global_counters))
+            settings.logger.debug("Analysed {} source(s): {} counter(s)".format(len(source), len(global_counters)))
             return global_counters
         else:
             raise errors.IllegalParameter("Expect a Path or a str, received {} instead.".format(type(source)))
@@ -68,7 +68,7 @@ class FrequencyAnalyzer:
                 m = len(word)
                 for k, counter in enumerate(counters):
                     counter.update(word[i:i+k+1] for i in range(m-k))
-        settings.logger.debug("Analysed source '{}': {}".format(str(source), counters))
+        settings.logger.debug("Analysed source '{}': {} counter(s)".format(str(source), len(counters)))
         return counters
 
     @staticmethod
@@ -100,7 +100,7 @@ class FrequencyAnalyzer:
         frequencies = FrequencyAnalyzer.analyze(source=source, max_ngram=max_ngram, language=language)
         ngrams = dict()
         for i, frequency in enumerate(frequencies):
-            ngrams["%d-grams" % (i+1)] = frequency.to_dict(orient="split")
+            ngrams["%d-grams" % (i+1)] = frequency[["ngram", "count"]].to_dict(orient="list")
         return ngrams
 
     @staticmethod
@@ -169,16 +169,25 @@ class NGramScorer:
 
 
 def main():
-    # import json
-    # freqs = FrequencyAnalyzer.to_format(max_ngram=5)
-    # with (pathlib.Path(__file__).parent / 'resources/ngrams_fr.json').open("w") as fh:
-    #     json.dump(freqs, fh)
+    import json
 
-    freqs = FrequencyAnalyzer.analyze()
-    for f in freqs:
-        print(f.iloc[:500,:].reset_index().to_json(orient="records"))
-        print(f)
-        print(f.sum())
+
+    p = pathlib.Path(__file__).parent / 'resources/ngrams_fr.json'
+
+    # with p.open() as fh:
+    #     data = json.load(fh)
+    # print(data)
+    # print(data.keys())
+
+    freqs = FrequencyAnalyzer.to_format(max_ngram=5)
+    with p.open("w") as fh:
+        json.dump(freqs, fh)
+
+    # freqs = FrequencyAnalyzer.analyze()
+    # for f in freqs:
+    #     print(f.iloc[:500,:].reset_index().to_json(orient="records"))
+    #     print(f)
+    #     print(f.sum())
 
     sys.exit(0)
 
