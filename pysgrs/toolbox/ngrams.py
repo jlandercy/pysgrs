@@ -131,7 +131,7 @@ class NGrams:
         return self._ngrams
 
     def scores(self, text):
-        return [ngram.score(text) for ngram in self.ngrams.values()]
+        return {"score-%d" % ngram.order: ngram.score(text) for ngram in self.ngrams.values()}
 
 
 def main():

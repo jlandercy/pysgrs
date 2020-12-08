@@ -67,11 +67,12 @@ class TestNGramsOnCipherKeySpace:
 
     def test_inspect_ngrams(self):
         for results in self.ciphertexts:
-            df = pd.DataFrame(results["breaker"])
-            df["index"] = df["scores"].apply(lambda x: list(range(len(x))))
-            df = df.set_index("offset").apply(pd.Series.explode).astype(float).reset_index()
-            df = df.pivot_table(index='offset', columns='index', values='scores')
-            df = df.sort_values()
+            df = pd.io.json.json_normalize(results["breaker"])
+            score_keys = list(df.filter(regex="scores.").columns)
+            df = df.sort_values(score_keys, ascending=False)
+            key_keys = list(set(df.columns).difference(set(score_keys)))
+            solution = df.loc[:, key_keys].iloc[0, :].to_dict()
+            self.assertEqual(results["key"], solution)
 
 
 class TestNGramOnRotationCipher(TestNGramsOnCipherKeySpace, unittest.TestCase):
