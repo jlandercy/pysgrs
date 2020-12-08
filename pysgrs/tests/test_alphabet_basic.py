@@ -21,17 +21,17 @@ class TestAsciiAlphabet(TestAlphabet, unittest.TestCase):
     alphabet = alphabets.AsciiAlphabet()
 
 
-class TestGenericMixedAlphabet(TestAlphabet, unittest.TestCase):
+class TestMixedAlphabet(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.MixedAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 
-class TestGenericIntegerAlphabet(TestAlphabet, unittest.TestCase):
+class TestIntegerAlphabet(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.IntegerAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 
-class TestGenericMixedAlphabetInteger(TestAlphabet, unittest.TestCase):
+class TestMixedAlphabetInteger(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.MixedAlphabet("ABCDEF", indices=[-10, -6, 0, 17, 102, -9999])
 
@@ -39,7 +39,7 @@ class TestGenericMixedAlphabetInteger(TestAlphabet, unittest.TestCase):
         self.assertFalse(self.alphabet.is_monotonic)
 
 
-class TestGenericIntegerAlphabetInteger(TestAlphabet, unittest.TestCase):
+class TestIntegerAlphabetInteger(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.IntegerAlphabet("ABCDEF", indices=[-10, -6, 0, 17, 102, -9999])
 
@@ -47,12 +47,12 @@ class TestGenericIntegerAlphabetInteger(TestAlphabet, unittest.TestCase):
         self.assertFalse(self.alphabet.is_monotonic)
 
 
-class TestGenericMixedAlphabetCharacters(TestAlphabet, unittest.TestCase):
+class TestMixedAlphabetCharacters(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.MixedAlphabet("ABCDEF", indices="MNOPQR")
 
 
-class TestGenericStringAlphabetCharacters(TestAlphabet, unittest.TestCase):
+class TestStringAlphabetCharacters(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.StringAlphabet("ABCDEF", indices="MNOPQR")
 
@@ -61,12 +61,12 @@ class TestGenericStringAlphabetCharacters(TestAlphabet, unittest.TestCase):
         self.assertEqual(1, self.alphabet.index_max_size)
 
 
-class TestGenericMixedAlphabetString(TestAlphabet, unittest.TestCase):
+class TestMixedAlphabetString(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.MixedAlphabet("ABCDEF", indices=["AAA", "AAB", "ABA", "ABB", "BAA", "BBB"])
 
 
-class TestGenericStringAlphabetString(TestAlphabet, unittest.TestCase):
+class TestStringAlphabetString(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.StringAlphabet("ABCDEF", indices=["AAA", "AAB", "ABA", "ABB", "BAA", "BBB"])
 
@@ -78,7 +78,7 @@ class TestGenericStringAlphabetString(TestAlphabet, unittest.TestCase):
         self.assertEqual({"A", "B"}, self.alphabet.index_symbols)
 
 
-class TestGenericStringAlphabetStringNotMonotonic(TestAlphabet, unittest.TestCase):
+class TestStringAlphabetStringNotMonotonic(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.StringAlphabet("ABCDEF", indices=["BBB", "AAA", "AAB", "ABA", "ABB", "BAA"])
 
@@ -93,7 +93,7 @@ class TestGenericStringAlphabetStringNotMonotonic(TestAlphabet, unittest.TestCas
         self.assertEqual({"A", "B"}, self.alphabet.index_symbols)
 
 
-class TestGenericStringAlphabetStringVariableSize(TestAlphabet, unittest.TestCase):
+class TestStringAlphabetStringVariableSize(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.StringAlphabet("ABCDEF", indices=["AAA", "AABB", "ABAB", "ABBB", "BAAB", "BBBB"])
 
@@ -108,7 +108,7 @@ class TestGenericStringAlphabetStringVariableSize(TestAlphabet, unittest.TestCas
         self.assertEqual({"A", "B"}, self.alphabet.index_symbols)
 
 
-class TestGenericStringAlphabetStringNotMonotonicVariableSize(TestAlphabet, unittest.TestCase):
+class TestStringAlphabetStringNotMonotonicVariableSize(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.StringAlphabet("ABCDEF", indices=["BBBB", "AAA", "AABB", "ABAB", "ABBB", "BAAB"])
 
@@ -122,7 +122,7 @@ class TestGenericStringAlphabetStringNotMonotonicVariableSize(TestAlphabet, unit
         self.assertEqual({"A", "B"}, self.alphabet.index_symbols)
 
 
-class TestGenericAlphabetMixed(TestAlphabet, unittest.TestCase):
+class TestAlphabetMixed(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.MixedAlphabet("ABCDEF", indices=["AAA", -1, "ABA", 7, "BAA", 22])
 
