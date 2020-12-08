@@ -5,10 +5,10 @@ from pysgrs import errors
 from pysgrs import settings
 
 
-class TestStreamCypher:
+class TestStreamCipher:
 
     cypher = None
-    sentences = [
+    plaintexts = [
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
         "ZYXWVUTSRQPONMLKJIHGFEDCBA",
         "THEQUICKBROWNFOXJUMPSOVERTHELAZYDOG",
@@ -27,27 +27,28 @@ class TestStreamCypher:
         "Gaga Gougou Gougou Dada",
         "Quatre journaux hostiles sont plus a craindre que mille baionnettes."
     ]
+    ciphertexts = []
 
     def test_reversible_direct(self):
-        for sentence in self.sentences:
-            self.assertEqual(sentence, self.cypher.decipher(self.cypher.encipher(sentence)))
+        for plaintext in self.plaintexts:
+            self.assertEqual(plaintext, self.cypher.decipher(self.cypher.encipher(plaintext)))
 
     def test_reversible_inverse(self):
-        for cypher in self.cyphers:
-            self.assertEqual(cypher, self.cypher.encipher(self.cypher.decipher(cypher)))
+        for ciphertext in self.ciphertexts:
+            self.assertEqual(ciphertext, self.cypher.encipher(self.cypher.decipher(ciphertext)))
 
-    def test_cyphering(self):
-        for sentence, cypher in zip(self.sentences, self.cyphers):
+    def test_enciphering(self):
+        for sentence, cypher in zip(self.plaintexts, self.ciphertexts):
             self.assertEqual(cypher, self.cypher.encipher(sentence))
 
-    def test_decyphering(self):
-        for sentence, cypher in zip(self.sentences, self.cyphers):
+    def test_deciphering(self):
+        for sentence, cypher in zip(self.plaintexts, self.ciphertexts):
             self.assertEqual(sentence, self.cypher.decipher(cypher))
 
 
-class TestShapeCypher(TestStreamCypher):
+class TestShapeCipher(TestStreamCipher):
 
-    sentences = [
+    plaintexts = [
         "ABCDEFGHIKLMNOPQRSTUVWXYZ",
         #"ABCDE\nFGHIK\nLMNOP\nQRSTU\nVWXYZ"
     ]

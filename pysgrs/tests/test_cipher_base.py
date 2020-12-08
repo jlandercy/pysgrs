@@ -1,14 +1,14 @@
 import sys
 import unittest
 
-from pysgrs.tests.test_cypher import TestStreamCypher
+from pysgrs.tests.test_cipher import TestStreamCipher
 from pysgrs import ciphers
 
 
-class TestBase16Cypher(TestStreamCypher, unittest.TestCase):
+class TestBase16Cipher(TestStreamCipher, unittest.TestCase):
 
     cypher = ciphers.Base16Cypher()
-    cyphers = [
+    ciphertexts = [
         "4142434445464748494A4B4C4D4E4F505152535455565758595A",
         "5A595857565554535251504F4E4D4C4B4A494847464544434241",
         "544845515549434B42524F574E464F584A554D50534F5645525448454C415A59444F47",
@@ -28,16 +28,16 @@ class TestBase16Cypher(TestStreamCypher, unittest.TestCase):
     ]
 
 
-class TestHexadecimalCypher(TestStreamCypher, unittest.TestCase):
+class TestHexadecimalCipher(TestStreamCipher, unittest.TestCase):
 
     cypher = ciphers.HexadecimalCypher()
-    cyphers = TestBase16Cypher.cyphers
+    ciphertexts = TestBase16Cipher.ciphertexts
 
 
-class TestBase32Cypher(TestStreamCypher, unittest.TestCase):
+class TestBase32Cipher(TestStreamCipher, unittest.TestCase):
 
     cypher = ciphers.Base32Cypher()
-    cyphers = [
+    ciphertexts = [
         "IFBEGRCFIZDUQSKKJNGE2TSPKBIVEU2UKVLFOWCZLI======",
         "LJMVQV2WKVKFGUSRKBHU4TKMJNFESSCHIZCUIQ2CIE======",
         "KREEKUKVJFBUWQSSJ5LU4RSPLBFFKTKQKNHVMRKSKREEKTCBLJMUIT2H",
@@ -57,10 +57,10 @@ class TestBase32Cypher(TestStreamCypher, unittest.TestCase):
     ]
 
 
-class TestBase64Cypher(TestStreamCypher, unittest.TestCase):
+class TestBase64Cipher(TestStreamCipher, unittest.TestCase):
 
     cypher = ciphers.Base64Cypher()
-    cyphers = [
+    ciphertexts = [
         "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo=",
         "WllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkE=",
         "VEhFUVVJQ0tCUk9XTkZPWEpVTVBTT1ZFUlRIRUxBWllET0c=",
@@ -80,10 +80,10 @@ class TestBase64Cypher(TestStreamCypher, unittest.TestCase):
     ]
 
 
-class TestBase85Cypher(TestStreamCypher, unittest.TestCase):
+class TestBase85Cipher(TestStreamCipher, unittest.TestCase):
 
     cypher = ciphers.Base85Cypher()
-    cyphers = [
+    ciphertexts = [
         "K|(`BMMg(RNlHshO-@fxQBqS>RaRG6Sy}",
         "T3J|ER#j9}Qc+M(PEAZpN=ZmZMnyzJLO}",
         "R7gcpRY^ljLQ+pxPDW2yN>xozQ%_b!QdCGqOhH;%L{CQ",
@@ -103,10 +103,10 @@ class TestBase85Cypher(TestStreamCypher, unittest.TestCase):
     ]
 
 
-class URLSafeCypher(TestStreamCypher, unittest.TestCase):
+class URLSafeCipher(TestStreamCipher, unittest.TestCase):
 
     cypher = ciphers.URLQuoteCypher()
-    cyphers = [
+    ciphertexts = [
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
         "ZYXWVUTSRQPONMLKJIHGFEDCBA",
         "THEQUICKBROWNFOXJUMPSOVERTHELAZYDOG",

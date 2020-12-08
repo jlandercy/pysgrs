@@ -3,47 +3,47 @@ import unittest
 
 import numpy as np
 
-from pysgrs.tests.test_cypher import TestShapeCypher
+from pysgrs.tests.test_cipher import TestShapeCipher
 from pysgrs import ciphers
 from pysgrs import toolbox
 
 
-class TestTranspositionCypher(TestShapeCypher, unittest.TestCase):
+class TestTranspositionCipher(TestShapeCipher, unittest.TestCase):
 
     cypher = ciphers.TranspositionCipher(shape=(5, 5))
-    cyphers = [
+    ciphertexts = [
         "AFLQVBGMRWCHNSXDIOTYEKPUZ",
     ]
 
 
-class TestColumnPermutationCypherIdentity(TestShapeCypher, unittest.TestCase):
+class TestColumnPermutationCipherIdentity(TestShapeCipher, unittest.TestCase):
 
     cypher = ciphers.ColumnPermutationCipher(shape=(5, 5), permutation=np.arange(5))
-    cyphers = [
+    ciphertexts = [
         "ABCDEFGHIKLMNOPQRSTUVWXYZ",
     ]
 
 
-class TestRowPermutationCypherIdentity(TestShapeCypher, unittest.TestCase):
+class TestRowPermutationCipherIdentity(TestShapeCipher, unittest.TestCase):
 
     cypher = ciphers.RowPermutationCipher(shape=(5, 5), permutation=np.arange(5))
-    cyphers = [
+    ciphertexts = [
         "ABCDEFGHIKLMNOPQRSTUVWXYZ",
     ]
 
 
-class TestColumnCycleCypherIdentity(TestShapeCypher, unittest.TestCase):
+class TestColumnCycleCipherIdentity(TestShapeCipher, unittest.TestCase):
 
     cypher = ciphers.ColumnCycleCipher(shape=(5, 5), permutation=np.zeros(5))
-    cyphers = [
+    ciphertexts = [
         "ABCDEFGHIKLMNOPQRSTUVWXYZ",
     ]
 
 
-class TestRowCycleCypherIdentity(TestShapeCypher, unittest.TestCase):
+class TestRowCycleCipherIdentity(TestShapeCipher, unittest.TestCase):
 
     cypher = ciphers.RowCycleCipher(shape=(5, 5), permutation=np.zeros(5))
-    cyphers = [
+    ciphertexts = [
         "ABCDEFGHIKLMNOPQRSTUVWXYZ",
     ]
 

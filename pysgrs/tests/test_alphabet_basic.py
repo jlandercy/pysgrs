@@ -6,7 +6,7 @@ from pysgrs import errors
 from pysgrs.tests.test_alphabet import TestAlphabet
 
 
-class TestSimpleAlphabet(TestAlphabet, unittest.TestCase):
+class TestBasicAlphabet(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.BasicAlphabet()
 
