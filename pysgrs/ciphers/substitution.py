@@ -8,7 +8,7 @@ from pysgrs.toolbox import ModularArithmetic
 from pysgrs import errors
 
 
-class AlphabetCypher(cipher.GenericAlphabetStreamCypher):
+class AlphabetCipher(cipher.GenericAlphabetStreamCipher):
 
     def __init__(self, alphabet=None):
         super().__init__(alphabet=alphabet)
@@ -20,7 +20,7 @@ class AlphabetCypher(cipher.GenericAlphabetStreamCypher):
         return self.alphabet.symbol(c)
 
 
-class RotationCypher(cipher.GenericNaturalAlphabetStreamCypher):
+class RotationCipher(cipher.GenericNaturalAlphabetStreamCipher):
 
     def __init__(self, alphabet=None, offset=3):
         super().__init__(alphabet=alphabet)
@@ -37,13 +37,13 @@ class RotationCypher(cipher.GenericNaturalAlphabetStreamCypher):
         return self.alphabet.symbol((self.alphabet.index(c) - self.offset) % self.alphabet.size)
 
 
-class CaesarCypher(RotationCypher):
+class CaesarCipher(RotationCipher):
 
     def __init__(self, alphabet=None):
         super().__init__(alphabet=alphabet, offset=3)
 
 
-class ReversedCypher(cipher.GenericNaturalAlphabetStreamCypher):
+class ReversedCipher(cipher.GenericNaturalAlphabetStreamCipher):
 
     def __init__(self, alphabet=None):
         super().__init__(alphabet=alphabet)
@@ -55,7 +55,7 @@ class ReversedCypher(cipher.GenericNaturalAlphabetStreamCypher):
         return self.alphabet.symbol(self.alphabet.size - self.alphabet.index(c) - 1)
 
 
-class PermutationCypher(cipher.GenericNaturalAlphabetStreamCypher):
+class PermutationCipher(cipher.GenericNaturalAlphabetStreamCipher):
 
     def __init__(self, permutations=None, alphabet=None, auto=False):
         super().__init__(alphabet=alphabet)
@@ -89,7 +89,7 @@ class PermutationCypher(cipher.GenericNaturalAlphabetStreamCypher):
         return self.alphabet.symbol(self.permutations.index(self.alphabet.index(c)))
 
 
-class AffineCypher(cipher.GenericNaturalAlphabetStreamCypher):
+class AffineCipher(cipher.GenericNaturalAlphabetStreamCipher):
 
     def __init__(self, a=5, b=8, alphabet=None):
         super().__init__(alphabet=alphabet)

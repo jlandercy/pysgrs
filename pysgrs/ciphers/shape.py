@@ -9,7 +9,7 @@ from pysgrs import errors
 from pysgrs.settings import settings
 
 
-class TranspositionCypher(ciphers.GenericShapeCipher):
+class TranspositionCipher(ciphers.GenericShapeCipher):
 
     def __init__(self, shape=None, padding=" "):
         super().__init__(shape=shape, padding=padding)
@@ -21,7 +21,7 @@ class TranspositionCypher(ciphers.GenericShapeCipher):
         return x.reshape(tuple(reversed(x.shape))).T
 
 
-class ColumnPermutationCypher(ciphers.GenericPermutationShapeCypher):
+class ColumnPermutationCipher(ciphers.GenericPermutationShapeCipher):
 
     def _cypher(self, x, **kwargs):
         return pd.DataFrame(x).iloc[:, self.permutation].values
@@ -30,7 +30,7 @@ class ColumnPermutationCypher(ciphers.GenericPermutationShapeCypher):
         return pd.DataFrame(x).iloc[:, np.argsort(self.permutation)].values
 
 
-class RowPermutationCypher(ciphers.GenericPermutationShapeCypher):
+class RowPermutationCipher(ciphers.GenericPermutationShapeCipher):
 
     def _cypher(self, x, **kwargs):
         return pd.DataFrame(x).iloc[self.permutation, :].values
@@ -39,7 +39,7 @@ class RowPermutationCypher(ciphers.GenericPermutationShapeCypher):
         return pd.DataFrame(x).iloc[np.argsort(self.permutation), :].values
 
 
-class ColumnCycleCypher(ciphers.GenericPermutationShapeCypher):
+class ColumnCycleCipher(ciphers.GenericPermutationShapeCipher):
 
     def _cypher(self, x, **kwargs):
         for i, n in enumerate(self.permutation):
@@ -52,7 +52,7 @@ class ColumnCycleCypher(ciphers.GenericPermutationShapeCypher):
         return x
 
 
-class RowCycleCypher(ciphers.GenericPermutationShapeCypher):
+class RowCycleCipher(ciphers.GenericPermutationShapeCipher):
 
     def _cypher(self, x, **kwargs):
         for i, n in enumerate(self.permutation):

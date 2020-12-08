@@ -2,10 +2,10 @@ import sys
 
 from pysgrs.settings import settings
 
-from pysgrs.interfaces.cipher import GenericNaturalAlphabetStreamCypher
+from pysgrs.interfaces.cipher import GenericNaturalAlphabetStreamCipher
 
 
-class VigenereCypher(GenericNaturalAlphabetStreamCypher):
+class VigenereCipher(GenericNaturalAlphabetStreamCipher):
 
     def __init__(self, key, alphabet=None):
         super().__init__(alphabet=alphabet, key=key)

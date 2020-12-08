@@ -109,7 +109,7 @@ class GenericAlphabetCipher(GenericCipher):
             return len(self.key)
 
 
-class GenericAlphabetStreamCypher(GenericAlphabetCipher, GenericStreamCypher):
+class GenericAlphabetStreamCipher(GenericAlphabetCipher, GenericStreamCypher):
 
     def __init__(self, alphabet=None, key=None):
         super().__init__(alphabet=alphabet, key=key)
@@ -135,7 +135,7 @@ class GenericAlphabetStreamCypher(GenericAlphabetCipher, GenericStreamCypher):
             return axe
 
 
-class GenericIntegerAlphabetStreamCypher(GenericAlphabetStreamCypher):
+class GenericIntegerAlphabetStreamCipher(GenericAlphabetStreamCipher):
 
     def __init__(self, alphabet=None, key=None):
         super().__init__(alphabet=alphabet, key=key)
@@ -143,7 +143,7 @@ class GenericIntegerAlphabetStreamCypher(GenericAlphabetStreamCypher):
             raise errors.IllegalCypherParameter("Generic Stream Cypher requires Integer Alphabet.")
 
 
-class GenericNaturalAlphabetStreamCypher(GenericIntegerAlphabetStreamCypher):
+class GenericNaturalAlphabetStreamCipher(GenericIntegerAlphabetStreamCipher):
 
     def __init__(self, alphabet=None, key=None):
         super().__init__(alphabet=alphabet, key=key)
@@ -190,7 +190,7 @@ class GenericShapeCipher(GenericCipher):
         return self._apply(s, self._decypher, shape=shape, mode=mode, permutation=permutation)
 
 
-class GenericPermutationShapeCypher(GenericShapeCipher):
+class GenericPermutationShapeCipher(GenericShapeCipher):
 
     def __init__(self, permutation, shape, padding=" "):
         super().__init__(shape=shape, padding=padding)
@@ -211,14 +211,6 @@ class GenericCodexCipher(GenericCipher):
 
 class GenericBaseCipher(GenericCipher):
     pass
-
-
-# class FunctionalCypher(GenericAlphabetCipher):
-#
-#     def __init__(self, encipher, decipher=None, symbols=None):
-#         super().__init__(symbols=symbols)
-#         self._encipher = encipher
-#         self._decipher = decipher
 
 
 def main():

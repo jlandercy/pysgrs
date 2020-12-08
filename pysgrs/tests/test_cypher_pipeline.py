@@ -8,8 +8,8 @@ from pysgrs import ciphers
 class TestPipelineCypherSimpleCase(TestStreamCypher, unittest.TestCase):
 
     cypher = ciphers.PipelineCipher([
-        ciphers.CaesarCypher(),
-        ciphers.TranspositionCypher()
+        ciphers.CaesarCipher(),
+        ciphers.TranspositionCipher()
     ])
     cyphers = [
         "DJPVBEKQWCFLRX GMSY HNTZ IOUA",
@@ -34,9 +34,9 @@ class TestPipelineCypherSimpleCase(TestStreamCypher, unittest.TestCase):
 class TestPipelineCypherComplexCase(TestStreamCypher, unittest.TestCase):
 
     cypher = P = ciphers.PipelineCipher([
-        ciphers.CaesarCypher(),
-        ciphers.VigenereCypher(key="NAPOLEON"),
-        ciphers.TranspositionCypher()
+        ciphers.CaesarCipher(),
+        ciphers.VigenereCipher(key="NAPOLEON"),
+        ciphers.TranspositionCipher()
     ])
     cyphers = [
         "QXAKOEXUKCUYFI UMFC SCGN MCUN",
@@ -61,8 +61,8 @@ class TestPipelineCypherComplexCase(TestStreamCypher, unittest.TestCase):
 class TestPipelineCypherVigenereSquared(TestStreamCypher, unittest.TestCase):
 
     cypher = P = ciphers.PipelineCipher([
-        ciphers.VigenereCypher(key="FIRST"),
-        ciphers.VigenereCypher(key="SECOND"),
+        ciphers.VigenereCipher(key="FIRST"),
+        ciphers.VigenereCipher(key="SECOND"),
     ])
     cyphers = [
         "XNVJKNGCCQCWVJJILLCQBRASJI",
@@ -88,8 +88,8 @@ class TestPipelineCypherVigenereSquared(TestStreamCypher, unittest.TestCase):
 class TestPipelineCypherVigenereSquaredIsVigenere(TestStreamCypher, unittest.TestCase):
 
     cypher = P = ciphers.PipelineCipher([
-        ciphers.VigenereCypher(key="BOB"),
-        ciphers.VigenereCypher(key="BOBETTE"),
+        ciphers.VigenereCipher(key="BOB"),
+        ciphers.VigenereCipher(key="BOBETTE"),
     ])
     cyphers = [
         "CDEILZLWXLCFGFQEFWMAZXYZDG",
@@ -98,19 +98,19 @@ class TestPipelineCypherVigenereSquaredIsVigenere(TestStreamCypher, unittest.Tes
 
 class TestPipelineCypherVigenereSquaredIsVigenereCrossCheck(TestStreamCypher, unittest.TestCase):
 
-    cypher = ciphers.VigenereCypher(key="CCCFHUFPPCSUUSCPPFUHF")
+    cypher = ciphers.VigenereCipher(key="CCCFHUFPPCSUUSCPPFUHF")
     cyphers = TestPipelineCypherVigenereSquaredIsVigenere.cyphers
 
 
 class TestPipelineCypherEquivalenceCaeserRotation(TestStreamCypher, unittest.TestCase):
 
-    cypher = ciphers.PipelineCipher([ciphers.CaesarCypher(), ciphers.RotationCypher(offset=-3)])
+    cypher = ciphers.PipelineCipher([ciphers.CaesarCipher(), ciphers.RotationCipher(offset=-3)])
     cyphers = TestStreamCypher.sentences
 
 
 class TestPipelineCypherEquivalenceCaeserVigenere(TestStreamCypher, unittest.TestCase):
 
-    cypher = ciphers.PipelineCipher([ciphers.RotationCypher(offset=-3), ciphers.VigenereCypher(key="D")])
+    cypher = ciphers.PipelineCipher([ciphers.RotationCipher(offset=-3), ciphers.VigenereCipher(key="D")])
     cyphers = TestStreamCypher.sentences
 
 
