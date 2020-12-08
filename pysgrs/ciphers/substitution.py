@@ -69,11 +69,11 @@ class PermutationCipher(cipher.GenericNaturalAlphabetStreamCipher):
                 permutations = np.arange(self.alphabet.size)
 
         if len(permutations) != self.alphabet.size:
-            raise errors.IllegalCypherParameter("Permutations (size={}) must have same size as {}".format(
+            raise errors.IllegalCipherParameter("Permutations (size={}) must have same size as {}".format(
                 len(permutations), self))
 
         if not set(permutations) == set(self.alphabet.indices):
-            raise errors.IllegalCypherParameter("Permutations {} must have compatible indices with {}".format(
+            raise errors.IllegalCipherParameter("Permutations {} must have compatible indices with {}".format(
                 permutations, self))
 
         self._permutations = tuple(permutations)

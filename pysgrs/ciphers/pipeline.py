@@ -10,7 +10,7 @@ class PipelineCipher(ciphers.GenericCipher):
 
     def __init__(self, pipeline, **kwargs):
         if not all([isinstance(c, ciphers.GenericCipher) for c in pipeline]):
-            raise errors.IllegalCypherParameter(
+            raise errors.IllegalCipherParameter(
                 "Pipeline must be a sequence of ciphers, received {} instead.".format(pipeline))
         self._pipeline = tuple(pipeline)
         self._kwargs = kwargs
@@ -31,8 +31,8 @@ class PipelineCipher(ciphers.GenericCipher):
         kw = copy.deepcopy(self.kwargs.copy())
         kw.update(kwargs)
         r = copy.copy(s)
-        for cypher in self.pipeline:
-            r = cypher.encipher(r, **kw)
+        for cipher in self.pipeline:
+            r = cipher.encipher(r, **kw)
         settings.logger.debug("{}.{}('{}') -> '{}'".format(self, "encipher", s, r))
         return r
 
@@ -40,8 +40,8 @@ class PipelineCipher(ciphers.GenericCipher):
         kw = copy.deepcopy(self.kwargs.copy())
         kw.update(kwargs)
         r = copy.copy(s)
-        for cypher in reversed(self.pipeline):
-            r = cypher.decipher(r, **kw)
+        for cipher in reversed(self.pipeline):
+            r = cipher.decipher(r, **kw)
         settings.logger.debug("{}.{}('{}') -> '{}'".format(self, "decipher", s, r))
         return r
 

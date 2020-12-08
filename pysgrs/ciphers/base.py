@@ -7,7 +7,7 @@ from pysgrs import errors
 from pysgrs.settings import settings
 
 
-class HexadecimalCypher(GenericBaseCipher):
+class HexadecimalCipher(GenericBaseCipher):
 
     def encipher(self, s, **kwargs):
         return s.encode().hex().upper()
@@ -16,7 +16,7 @@ class HexadecimalCypher(GenericBaseCipher):
         return bytes.fromhex(s).decode()
 
 
-class Base16Cypher(GenericBaseCipher):
+class Base16Cipher(GenericBaseCipher):
 
     def encipher(self, s, **kwargs):
         return base64.b16encode(s.encode()).decode()
@@ -25,7 +25,7 @@ class Base16Cypher(GenericBaseCipher):
         return base64.b16decode(s.encode()).decode()
 
 
-class Base32Cypher(GenericBaseCipher):
+class Base32Cipher(GenericBaseCipher):
 
     def encipher(self, s, **kwargs):
         return base64.b32encode(s.encode()).decode()
@@ -34,7 +34,7 @@ class Base32Cypher(GenericBaseCipher):
         return base64.b32decode(s.encode()).decode()
 
 
-class Base64Cypher(GenericBaseCipher):
+class Base64Cipher(GenericBaseCipher):
 
     def encipher(self, s, **kwargs):
         return base64.b64encode(s.encode()).decode()
@@ -43,7 +43,7 @@ class Base64Cypher(GenericBaseCipher):
         return base64.b64decode(s.encode()).decode()
 
 
-class Base85Cypher(GenericBaseCipher):
+class Base85Cipher(GenericBaseCipher):
 
     def encipher(self, s, **kwargs):
         return base64.b85encode(s.encode()).decode()
@@ -52,7 +52,7 @@ class Base85Cypher(GenericBaseCipher):
         return base64.b85decode(s.encode()).decode()
 
 
-class URLQuoteCypher(GenericBaseCipher):
+class URLQuoteCipher(GenericBaseCipher):
 
     def encipher(self, s, **kwargs):
         return parse.quote(s)

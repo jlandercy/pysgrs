@@ -45,7 +45,7 @@ class GenericFunctionalCipher(GenericCipher):
         return self._apply(s, self._decipher, strict=strict, quite=quite)
 
 
-class GenericStreamCypher(GenericFunctionalCipher):
+class GenericStreamCipher(GenericFunctionalCipher):
 
     def _apply(self, s, f, strict=False, quite=True):
         q = 0
@@ -109,7 +109,7 @@ class GenericAlphabetCipher(GenericCipher):
             return len(self.key)
 
 
-class GenericAlphabetStreamCipher(GenericAlphabetCipher, GenericStreamCypher):
+class GenericAlphabetStreamCipher(GenericAlphabetCipher, GenericStreamCipher):
 
     def __init__(self, alphabet=None, key=None):
         super().__init__(alphabet=alphabet, key=key)
@@ -140,7 +140,7 @@ class GenericIntegerAlphabetStreamCipher(GenericAlphabetStreamCipher):
     def __init__(self, alphabet=None, key=None):
         super().__init__(alphabet=alphabet, key=key)
         if not isinstance(self.alphabet, alphabets.IntegerAlphabet):
-            raise errors.IllegalCypherParameter("Generic Stream Cypher requires Integer Alphabet.")
+            raise errors.IllegalCipherParameter("Generic Stream Cypher requires Integer Alphabet.")
 
 
 class GenericNaturalAlphabetStreamCipher(GenericIntegerAlphabetStreamCipher):
@@ -148,7 +148,7 @@ class GenericNaturalAlphabetStreamCipher(GenericIntegerAlphabetStreamCipher):
     def __init__(self, alphabet=None, key=None):
         super().__init__(alphabet=alphabet, key=key)
         if not self.alphabet.is_natural:
-            raise errors.IllegalCypherParameter("Generic Stream Cypher requires Natural Alphabet.")
+            raise errors.IllegalCipherParameter("Generic Stream Cypher requires Natural Alphabet.")
 
 
 class GenericShapeCipher(GenericCipher):
@@ -169,11 +169,11 @@ class GenericShapeCipher(GenericCipher):
         return self._padding
 
     @abc.abstractmethod
-    def _cypher(self, s, **kwargs):
+    def _encipher(self, s, **kwargs):
         pass
 
     @abc.abstractmethod
-    def _decypher(self, s, **kwargs):
+    def _decipher(self, s, **kwargs):
         pass
 
     def _apply(self, s, f, shape=None, mode="auto", permutation=None):
@@ -184,10 +184,10 @@ class GenericShapeCipher(GenericCipher):
         return r
 
     def encipher(self, s, shape=None, mode="auto", permutation=None):
-        return self._apply(s, self._cypher, shape=shape, mode=mode, permutation=permutation)
+        return self._apply(s, self._encipher, shape=shape, mode=mode, permutation=permutation)
 
     def decipher(self, s, shape=None, mode="auto", permutation=None):
-        return self._apply(s, self._decypher, shape=shape, mode=mode, permutation=permutation)
+        return self._apply(s, self._decipher, shape=shape, mode=mode, permutation=permutation)
 
 
 class GenericPermutationShapeCipher(GenericShapeCipher):

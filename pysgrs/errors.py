@@ -15,7 +15,7 @@ class AlphabetException(GenericException):
     pass
 
 
-class CypherException(GenericException):
+class CipherException(GenericException):
     pass
 
 
@@ -35,11 +35,11 @@ class AmbiguousAlphabetIndex(AlphabetException):
     pass
 
 
-class IllegalCypherParameter(IllegalParameter):
+class IllegalCipherParameter(IllegalParameter):
     pass
 
 
-class IllegalCypherOperation(GenericException):
+class IllegalCipherOperation(GenericException):
     pass
 
 

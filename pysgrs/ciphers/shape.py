@@ -14,39 +14,39 @@ class TranspositionCipher(ciphers.GenericShapeCipher):
     def __init__(self, shape=None, padding=" "):
         super().__init__(shape=shape, padding=padding)
 
-    def _cypher(self, x, **kwargs):
+    def _encipher(self, x, **kwargs):
         return x.T
 
-    def _decypher(self, x, **kwargs):
+    def _decipher(self, x, **kwargs):
         return x.reshape(tuple(reversed(x.shape))).T
 
 
 class ColumnPermutationCipher(ciphers.GenericPermutationShapeCipher):
 
-    def _cypher(self, x, **kwargs):
+    def _encipher(self, x, **kwargs):
         return pd.DataFrame(x).iloc[:, self.permutation].values
 
-    def _decypher(self, x, **kwargs):
+    def _decipher(self, x, **kwargs):
         return pd.DataFrame(x).iloc[:, np.argsort(self.permutation)].values
 
 
 class RowPermutationCipher(ciphers.GenericPermutationShapeCipher):
 
-    def _cypher(self, x, **kwargs):
+    def _encipher(self, x, **kwargs):
         return pd.DataFrame(x).iloc[self.permutation, :].values
 
-    def _decypher(self, x, **kwargs):
+    def _decipher(self, x, **kwargs):
         return pd.DataFrame(x).iloc[np.argsort(self.permutation), :].values
 
 
 class ColumnCycleCipher(ciphers.GenericPermutationShapeCipher):
 
-    def _cypher(self, x, **kwargs):
+    def _encipher(self, x, **kwargs):
         for i, n in enumerate(self.permutation):
             x[:, i] = np.roll(x[:, i], n)
         return x
 
-    def _decypher(self, x, **kwargs):
+    def _decipher(self, x, **kwargs):
         for i, n in enumerate(self.permutation):
             x[:, i] = np.roll(x[:, i], -n)
         return x
@@ -54,12 +54,12 @@ class ColumnCycleCipher(ciphers.GenericPermutationShapeCipher):
 
 class RowCycleCipher(ciphers.GenericPermutationShapeCipher):
 
-    def _cypher(self, x, **kwargs):
+    def _encipher(self, x, **kwargs):
         for i, n in enumerate(self.permutation):
             x[i, :] = np.roll(x[i, :], n)
         return x
 
-    def _decypher(self, x, **kwargs):
+    def _decipher(self, x, **kwargs):
         for i, n in enumerate(self.permutation):
             x[i, :] = np.roll(x[i, :], -n)
         return x

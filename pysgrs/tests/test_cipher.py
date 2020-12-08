@@ -7,7 +7,7 @@ from pysgrs import settings
 
 class TestStreamCipher:
 
-    cypher = None
+    cipher = None
     plaintexts = [
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
         "ZYXWVUTSRQPONMLKJIHGFEDCBA",
@@ -31,19 +31,19 @@ class TestStreamCipher:
 
     def test_reversible_direct(self):
         for plaintext in self.plaintexts:
-            self.assertEqual(plaintext, self.cypher.decipher(self.cypher.encipher(plaintext)))
+            self.assertEqual(plaintext, self.cipher.decipher(self.cipher.encipher(plaintext)))
 
     def test_reversible_inverse(self):
         for ciphertext in self.ciphertexts:
-            self.assertEqual(ciphertext, self.cypher.encipher(self.cypher.decipher(ciphertext)))
+            self.assertEqual(ciphertext, self.cipher.encipher(self.cipher.decipher(ciphertext)))
 
     def test_enciphering(self):
         for sentence, cypher in zip(self.plaintexts, self.ciphertexts):
-            self.assertEqual(cypher, self.cypher.encipher(sentence))
+            self.assertEqual(cypher, self.cipher.encipher(sentence))
 
     def test_deciphering(self):
         for sentence, cypher in zip(self.plaintexts, self.ciphertexts):
-            self.assertEqual(sentence, self.cypher.decipher(cypher))
+            self.assertEqual(sentence, self.cipher.decipher(cypher))
 
 
 class TestShapeCipher(TestStreamCipher):
