@@ -30,19 +30,19 @@ class TestStreamCypher:
 
     def test_reversible_direct(self):
         for sentence in self.sentences:
-            self.assertEqual(sentence, self.cypher.decypher(self.cypher.cypher(sentence)))
+            self.assertEqual(sentence, self.cypher.decipher(self.cypher.encipher(sentence)))
 
     def test_reversible_inverse(self):
         for cypher in self.cyphers:
-            self.assertEqual(cypher, self.cypher.cypher(self.cypher.decypher(cypher)))
+            self.assertEqual(cypher, self.cypher.encipher(self.cypher.decipher(cypher)))
 
     def test_cyphering(self):
         for sentence, cypher in zip(self.sentences, self.cyphers):
-            self.assertEqual(cypher, self.cypher.cypher(sentence))
+            self.assertEqual(cypher, self.cypher.encipher(sentence))
 
     def test_decyphering(self):
         for sentence, cypher in zip(self.sentences, self.cyphers):
-            self.assertEqual(sentence, self.cypher.decypher(cypher))
+            self.assertEqual(sentence, self.cypher.decipher(cypher))
 
 
 class TestShapeCypher(TestStreamCypher):

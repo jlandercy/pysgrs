@@ -2,12 +2,12 @@ import sys
 import unittest
 
 from pysgrs.tests.test_cypher import TestStreamCypher
-from pysgrs import cyphers
+from pysgrs import ciphers
 
 
 class TestVigenereStreamCypherSmallKey(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.VigenereCypher(key="ABC")
+    cypher = ciphers.VigenereCypher(key="ABC")
     cyphers = [
         "ACEDFHGIKJLNMOQPRTSUWVXZYA",
         "ZZZWWWTTTQQQNNNKKKHHHEEEBB",
@@ -30,7 +30,7 @@ class TestVigenereStreamCypherSmallKey(TestStreamCypher, unittest.TestCase):
 
 class TestVigenereStreamCypherMediumKey(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.VigenereCypher(key="NATURELLEMENT")
+    cypher = ciphers.VigenereCypher(key="NATURELLEMENT")
     cyphers = [
         "NBVXVJRSMVOYFAOIKIWEFZIBLS",
         "MYQQMYEDVCTBGZLDDZLRQIPGOT",

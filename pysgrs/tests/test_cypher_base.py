@@ -2,12 +2,12 @@ import sys
 import unittest
 
 from pysgrs.tests.test_cypher import TestStreamCypher
-from pysgrs import cyphers
+from pysgrs import ciphers
 
 
 class TestBase16Cypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.Base16Cypher()
+    cypher = ciphers.Base16Cypher()
     cyphers = [
         "4142434445464748494A4B4C4D4E4F505152535455565758595A",
         "5A595857565554535251504F4E4D4C4B4A494847464544434241",
@@ -30,13 +30,13 @@ class TestBase16Cypher(TestStreamCypher, unittest.TestCase):
 
 class TestHexadecimalCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.HexadecimalCypher()
+    cypher = ciphers.HexadecimalCypher()
     cyphers = TestBase16Cypher.cyphers
 
 
 class TestBase32Cypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.Base32Cypher()
+    cypher = ciphers.Base32Cypher()
     cyphers = [
         "IFBEGRCFIZDUQSKKJNGE2TSPKBIVEU2UKVLFOWCZLI======",
         "LJMVQV2WKVKFGUSRKBHU4TKMJNFESSCHIZCUIQ2CIE======",
@@ -59,7 +59,7 @@ class TestBase32Cypher(TestStreamCypher, unittest.TestCase):
 
 class TestBase64Cypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.Base64Cypher()
+    cypher = ciphers.Base64Cypher()
     cyphers = [
         "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo=",
         "WllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkE=",
@@ -82,7 +82,7 @@ class TestBase64Cypher(TestStreamCypher, unittest.TestCase):
 
 class TestBase85Cypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.Base85Cypher()
+    cypher = ciphers.Base85Cypher()
     cyphers = [
         "K|(`BMMg(RNlHshO-@fxQBqS>RaRG6Sy}",
         "T3J|ER#j9}Qc+M(PEAZpN=ZmZMnyzJLO}",
@@ -105,7 +105,7 @@ class TestBase85Cypher(TestStreamCypher, unittest.TestCase):
 
 class URLSafeCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.URLQuoteCypher()
+    cypher = ciphers.URLQuoteCypher()
     cyphers = [
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
         "ZYXWVUTSRQPONMLKJIHGFEDCBA",

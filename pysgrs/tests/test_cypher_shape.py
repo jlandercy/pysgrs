@@ -4,13 +4,13 @@ import unittest
 import numpy as np
 
 from pysgrs.tests.test_cypher import TestShapeCypher
-from pysgrs import cyphers
+from pysgrs import ciphers
 from pysgrs import toolbox
 
 
 class TestTranspositionCypher(TestShapeCypher, unittest.TestCase):
 
-    cypher = cyphers.TranspositionCypher(shape=(5, 5))
+    cypher = ciphers.TranspositionCypher(shape=(5, 5))
     cyphers = [
         "AFLQVBGMRWCHNSXDIOTYEKPUZ",
     ]
@@ -18,7 +18,7 @@ class TestTranspositionCypher(TestShapeCypher, unittest.TestCase):
 
 class TestColumnPermutationCypherIdentity(TestShapeCypher, unittest.TestCase):
 
-    cypher = cyphers.ColumnPermutationCypher(shape=(5, 5), permutation=np.arange(5))
+    cypher = ciphers.ColumnPermutationCypher(shape=(5, 5), permutation=np.arange(5))
     cyphers = [
         "ABCDEFGHIKLMNOPQRSTUVWXYZ",
     ]
@@ -26,7 +26,7 @@ class TestColumnPermutationCypherIdentity(TestShapeCypher, unittest.TestCase):
 
 class TestRowPermutationCypherIdentity(TestShapeCypher, unittest.TestCase):
 
-    cypher = cyphers.RowPermutationCypher(shape=(5, 5), permutation=np.arange(5))
+    cypher = ciphers.RowPermutationCypher(shape=(5, 5), permutation=np.arange(5))
     cyphers = [
         "ABCDEFGHIKLMNOPQRSTUVWXYZ",
     ]
@@ -34,7 +34,7 @@ class TestRowPermutationCypherIdentity(TestShapeCypher, unittest.TestCase):
 
 class TestColumnCycleCypherIdentity(TestShapeCypher, unittest.TestCase):
 
-    cypher = cyphers.ColumnCycleCypher(shape=(5, 5), permutation=np.zeros(5))
+    cypher = ciphers.ColumnCycleCypher(shape=(5, 5), permutation=np.zeros(5))
     cyphers = [
         "ABCDEFGHIKLMNOPQRSTUVWXYZ",
     ]
@@ -42,7 +42,7 @@ class TestColumnCycleCypherIdentity(TestShapeCypher, unittest.TestCase):
 
 class TestRowCycleCypherIdentity(TestShapeCypher, unittest.TestCase):
 
-    cypher = cyphers.RowCycleCypher(shape=(5, 5), permutation=np.zeros(5))
+    cypher = ciphers.RowCycleCypher(shape=(5, 5), permutation=np.zeros(5))
     cyphers = [
         "ABCDEFGHIKLMNOPQRSTUVWXYZ",
     ]

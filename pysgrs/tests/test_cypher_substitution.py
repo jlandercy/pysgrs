@@ -3,18 +3,18 @@ import unittest
 
 from pysgrs.tests.test_cypher import TestStreamCypher
 from pysgrs import alphabets
-from pysgrs import cyphers
+from pysgrs import ciphers
 
 
 class TestIdentityStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.RotationCypher(offset=0)
+    cypher = ciphers.RotationCypher(offset=0)
     cyphers = TestStreamCypher.sentences
 
 
 class TestRotationStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.RotationCypher(offset=7)
+    cypher = ciphers.RotationCypher(offset=7)
     cyphers = [
         "HIJKLMNOPQRSTUVWXYZABCDEFG",
         "GFEDCBAZYXWVUTSRQPONMLKJIH",
@@ -36,7 +36,7 @@ class TestRotationStreamCypher(TestStreamCypher, unittest.TestCase):
 
 class TestNegativeRotationStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.RotationCypher(offset=-7)
+    cypher = ciphers.RotationCypher(offset=-7)
     cyphers = [
         "TUVWXYZABCDEFGHIJKLMNOPQRS"
     ]
@@ -44,7 +44,7 @@ class TestNegativeRotationStreamCypher(TestStreamCypher, unittest.TestCase):
 
 class TestCaesarStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.CaesarCypher()
+    cypher = ciphers.CaesarCypher()
     cyphers = [
         "DEFGHIJKLMNOPQRSTUVWXYZABC",
         "CBAZYXWVUTSRQPONMLKJIHGFED",
@@ -68,7 +68,7 @@ class TestCaesarStreamCypher(TestStreamCypher, unittest.TestCase):
 
 class TestReversedStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.ReversedCypher()
+    cypher = ciphers.ReversedCypher()
     cyphers = [
         "ZYXWVUTSRQPONMLKJIHGFEDCBA"
     ]
@@ -76,7 +76,7 @@ class TestReversedStreamCypher(TestStreamCypher, unittest.TestCase):
 
 class TestAlphabetStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.AlphabetCypher(
+    cypher = ciphers.AlphabetCypher(
         alphabet=alphabets.StringAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ",
                                           indices="DEFGHIJKLMNOPQRSTUVWXYZABC")
     )
@@ -85,13 +85,13 @@ class TestAlphabetStreamCypher(TestStreamCypher, unittest.TestCase):
 
 class TestPermutationIdentityStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.PermutationCypher()
+    cypher = ciphers.PermutationCypher()
     cyphers = TestStreamCypher.sentences
 
 
 class TestPermutationStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.PermutationCypher(
+    cypher = ciphers.PermutationCypher(
         [
             10, 24,  8, 18, 15, 13,  1, 25,  9,
             22, 20,  6,  2,  0,  5,  3, 12, 21,
@@ -105,19 +105,19 @@ class TestPermutationStreamCypher(TestStreamCypher, unittest.TestCase):
 
 class TestPermutationStreamCypherRandom(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.PermutationCypher(auto=True)
+    cypher = ciphers.PermutationCypher(auto=True)
     cyphers = []
 
 
 class TestPermutationStreamCypherIdentity(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.PermutationCypher()
+    cypher = ciphers.PermutationCypher()
     cyphers = TestStreamCypher.sentences
 
 
 class TestAffineStreamCypher(TestStreamCypher, unittest.TestCase):
 
-    cypher = cyphers.AffineCypher()
+    cypher = ciphers.AffineCypher()
     cyphers = [
         "INSXCHMRWBGLQVAFKPUZEJOTYD"
     ]

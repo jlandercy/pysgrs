@@ -3,24 +3,24 @@ import sys
 
 import numpy as np
 
-from pysgrs.interfaces import cypher
+from pysgrs.interfaces import cipher
 from pysgrs.toolbox import ModularArithmetic
 from pysgrs import errors
 
 
-class AlphabetCypher(cypher.GenericAlphabetStreamCypher):
+class AlphabetCypher(cipher.GenericAlphabetStreamCypher):
 
     def __init__(self, alphabet=None):
         super().__init__(alphabet=alphabet)
 
-    def _cypher(self, c, k=None):
+    def _encipher(self, c, k=None):
         return self.alphabet.index(c)
 
-    def _decypher(self, c, k=None):
+    def _decipher(self, c, k=None):
         return self.alphabet.symbol(c)
 
 
-class RotationCypher(cypher.GenericNaturalAlphabetStreamCypher):
+class RotationCypher(cipher.GenericNaturalAlphabetStreamCypher):
 
     def __init__(self, alphabet=None, offset=3):
         super().__init__(alphabet=alphabet)
@@ -30,10 +30,10 @@ class RotationCypher(cypher.GenericNaturalAlphabetStreamCypher):
     def offset(self):
         return self._offset
 
-    def _cypher(self, c, k=None):
+    def _encipher(self, c, k=None):
         return self.alphabet.symbol((self.alphabet.index(c) + self.offset) % self.alphabet.size)
 
-    def _decypher(self, c, k=None):
+    def _decipher(self, c, k=None):
         return self.alphabet.symbol((self.alphabet.index(c) - self.offset) % self.alphabet.size)
 
 
@@ -43,19 +43,19 @@ class CaesarCypher(RotationCypher):
         super().__init__(alphabet=alphabet, offset=3)
 
 
-class ReversedCypher(cypher.GenericNaturalAlphabetStreamCypher):
+class ReversedCypher(cipher.GenericNaturalAlphabetStreamCypher):
 
     def __init__(self, alphabet=None):
         super().__init__(alphabet=alphabet)
 
-    def _cypher(self, c, k=None):
+    def _encipher(self, c, k=None):
         return self.alphabet.symbol(self.alphabet.size - self.alphabet.index(c) - 1)
 
-    def _decypher(self, c, k=None):
+    def _decipher(self, c, k=None):
         return self.alphabet.symbol(self.alphabet.size - self.alphabet.index(c) - 1)
 
 
-class PermutationCypher(cypher.GenericNaturalAlphabetStreamCypher):
+class PermutationCypher(cipher.GenericNaturalAlphabetStreamCypher):
 
     def __init__(self, permutations=None, alphabet=None, auto=False):
         super().__init__(alphabet=alphabet)
@@ -82,14 +82,14 @@ class PermutationCypher(cypher.GenericNaturalAlphabetStreamCypher):
     def permutations(self):
         return self._permutations
 
-    def _cypher(self, c, k=None):
+    def _encipher(self, c, k=None):
         return self.alphabet.symbol(self.permutations[self.alphabet.index(c)])
 
-    def _decypher(self, c, k=None):
+    def _decipher(self, c, k=None):
         return self.alphabet.symbol(self.permutations.index(self.alphabet.index(c)))
 
 
-class AffineCypher(cypher.GenericNaturalAlphabetStreamCypher):
+class AffineCypher(cipher.GenericNaturalAlphabetStreamCypher):
 
     def __init__(self, a=5, b=8, alphabet=None):
         super().__init__(alphabet=alphabet)
@@ -109,10 +109,10 @@ class AffineCypher(cypher.GenericNaturalAlphabetStreamCypher):
     def a_inverse(self):
         return self._a_inverse
 
-    def _cypher(self, c, k=None):
+    def _encipher(self, c, k=None):
         return self.alphabet.symbol((self.a*self.alphabet.index(c) + self.b) % self.alphabet.size)
 
-    def _decypher(self, c, k=None):
+    def _decipher(self, c, k=None):
         return self.alphabet.symbol((self.a_inverse*(self.alphabet.index(c) - self.b)) % self.alphabet.size)
 
 

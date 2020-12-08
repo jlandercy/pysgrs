@@ -1,2 +1,2 @@
 from pysgrs.interfaces.alphabet import *
-from pysgrs.interfaces.cypher import *
+from pysgrs.interfaces.cipher import *

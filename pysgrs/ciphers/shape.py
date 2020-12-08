@@ -3,13 +3,13 @@ import sys
 import numpy as np
 import pandas as pd
 
-from pysgrs import cyphers
+from pysgrs import ciphers
 from pysgrs.toolbox import Shaper
 from pysgrs import errors
 from pysgrs.settings import settings
 
 
-class TranspositionCypher(cyphers.GenericShapeCypher):
+class TranspositionCypher(ciphers.GenericShapeCipher):
 
     def __init__(self, shape=None, padding=" "):
         super().__init__(shape=shape, padding=padding)
@@ -21,7 +21,7 @@ class TranspositionCypher(cyphers.GenericShapeCypher):
         return x.reshape(tuple(reversed(x.shape))).T
 
 
-class ColumnPermutationCypher(cyphers.GenericPermutationShapeCypher):
+class ColumnPermutationCypher(ciphers.GenericPermutationShapeCypher):
 
     def _cypher(self, x, **kwargs):
         return pd.DataFrame(x).iloc[:, self.permutation].values
@@ -30,7 +30,7 @@ class ColumnPermutationCypher(cyphers.GenericPermutationShapeCypher):
         return pd.DataFrame(x).iloc[:, np.argsort(self.permutation)].values
 
 
-class RowPermutationCypher(cyphers.GenericPermutationShapeCypher):
+class RowPermutationCypher(ciphers.GenericPermutationShapeCypher):
 
     def _cypher(self, x, **kwargs):
         return pd.DataFrame(x).iloc[self.permutation, :].values
@@ -39,7 +39,7 @@ class RowPermutationCypher(cyphers.GenericPermutationShapeCypher):
         return pd.DataFrame(x).iloc[np.argsort(self.permutation), :].values
 
 
-class ColumnCycleCypher(cyphers.GenericPermutationShapeCypher):
+class ColumnCycleCypher(ciphers.GenericPermutationShapeCypher):
 
     def _cypher(self, x, **kwargs):
         for i, n in enumerate(self.permutation):
@@ -52,7 +52,7 @@ class ColumnCycleCypher(cyphers.GenericPermutationShapeCypher):
         return x
 
 
-class RowCycleCypher(cyphers.GenericPermutationShapeCypher):
+class RowCycleCypher(ciphers.GenericPermutationShapeCypher):
 
     def _cypher(self, x, **kwargs):
         for i, n in enumerate(self.permutation):

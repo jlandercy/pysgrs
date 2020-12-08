@@ -10,42 +10,42 @@ from pysgrs import toolbox
 from pysgrs.settings import settings
 
 
-class GenericCypher(abc.ABC):
+class GenericCipher(abc.ABC):
 
     def __str__(self):
         return "<{}>".format(self.__class__.__name__)
 
     @abc.abstractmethod
-    def cypher(self, s, **kwargs):
+    def encipher(self, s, **kwargs):
         pass
 
     @abc.abstractmethod
-    def decypher(self, s, **kwargs):
+    def decipher(self, s, **kwargs):
         pass
 
 
-class GenericFunctionalCypher(GenericCypher):
+class GenericFunctionalCipher(GenericCipher):
 
     @abc.abstractmethod
     def _apply(self, s, f, strict=True, quite=False):
         pass
 
     @abc.abstractmethod
-    def _cypher(self, c, k=None):
+    def _encipher(self, c, k=None):
         pass
 
     @abc.abstractmethod
-    def _decypher(self, c, k=None):
+    def _decipher(self, c, k=None):
         pass
 
-    def cypher(self, s, strict=False, quite=True):
-        return self._apply(s, self._cypher, strict=strict, quite=quite)
+    def encipher(self, s, strict=False, quite=True):
+        return self._apply(s, self._encipher, strict=strict, quite=quite)
 
-    def decypher(self, s, strict=False, quite=True):
-        return self._apply(s, self._decypher, strict=strict, quite=quite)
+    def decipher(self, s, strict=False, quite=True):
+        return self._apply(s, self._decipher, strict=strict, quite=quite)
 
 
-class GenericStreamCypher(GenericFunctionalCypher):
+class GenericStreamCypher(GenericFunctionalCipher):
 
     def _apply(self, s, f, strict=False, quite=True):
         q = 0
@@ -70,7 +70,7 @@ class GenericStreamCypher(GenericFunctionalCypher):
         return r
 
 
-class GenericAlphabetCypher(GenericCypher):
+class GenericAlphabetCipher(GenericCipher):
 
     def __init__(self, alphabet=None, key=None):
 
@@ -109,18 +109,18 @@ class GenericAlphabetCypher(GenericCypher):
             return len(self.key)
 
 
-class GenericAlphabetStreamCypher(GenericAlphabetCypher, GenericStreamCypher):
+class GenericAlphabetStreamCypher(GenericAlphabetCipher, GenericStreamCypher):
 
     def __init__(self, alphabet=None, key=None):
         super().__init__(alphabet=alphabet, key=key)
 
     def pairs(self, s=None):
         s = s or self.alphabet.symbols
-        c = self.cypher(s)
+        c = self.encipher(s)
         return list(zip(s, c))
 
     def to_dataframe(self, s=None):
-        return pd.DataFrame(self.pairs(s), columns=["clear", "cypher"])
+        return pd.DataFrame(self.pairs(s), columns=["clear", "encipher"])
 
     def to_graph(self, s=None, raw=False):
         import networkx as nx
@@ -151,7 +151,7 @@ class GenericNaturalAlphabetStreamCypher(GenericIntegerAlphabetStreamCypher):
             raise errors.IllegalCypherParameter("Generic Stream Cypher requires Natural Alphabet.")
 
 
-class GenericShapeCypher(GenericCypher):
+class GenericShapeCipher(GenericCipher):
 
     def __init__(self, shape=None, padding=" "):
         self._shape = shape
@@ -183,14 +183,14 @@ class GenericShapeCypher(GenericCypher):
         settings.logger.debug("{}.{}('{}') -> '{}'".format(self, f.__name__, s, r))
         return r
 
-    def cypher(self, s, shape=None, mode="auto", permutation=None):
+    def encipher(self, s, shape=None, mode="auto", permutation=None):
         return self._apply(s, self._cypher, shape=shape, mode=mode, permutation=permutation)
 
-    def decypher(self, s, shape=None, mode="auto", permutation=None):
+    def decipher(self, s, shape=None, mode="auto", permutation=None):
         return self._apply(s, self._decypher, shape=shape, mode=mode, permutation=permutation)
 
 
-class GenericPermutationShapeCypher(GenericShapeCypher):
+class GenericPermutationShapeCypher(GenericShapeCipher):
 
     def __init__(self, permutation, shape, padding=" "):
         super().__init__(shape=shape, padding=padding)
@@ -205,20 +205,20 @@ class GenericPermutationShapeCypher(GenericShapeCypher):
         return self._permutation
 
 
-class GenericCodexCypher(GenericCypher):
+class GenericCodexCipher(GenericCipher):
     pass
 
 
-class GenericBaseCypher(GenericCypher):
+class GenericBaseCipher(GenericCipher):
     pass
 
 
-# class FunctionalCypher(GenericAlphabetCypher):
+# class FunctionalCypher(GenericAlphabetCipher):
 #
-#     def __init__(self, cypher, decypher=None, symbols=None):
+#     def __init__(self, encipher, decipher=None, symbols=None):
 #         super().__init__(symbols=symbols)
-#         self._cypher = cypher
-#         self._decypher = decypher
+#         self._encipher = encipher
+#         self._decipher = decipher
 
 
 def main():
