@@ -76,10 +76,14 @@ class FrequencyAnalyzer:
         frequencies = []
         for counter in counters:
             df = pd.DataFrame.from_dict(dict(counter), orient="index", columns=["count"])
+            df.index.name = "ngram"
             n = df["count"].sum()
             df["frequency"] = df["count"]/n
+            df["log_frequency"] = np.log(df["frequency"])
+            df["log10_frequency"] = np.log10(df["frequency"])
             df["coincidence"] = df.shape[0]*df["count"]*(df["count"] - 1)/(n*(n-1))
-            df = df.sort_values("frequency", ascending=False)
+            df = df.sort_values("frequency", ascending=False).reset_index()
+            df["order"] = df["ngram"].apply(len)
             frequencies.append(df)
         return frequencies
 
@@ -90,6 +94,14 @@ class FrequencyAnalyzer:
         counts = FrequencyAnalyzer.get_counts(source, max_ngram=max_ngram)
         frequencies = FrequencyAnalyzer.to_frequencies(counts)
         return frequencies
+
+    @staticmethod
+    def to_format(source=None, max_ngram=3, language="fr"):
+        frequencies = FrequencyAnalyzer.analyze(source=source, max_ngram=max_ngram, language=language)
+        ngrams = dict()
+        for i, frequency in enumerate(frequencies):
+            ngrams["%d-grams" % (i+1)] = frequency.to_dict(orient="split")
+        return ngrams
 
     @staticmethod
     def keysize_coincidences(s, max_keysize=25):
@@ -157,6 +169,11 @@ class NGramScorer:
 
 
 def main():
+    # import json
+    # freqs = FrequencyAnalyzer.to_format(max_ngram=5)
+    # with (pathlib.Path(__file__).parent / 'resources/ngrams_fr.json').open("w") as fh:
+    #     json.dump(freqs, fh)
+
     freqs = FrequencyAnalyzer.analyze()
     for f in freqs:
         print(f.iloc[:500,:].reset_index().to_json(orient="records"))
