@@ -3,11 +3,15 @@ import sys
 from pysgrs.settings import settings
 
 
-class HillClimbingAlgorithm:
+class Algorithm:
     pass
 
 
-class GeneticAlgorithm:
+class HillClimbingAlgorithm(Algorithm):
+    pass
+
+
+class GeneticAlgorithm(Algorithm):
     """
     https://towardsdatascience.com/introduction-to-genetic-algorithms-including-example-code-e396e98d8bf3
     START

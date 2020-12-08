@@ -1,56 +1,26 @@
+import abc
 import sys
 import collections
 from collections.abc import Iterable
 import pathlib
-import string
-import unicodedata
-import re
-import json
 
 import numpy as np
 import pandas as pd
 
 from pysgrs.settings import settings
 from pysgrs import errors
-from pysgrs.toolbox.formats import Shaper
+from pysgrs.toolbox.shaper import Shaper
+from pysgrs.toolbox.cleaner import AsciiCleaner
 
 
-class Cleaner:
+class Analyzer(abc.ABC):
 
-    _all_spaces = re.compile(r"\s+")
-    _all_punctuations = re.compile('[%s]' % re.escape(string.punctuation))
-    _non_letters = re.compile(r"[^A-Za-z ]")
-
-    @staticmethod
-    def strip_accents(s):
-        return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
-
-    @staticmethod
-    def remove_punctuation(s):
-        s = Cleaner._all_punctuations.sub(" ", s)
-        s = Cleaner._all_spaces.sub(" ", s)
-        return s.strip()
-
-    @staticmethod
-    def remove_non_letters(s):
-        s = Cleaner._non_letters.sub("", s)
-        return s
-
-    @staticmethod
-    def clean(s):
-        s = Cleaner.remove_punctuation(s)
-        s = Cleaner.strip_accents(s)
-        s = Cleaner.remove_non_letters(s)
-        return s
-
-    @staticmethod
-    def normalize(s):
-        s = Cleaner.clean(s)
-        s = s.replace(" ", "").upper()
-        return s
+    @abc.abstractmethod
+    def analyze(self, source):
+        pass
 
 
-class FrequencyAnalyzer:
+class FrequencyAnalyzer(Analyzer):
 
     @staticmethod
     def get_counts(source=None, max_ngram=3):
@@ -75,7 +45,7 @@ class FrequencyAnalyzer:
             raise errors.IllegalParameter("Expect a Path or a str, received {} instead.".format(type(source)))
         # Analyze content:
         for line in text.split("\n"):
-            line = Cleaner.clean(line).upper()
+            line = AsciiCleaner.clean(line).upper()
             for word in line.split(" "):
                 m = len(word)
                 for k, counter in enumerate(counters):
@@ -135,11 +105,11 @@ def main():
     # with p.open("w") as fh:
     #     json.dump(freqs, fh)
 
-    # freqs = FrequencyAnalyzer.analyze()
-    # for f in freqs:
-    #     print(f.iloc[:500,:].reset_index().to_json(orient="records"))
-    #     print(f)
-    #     print(f.sum())
+    freqs = FrequencyAnalyzer.analyze()
+    for f in freqs:
+        print(f.iloc[:500,:].reset_index().to_json(orient="records"))
+        print(f)
+        print(f.sum())
 
     sys.exit(0)
 

@@ -16,7 +16,7 @@ class TestNGramsOnCipherKeySpace:
     factory = None
     cipher_keyspace = None
     breaker_keyspace = None
-    analyzer = toolbox.NGrams(language="fr")
+    analyzer = toolbox.MultiNGramScore(language="fr")
 
     paths = (settings.resources / 'texts/fr').glob("*.txt")
     plaintexts = []
@@ -26,7 +26,7 @@ class TestNGramsOnCipherKeySpace:
         for path in self.paths:
             with path.open(encoding='utf-8') as fh:
                 text = fh.read()
-                plaintext = toolbox.Cleaner.strip_accents(text)
+                plaintext = toolbox.AsciiCleaner.strip_accents(text)
                 self.plaintexts.append({
                     "text": text,
                     "normalized": plaintext,

@@ -1,3 +1,4 @@
+import abc
 import sys
 import collections
 import pathlib
@@ -7,10 +8,17 @@ import numpy as np
 
 from pysgrs.settings import settings
 from pysgrs import errors
-from pysgrs.toolbox.helpers import Cleaner
+from pysgrs.toolbox.cleaner import AsciiCleaner
 
 
-class NGram:
+class Score(abc.ABC):
+
+    @abc.abstractmethod
+    def score(self, text, **kwargs):
+        pass
+
+
+class NGramScore(Score):
 
     def __init__(self, ngrams, floor=0.01, scaler=np.log10):
 
@@ -47,7 +55,7 @@ class NGram:
             raise errors.IllegalParameter("Floor must be lower than all existing likelihood")
 
     def __str__(self):
-        return "<NGram order={} size={} floor={:.3f} scaler={}>".format(
+        return "<NGramScore order={} size={} floor={:.3f} scaler={}>".format(
             self.order, self.size, self.floor, self.scaler.__name__)
 
     def __repr__(self):
@@ -96,7 +104,7 @@ class NGram:
 
     def score(self, text, normalize=True):
         if normalize:
-            text = Cleaner.normalize(text)
+            text = AsciiCleaner.normalize(text)
         n = len(text)
         score = 0.
         for k in range(n - self.order + 1):
@@ -105,7 +113,7 @@ class NGram:
         return score
 
 
-class NGrams:
+class MultiNGramScore(Score):
 
     def __init__(self, source=None, language="fr"):
 
@@ -120,11 +128,11 @@ class NGrams:
         self._ngrams = dict()
         for key, values in source.items():
             d = {k: v for k, v in zip(values["ngram"], values["count"])}
-            ngram = NGram(d)
+            ngram = NGramScore(d)
             self._ngrams[ngram.order] = ngram
 
     def __str__(self):
-        return "<NGrams ngrams={}>".format(self.ngrams)
+        return "<MultiNGramScore ngrams={}>".format(self.ngrams)
 
     @property
     def ngrams(self):
@@ -136,7 +144,7 @@ class NGrams:
 
 def main():
 
-    x = NGrams()
+    x = MultiNGramScore()
     print(x)
 
     sys.exit(0)

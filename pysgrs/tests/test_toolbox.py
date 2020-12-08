@@ -97,8 +97,8 @@ class TestHelperCleanerStripAccents(unittest.TestCase):
 
     def test_sentence_cleaning(self):
         for sentence in self.sentences:
-            self.assertEqual(sentence[1], toolbox.Cleaner.strip_accents(sentence[0]))
-            self.assertEqual(sentence[1].upper(), toolbox.Cleaner.strip_accents(sentence[0].upper()))
+            self.assertEqual(sentence[1], toolbox.AsciiCleaner.strip_accents(sentence[0]))
+            self.assertEqual(sentence[1].upper(), toolbox.AsciiCleaner.strip_accents(sentence[0].upper()))
 
 
 class TestHelperCleanerRemovePunctuation(unittest.TestCase):
@@ -112,7 +112,7 @@ class TestHelperCleanerRemovePunctuation(unittest.TestCase):
 
     def test_sentence_cleaning(self):
         for sentence in self.sentences:
-            self.assertEqual(sentence[1], toolbox.Cleaner.remove_punctuation(sentence[0]))
+            self.assertEqual(sentence[1], toolbox.AsciiCleaner.remove_punctuation(sentence[0]))
 
 
 def main():
