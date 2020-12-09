@@ -29,6 +29,10 @@ class GenericBreaker(abc.ABC):
     def score(self):
         return self._score
 
+    @abc.abstractmethod
+    def attack(self, text, **kwargs):
+        pass
+
 
 def main():
     settings.logger.warning("Hello world!")
