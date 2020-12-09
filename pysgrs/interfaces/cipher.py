@@ -19,6 +19,10 @@ class GenericCipher(abc.ABC):
         return self.__str__()
 
     @abc.abstractmethod
+    def configuration(self):
+        pass
+
+    @abc.abstractmethod
     def encipher(self, s, **kwargs):
         pass
 
@@ -104,6 +108,12 @@ class GenericAlphabetCipher(GenericCipher):
     def key(self):
         return self._key
 
+    def configuration(self):
+        return {
+            "alphabet": self.alphabet,
+            "key": self.key
+        }
+
     @property
     def keysize(self):
         if self.key is None:
@@ -171,6 +181,12 @@ class GenericShapeCipher(GenericCipher):
     def padding(self):
         return self._padding
 
+    def configuration(self):
+        return {
+            "shape": self.shape,
+            "padding": self.padding
+        }
+
     @abc.abstractmethod
     def _encipher(self, s, **kwargs):
         pass
@@ -207,13 +223,20 @@ class GenericPermutationShapeCipher(GenericShapeCipher):
     def permutation(self):
         return self._permutation
 
+    def configuration(self):
+        c = super().configuration()
+        c.update({"permutation": self.permutation})
+        return c
+
 
 class GenericCodexCipher(GenericCipher):
     pass
 
 
 class GenericBaseCipher(GenericCipher):
-    pass
+
+    def configuration(self):
+        return {}
 
 
 def main():

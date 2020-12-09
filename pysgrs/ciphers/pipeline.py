@@ -27,6 +27,12 @@ class PipelineCipher(ciphers.GenericCipher):
     def kwargs(self):
         return self._kwargs
 
+    def configuration(self):
+        return {
+            "pipeline": self.pipeline,
+            "kwargs": self.kwargs
+        }
+
     def encipher(self, s, **kwargs):
         kw = copy.deepcopy(self.kwargs.copy())
         kw.update(kwargs)
