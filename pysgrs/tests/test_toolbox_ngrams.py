@@ -7,6 +7,7 @@ import pandas as pd
 
 from pysgrs import interfaces
 from pysgrs import ciphers
+from pysgrs import scores
 from pysgrs import toolbox
 from pysgrs import errors
 from pysgrs import settings
@@ -16,7 +17,7 @@ class TestNGramsOnCipherKeySpace:
 
     ciphers = None
     breakers = None
-    analyzer = toolbox.MultiNGramScore(language="fr")
+    analyzer = scores.MultiNGramScore(language="fr")
 
     paths = (settings.resources / 'texts/fr').glob("*.txt")
     plaintexts = []

@@ -2,7 +2,7 @@ import abc
 import sys
 
 from pysgrs.interfaces.factory import CipherFactory
-from pysgrs.toolbox import GenericScore
+from pysgrs.interfaces.score import GenericScore
 from pysgrs import errors
 from pysgrs.settings import settings
 

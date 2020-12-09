@@ -6,16 +6,10 @@ import json
 
 import numpy as np
 
+from pysgrs.interfaces.score import GenericScore
 from pysgrs.settings import settings
 from pysgrs import errors
 from pysgrs.toolbox.cleaner import AsciiCleaner
-
-
-class GenericScore(abc.ABC):
-
-    @abc.abstractmethod
-    def score(self, text, **kwargs):
-        pass
 
 
 class NGramScore(GenericScore):
@@ -118,7 +112,7 @@ class MultiNGramScore(GenericScore):
     def __init__(self, source=None, language="fr"):
 
         if source is None:
-            source = pathlib.Path(__file__).parent / 'resources/ngrams_{}.json'.format(language)
+            source = settings.resources / 'ngrams/ngrams_{}.json'.format(language)
 
         if isinstance(source, (str, pathlib.Path)):
             source = pathlib.Path(source)

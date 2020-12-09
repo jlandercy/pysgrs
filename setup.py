@@ -20,10 +20,11 @@ setup(
     packages=find_packages(exclude=[]),
     package_data={
        package: [
-           'resources/*.json',
-           'resources/books/**/*.txt',
-           'resources/notebooks/*.ipynb',
-           'toolbox/resources/*.json'
+            'resources/*.json',
+            'resources/ngrams/**/*.json',
+            'resources/books/**/*.txt',
+            'resources/texts/**/*.txt',
+            'resources/notebooks/*.ipynb'
        ]
     },
     scripts=[],
