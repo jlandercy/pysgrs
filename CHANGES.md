@@ -3,13 +3,7 @@
 ## To do
 
  - [ ] Add Braille alphabet
- - [x] Create parametric cleanser (can be disabled) to remove accents and uniformize special chars ('´)
- - [x] Iterate all smallest rectangle able to contains text
- - [ ] Assess the needs to create ReversibleCypher class
- - [x] Need a good and well-designed toolbox for iterators, number theory (gcd, modinv)
- - [ ] Column and row shuffling
- - [x] Pandas manipulations, reshape, squeeze
- - [x] Create a factory for frequency mapping
+ - [ ] Assess the needs to create SubstitutionCypher class
  - [ ] Make Shape cyphers standards about shape selection and create an _apply method
  - [ ] Consider the need to create a Message object (CypherMessage and ClearMessage) holding necessary properties
    (as alphabet, shape, separators, specials chars, etc.) and helping to discriminate among forms (str, block, vector and matrix)
@@ -32,6 +26,7 @@
 
 - [x] `v0.0.22`: **`2020-12-09`**: `add`: Preparing background for cipher breaking
   - [x] Added Key Space GenericGenerator and Cipher GenericFactory
+  - [x] Added Generic Breaker as backbone for BruteForce, HillClimbing and Genetic
 - [x] `v0.0.21`: **`2020-12-08`**: `add+updated`: Added n-grams object for statistical crypto-analysis
   - [x] **Breaking change** Refactored complete namespace to modernize names to cipher instead of cypher
 - [x] `v0.0.20`: **`2020-12-07`**: `add`: Added key size coincidence helper

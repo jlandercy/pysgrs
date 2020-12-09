@@ -1,17 +1,10 @@
 import sys
 
+from pysgrs.interfaces import GenericBreaker
 from pysgrs.settings import settings
 
 
-class Algorithm:
-    pass
-
-
-class HillClimbingAlgorithm(Algorithm):
-    pass
-
-
-class GeneticAlgorithm(Algorithm):
+class GeneticAlgorithmBreaker(GenericBreaker):
     """
     https://towardsdatascience.com/introduction-to-genetic-algorithms-including-example-code-e396e98d8bf3
     START
@@ -41,9 +34,11 @@ class GeneticAlgorithm(Algorithm):
     def fitness(self):
         pass
 
+    def attack(self, text, **kwargs):
+        pass
+
 
 def main():
-    settings.logger.warning("Hello world!")
     sys.exit(0)
 
 
