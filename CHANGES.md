@@ -26,6 +26,7 @@
     - https://www.guballa.de/vigenere-solver
  - [ ] Make you library compliant with pycipher interface (https://github.com/jameslyons/pycipher)
  - [ ] Check out how it then breaks codes: https://github.com/jameslyons/python_cryptanalysis
+ - [ ] Consider the option to create KeyCipher and move key to it in order to make RotationCipher keyless
 
 ## PySGRS v0.0.x
 
