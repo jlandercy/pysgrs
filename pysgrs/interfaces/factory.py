@@ -27,7 +27,7 @@ class GenericStaticGenerator(GenericGenerator):
         pass
 
 
-class KeySpaceStaticGenerator(GenericStaticGenerator):
+class KeySpaceGenerator(GenericStaticGenerator):
 
     @staticmethod
     def coerce(**keyspace):
@@ -40,7 +40,7 @@ class KeySpaceStaticGenerator(GenericStaticGenerator):
 
     @staticmethod
     def generate(**keyspace):
-        keyspace = KeySpaceStaticGenerator.coerce(**keyspace)
+        keyspace = KeySpaceGenerator.coerce(**keyspace)
         for values in itertools.product(*keyspace.values()):
             yield {k: v for k, v in zip(keyspace.keys(), values)}
 
@@ -82,7 +82,7 @@ class CipherFactory(GenericFactory, GenericInstanceGenerator):
 
     def generate(self, **keyspace):
         keyspace = keyspace or self.keyspace
-        for key in KeySpaceStaticGenerator.generate(**keyspace):
+        for key in KeySpaceGenerator.generate(**keyspace):
             cipher = self.create(**key)
             settings.logger.debug("Generating: {}".format(cipher))
             yield cipher

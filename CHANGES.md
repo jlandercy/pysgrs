@@ -21,6 +21,8 @@
  - [ ] Make you library compliant with pycipher interface (https://github.com/jameslyons/pycipher)
  - [ ] Check out how it then breaks codes: https://github.com/jameslyons/python_cryptanalysis
  - [ ] Consider the option to create KeyCipher and move key to it in order to make RotationCipher keyless
+ - [ ] Remove pandas dependency whenever possible, use it only for use output
+ - [ ] Do make performance improvements as Breaker will need it
 
 ## PySGRS v0.0.x
 

@@ -33,6 +33,10 @@ class GenericBreaker(abc.ABC):
     def attack(self, text, **kwargs):
         pass
 
+    @abc.abstractmethod
+    def guess(self, text, **kwargs):
+        pass
+
 
 def main():
     settings.logger.warning("Hello world!")

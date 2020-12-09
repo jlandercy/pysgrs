@@ -104,6 +104,7 @@ class NGramScore(GenericScore):
         for k in range(n - self.order + 1):
             ngram = text[k:(k+self.order)]
             score += self.likelihood.get(ngram, self.floor)
+        settings.logger.debug("Score: {:.3f} for '{}' with {}".format(score, text[:16], self))
         return score
 
 

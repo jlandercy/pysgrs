@@ -7,6 +7,9 @@ from pysgrs import errors
 
 class GenericAlphabet(abc.ABC):
 
+    def __repr__(self):
+        return self.__str__()
+
     @abc.abstractmethod
     def encode(self, s: str) -> str:
         pass
