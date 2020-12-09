@@ -27,8 +27,9 @@
 ## PySGRS v0.0.x
 
 - [x] `v0.0.22`: **`2020-12-09`**: `add`: Preparing background for cipher breaking
-  - [x] Added Key Space GenericGenerator and Cipher GenericFactory
-  - [x] Added Generic Breaker as backbone for BruteForce, HillClimbing and Genetic
+  - [x] Added Key Space GenericGenerator and Cipher GenericFactory;
+  - [x] Added Generic Breaker as backbone for BruteForce, HillClimbing and Genetic;
+  - [x] Added missing Gutenberg Project license in books directory.
 - [x] `v0.0.21`: **`2020-12-08`**: `add+updated`: Added n-grams object for statistical crypto-analysis
   - [x] **Breaking change** Refactored complete namespace to modernize names to cipher instead of cypher
 - [x] `v0.0.20`: **`2020-12-07`**: `add`: Added key size coincidence helper
