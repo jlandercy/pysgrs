@@ -8,18 +8,18 @@ from pysgrs import errors
 from pysgrs.settings import settings
 
 
-class Generator(abc.ABC):
+class GenericGenerator(abc.ABC):
     pass
 
 
-class InstanceGenerator(Generator):
+class GenericInstanceGenerator(GenericGenerator):
 
     @abc.abstractmethod
     def generate(self, **kwargs):
         pass
 
 
-class StaticGenerator(Generator):
+class GenericStaticGenerator(GenericGenerator):
 
     @staticmethod
     @abc.abstractmethod
@@ -27,7 +27,7 @@ class StaticGenerator(Generator):
         pass
 
 
-class KeySpaceGenerator(StaticGenerator):
+class KeySpaceStaticGenerator(GenericStaticGenerator):
 
     @staticmethod
     def coerce(**keyspace):
@@ -40,12 +40,12 @@ class KeySpaceGenerator(StaticGenerator):
 
     @staticmethod
     def generate(**keyspace):
-        keyspace = KeySpaceGenerator.coerce(**keyspace)
+        keyspace = KeySpaceStaticGenerator.coerce(**keyspace)
         for values in itertools.product(*keyspace.values()):
             yield {k: v for k, v in zip(keyspace.keys(), values)}
 
 
-class Factory(abc.ABC):
+class GenericFactory(abc.ABC):
 
     def __init__(self, factory):
         self._factory = factory
@@ -59,12 +59,12 @@ class Factory(abc.ABC):
         pass
 
 
-class CipherFactory(Factory, InstanceGenerator):
+class CipherFactory(GenericFactory, GenericInstanceGenerator):
 
     def __init__(self, factory, **keyspace):
 
         if not issubclass(factory, GenericCipher):
-            raise errors.IllegalParameter("Factory must be a Cipher class, received {} instead".format(type(factory)))
+            raise errors.IllegalParameter("GenericFactory must be a Cipher class, received {} instead".format(type(factory)))
 
         super().__init__(factory)
 
@@ -82,7 +82,7 @@ class CipherFactory(Factory, InstanceGenerator):
 
     def generate(self, **keyspace):
         keyspace = keyspace or self.keyspace
-        for key in KeySpaceGenerator.generate(**keyspace):
+        for key in KeySpaceStaticGenerator.generate(**keyspace):
             cipher = self.create(**key)
             settings.logger.debug("Generating: {}".format(cipher))
             yield cipher

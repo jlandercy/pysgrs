@@ -11,14 +11,14 @@ from pysgrs import errors
 from pysgrs.toolbox.cleaner import AsciiCleaner
 
 
-class Score(abc.ABC):
+class GenericScore(abc.ABC):
 
     @abc.abstractmethod
     def score(self, text, **kwargs):
         pass
 
 
-class NGramScore(Score):
+class NGramScore(GenericScore):
 
     def __init__(self, ngrams, floor=0.01, scaler=np.log10):
 
@@ -113,7 +113,7 @@ class NGramScore(Score):
         return score
 
 
-class MultiNGramScore(Score):
+class MultiNGramScore(GenericScore):
 
     def __init__(self, source=None, language="fr"):
 
