@@ -33,6 +33,11 @@ class RotationCipher(cipher.GenericNaturalAlphabetStreamCipher):
     def offset(self):
         return self._offset
 
+    def configuration(self):
+        c = super().configuration()
+        c.update({"offset": self.offset})
+        return c
+
     def _encipher(self, c, k=None):
         return self.alphabet.symbol((self.alphabet.index(c) + self.offset) % self.alphabet.size)
 

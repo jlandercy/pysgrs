@@ -38,7 +38,7 @@ class TestNGramsOnCipherKeySpace:
             for cipher in self.ciphers.generate():
                 ciphertext = cipher.encipher(plaintext["normalized"])
                 obj = {
-                    "key": cipher.__dict__,
+                    "configuration": cipher.configuration(),
                     "cipher": cipher,
                     "plaintext": plaintext,
                     "ciphertext": ciphertext
@@ -50,9 +50,9 @@ class TestNGramsOnCipherKeySpace:
             scores = []
             for cipher in self.breakers.generate():
                 plaintext = cipher.decipher(ciphertext["ciphertext"])
-                key = cipher.__dict__.copy()
-                key["score"] = self.analyzer.score(plaintext)
-                scores.append(key)
+                config = cipher.configuration()
+                config["score"] = self.analyzer.score(plaintext)
+                scores.append(config)
             ciphertext["breaker"] = scores
 
     def setUp(self):
@@ -67,7 +67,7 @@ class TestNGramsOnCipherKeySpace:
             df = df.sort_values(score_keys, ascending=False)
             key_keys = list(set(df.columns).difference(set(score_keys)))
             solution = df.loc[:, key_keys].iloc[0, :].to_dict()
-            self.assertEqual(results["key"], solution)
+            self.assertEqual(results["configuration"], solution)
 
 
 class TestNGramOnRotationCipher(TestNGramsOnCipherKeySpace, unittest.TestCase):

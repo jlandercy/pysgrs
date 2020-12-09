@@ -139,6 +139,9 @@ class MixedAlphabet(GenericAlphabet):
     def contains(self, s):
         return all((c in self._symbols) for c in s)
 
+    def __eq__(self, other):
+        return (self.symbols == other.symbols) and (self.indices == other.indices)
+
     def __getitem__(self, item):
         if (isinstance(item, str) and item in self._symbols) and item in self._indices:
             raise errors.AmbiguousAlphabetIndex("Key <{}> is present in both symbols and indices".format(item))
