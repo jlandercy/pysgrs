@@ -69,7 +69,7 @@ class GenericStreamCipher(GenericFunctionalCipher):
                 else:
                     raise err
         r = "".join(r)
-        settings.logger.debug("{}.{}('{}') -> '{}'".format(self, f.__name__, s, r))
+        settings.logger.debug("{}.{}('{}') -> '{}'".format(self, f.__name__, s[:16], r[:16]))
         return r
 
 
@@ -183,7 +183,7 @@ class GenericShapeCipher(GenericCipher):
         x = toolbox.Shaper.to_matrix(s, shape=shape or self.shape, mode=mode)
         r = f(x, shape=shape, mode=mode, permutation=permutation)
         r = toolbox.Shaper.to_str(r).rstrip()
-        settings.logger.debug("{}.{}('{}') -> '{}'".format(self, f.__name__, s, r))
+        settings.logger.debug("{}.{}('{}') -> '{}'".format(self, f.__name__, s[:16], r[:16]))
         return r
 
     def encipher(self, s, shape=None, mode="auto", permutation=None):

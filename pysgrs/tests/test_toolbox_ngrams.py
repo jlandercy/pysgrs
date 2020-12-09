@@ -5,6 +5,7 @@ import itertools
 import numpy as np
 import pandas as pd
 
+from pysgrs import interfaces
 from pysgrs import ciphers
 from pysgrs import toolbox
 from pysgrs import errors
@@ -13,9 +14,8 @@ from pysgrs import settings
 
 class TestNGramsOnCipherKeySpace:
 
-    factory = None
-    cipher_keyspace = None
-    breaker_keyspace = None
+    ciphers = None
+    breakers = None
     analyzer = toolbox.MultiNGramScore(language="fr")
 
     paths = (settings.resources / 'texts/fr').glob("*.txt")
@@ -33,17 +33,12 @@ class TestNGramsOnCipherKeySpace:
                     "score": self.analyzer.score(plaintext)
                 })
 
-    def generate_keyspace(self, keyspace):
-        for values in itertools.product(*keyspace.values()):
-            yield {k: v for k, v in zip(keyspace.keys(), values)}
-
     def generate_ciphers(self):
         for i, plaintext in enumerate(self.plaintexts):
-            for key in self.generate_keyspace(self.cipher_keyspace):
-                cipher = self.factory(**key)
+            for cipher in self.ciphers.generate():
                 ciphertext = cipher.encipher(plaintext["normalized"])
                 obj = {
-                    "key": key,
+                    "key": cipher.__dict__,
                     "cipher": cipher,
                     "plaintext": plaintext,
                     "ciphertext": ciphertext
@@ -53,9 +48,9 @@ class TestNGramsOnCipherKeySpace:
     def apply_breaker(self):
         for ciphertext in self.ciphertexts:
             scores = []
-            for key in self.generate_keyspace(self.breaker_keyspace):
-                cipher = self.factory(**key)
+            for cipher in self.breakers.generate():
                 plaintext = cipher.decipher(ciphertext["ciphertext"])
+                key = cipher.__dict__.copy()
                 key["score"] = self.analyzer.score(plaintext)
                 scores.append(key)
             ciphertext["breaker"] = scores
@@ -77,9 +72,9 @@ class TestNGramsOnCipherKeySpace:
 
 class TestNGramOnRotationCipher(TestNGramsOnCipherKeySpace, unittest.TestCase):
 
-    factory = ciphers.RotationCipher
-    cipher_keyspace = {"offset": [3, 7, 12, 16, 21, 24]}
-    breaker_keyspace = {"offset": range(1, 26)}
+    # When breakers comes after cipher, strange compiling error: AttributeError: 'CipherFactory' object has no attribute 'RotationCipher'
+    breakers = interfaces.CipherFactory(ciphers.RotationCipher, offset=range(1, 26))
+    ciphers = interfaces.CipherFactory(ciphers.RotationCipher, offset=[3, 7, 12, 16, 21, 24])
 
 
 def main():
