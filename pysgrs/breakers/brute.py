@@ -33,12 +33,19 @@ def main():
 
     from pysgrs import interfaces, ciphers, scores, breakers
 
+    t = "Attention derrière toi, il y a un train qui en cache un autre!"
+    C = ciphers.RotationCipher(offset=17)
+    c = C.encipher(t)
+    print(t)
+    print(C)
+    print(c)
+
     BF = breakers.BruteForceBreaker(
         interfaces.CipherFactory(ciphers.RotationCipher, offset=range(0, 27)),
         scores.MultiNGramScore().ngrams[2]
     )
 
-    for result in BF.attack("Attention derrière toi, il y a un train qui en cache un autre!"):
+    for result in BF.attack(c):
         print(result["configuration"], result["score"]["value"])
 
     sys.exit(0)
