@@ -1,5 +1,7 @@
 import sys
 
+import numpy as np
+
 from pysgrs.interfaces import GenericBreaker
 from pysgrs.settings import settings
 
@@ -22,6 +24,9 @@ class BruteForceBreaker(GenericBreaker):
                     "trialtext": trialtext
                 }
             }
+
+    def guess(self, text, **kwargs):
+        max_score = -np.inf
 
 
 def main():
