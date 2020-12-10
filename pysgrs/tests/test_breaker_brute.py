@@ -14,7 +14,7 @@ class TestBruteForceBreakerOnRotationCipher(TestBruteForceBreaker, unittest.Test
 
     breaker = breakers.BruteForceBreaker(
         interfaces.CipherFactory(ciphers.RotationCipher, offset=range(0, 27)),
-        scores.MultiNGramScore().ngrams[2]
+        scores.NGramScore(language="fr", order=2)
     )
     ciphers = interfaces.CipherFactory(ciphers.RotationCipher, offset=[3, 7, 12, 16, 21, 24])
 
