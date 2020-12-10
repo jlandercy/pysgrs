@@ -65,36 +65,42 @@ class ReversedCipher(cipher.GenericNaturalAlphabetStreamCipher):
 
 class PermutationCipher(cipher.GenericNaturalAlphabetStreamCipher):
 
-    def __init__(self, permutations=None, alphabet=None, auto=False):
+    def __init__(self, permutation=None, alphabet=None, auto=False):
         super().__init__(alphabet=alphabet)
 
-        if permutations is None:
+        if permutation is None:
             if auto:
-                #permutations = tuple(random.sample(tuple(range(self.alphabet.size)), self.alphabet.size)) # Pure PSL
-                permutations = np.random.permutation(np.arange(self.alphabet.size))
+                #permutation = tuple(random.sample(tuple(range(self.alphabet.size)), self.alphabet.size)) # Pure PSL
+                permutation = np.random.permutation(np.arange(self.alphabet.size))
             else:
-                #permutations = tuple(range(self.alphabet.size))
-                permutations = np.arange(self.alphabet.size)
+                #permutation = tuple(range(self.alphabet.size))
+                permutation = np.arange(self.alphabet.size)
 
-        if len(permutations) != self.alphabet.size:
+        if len(permutation) != self.alphabet.size:
             raise errors.IllegalCipherParameter("Permutations (size={}) must have same size as {}".format(
-                len(permutations), self))
+                len(permutation), self))
 
-        if not set(permutations) == set(self.alphabet.indices):
+        if not set(permutation) == set(self.alphabet.indices):
             raise errors.IllegalCipherParameter("Permutations {} must have compatible indices with {}".format(
-                permutations, self))
+                permutation, self))
 
-        self._permutations = tuple(permutations)
+        self._permutation = tuple(permutation)
+        self._permutation_inverse = tuple(np.argsort(self.permutation))
 
     @property
-    def permutations(self):
-        return self._permutations
+    def permutation(self):
+        return self._permutation
+
+    @property
+    def permutation_inverse(self):
+        return self._permutation_inverse
 
     def _encipher(self, c, k=None):
-        return self.alphabet.symbol(self.permutations[self.alphabet.index(c)])
+        return self.alphabet.symbol(self.permutation[self.alphabet.index(c)])
 
     def _decipher(self, c, k=None):
-        return self.alphabet.symbol(self.permutations.index(self.alphabet.index(c)))
+        #return self.alphabet.symbol(self.permutation.index(self.alphabet.index(c)))
+        return self.alphabet.symbol(self.permutation_inverse[self.alphabet.index(c)])
 
 
 class AffineCipher(cipher.GenericNaturalAlphabetStreamCipher):
