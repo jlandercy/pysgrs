@@ -4,10 +4,27 @@ import numpy as np
 import pandas as pd
 
 from pysgrs.interfaces import GenericBreaker
+from pysgrs.interfaces.factory import CipherFactory
+from pysgrs import errors
 from pysgrs.settings import settings
 
 
 class BruteForceBreaker(GenericBreaker):
+    """
+    Attempt to break a Cipher by brute forcing with a Cipher Factory exploring keyspace solution
+    """
+
+    def __init__(self, factory, score):
+
+        super().__init__(score)
+        if not isinstance(factory, CipherFactory):
+            raise errors.IllegalParameter("Requires a CipherFactory, received {} instead".format(type(factory)))
+
+        self._factory = factory
+
+    @property
+    def factory(self):
+        return self._factory
 
     def attack(self, ciphertext, **kwargs):
         for cipher in self.factory.generate(**kwargs):
