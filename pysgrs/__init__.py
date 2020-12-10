@@ -7,7 +7,7 @@ from pysgrs.scores import *
 from pysgrs.breakers import *
 from pysgrs.toolbox import *
 
-__version__ = "0.0.22"
+__version__ = "0.0.23"
 
 warnings.simplefilter("always")
 
