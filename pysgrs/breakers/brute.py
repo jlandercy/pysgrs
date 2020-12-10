@@ -1,6 +1,7 @@
 import sys
 
 import numpy as np
+import pandas as pd
 
 from pysgrs.interfaces import GenericBreaker
 from pysgrs.settings import settings
@@ -15,18 +16,15 @@ class BruteForceBreaker(GenericBreaker):
             yield {
                 "cipher": cipher,
                 "configuration": cipher.configuration(),
-                "score": {
-                    "function": self.score,
-                    "value": score
-                },
-                "texts": {
-                    "ciphertext": ciphertext,
-                    "trialtext": trialtext
-                }
+                "score": score
             }
 
+    def analyze(self, text, **kwargs):
+        results = [result for result in self.attack(text, **kwargs)]
+        return pd.DataFrame(results).sort_values("score", ascending=False).reset_index()
+
     def guess(self, text, **kwargs):
-        max_score = -np.inf
+        return self.analyze(text, **kwargs).loc[0, "configuration"]
 
 
 def main():

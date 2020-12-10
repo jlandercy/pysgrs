@@ -14,26 +14,38 @@ from pysgrs.toolbox.cleaner import AsciiCleaner
 
 class NGramScore(GenericScore):
 
-    def __init__(self, ngrams, floor=0.01, scaler=np.log10):
+    def __init__(self, source=None, order=1, language="fr", floor=0.01, scaler=np.log10):
 
-        if isinstance(ngrams, collections.Counter):
-            ngrams = dict(ngrams)
+        self._language = language
 
-        if not isinstance(ngrams, dict):
-            raise errors.IllegalParameter("Requires a dict or a path, received {} instead".format(type(ngrams)))
+        if source is None:
+            source = settings.resources / 'ngrams/ngrams_{}.json'.format(self.language)
 
-        if not all(isinstance(c, str) for c in ngrams.keys()):
+        if isinstance(source, (str, pathlib.Path)):
+            source = pathlib.Path(source)
+            with source.open() as fh:
+                source = json.load(fh)
+            values = source["%d-grams" % order]
+            source = {k: v for k, v in zip(values["ngram"], values["count"])}
+
+        if isinstance(source, collections.Counter):
+            source = dict(source)
+
+        if not isinstance(source, dict):
+            raise errors.IllegalParameter("Requires a dict or a path, received {} instead".format(type(source)))
+
+        if not all(isinstance(c, str) for c in source.keys()):
             raise errors.IllegalParameter("All keys must be string, received instead")
 
-        if not all(isinstance(c, int) and (c > 0) for c in ngrams.values()):
+        if not all(isinstance(c, int) and (c > 0) for c in source.values()):
             raise errors.IllegalParameter("All values must be positive integer, received instead")
 
-        self._order = len(tuple(ngrams.keys())[0])
+        self._order = len(tuple(source.keys())[0])
 
-        if not all(len(ngram) == self.order for ngram in ngrams):
+        if not all(len(ngram) == self.order for ngram in source):
             raise errors.IllegalParameter("All keys must have the same length")
 
-        self._counts = ngrams
+        self._counts = source
         self._total = sum(self.counts.values())
 
         self._scaler = scaler
@@ -49,11 +61,15 @@ class NGramScore(GenericScore):
             raise errors.IllegalParameter("Floor must be lower than all existing likelihood")
 
     def __str__(self):
-        return "<NGramScore order={} size={} floor={:.3f} scaler={}>".format(
-            self.order, self.size, self.floor, self.scaler.__name__)
+        return "<NGramScore language='{}' order={} size={} floor={:.3f} scaler={}>".format(
+            self.language, self.order, self.size, self.floor, self.scaler.__name__)
 
     def __repr__(self):
         return self.__str__()
+
+    @property
+    def language(self):
+        return self._language
 
     @property
     def order(self):
@@ -110,7 +126,7 @@ class NGramScore(GenericScore):
 
 class MultiNGramScore(GenericScore):
 
-    def __init__(self, source=None, language="fr"):
+    def __init__(self, source=None, language="fr", min_order=1, max_order=5):
 
         if source is None:
             source = settings.resources / 'ngrams/ngrams_{}.json'.format(language)
@@ -121,9 +137,8 @@ class MultiNGramScore(GenericScore):
                 source = json.load(fh)
 
         self._ngrams = dict()
-        for key, values in source.items():
-            d = {k: v for k, v in zip(values["ngram"], values["count"])}
-            ngram = NGramScore(d)
+        for order in range(min_order, max_order+1):
+            ngram = NGramScore(order=order, language=language)
             self._ngrams[ngram.order] = ngram
 
     def __str__(self):
@@ -140,6 +155,7 @@ class MultiNGramScore(GenericScore):
 def main():
 
     x = MultiNGramScore()
+    #x = NGramScore()
     print(x)
 
     sys.exit(0)
