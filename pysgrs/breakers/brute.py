@@ -57,11 +57,11 @@ def main():
 
     BF = breakers.BruteForceBreaker(
         interfaces.CipherFactory(ciphers.RotationCipher, offset=range(0, 27)),
-        scores.MultiNGramScore().ngrams[2]
+        scores.NGramScore(language="fr", order=2)
     )
 
     for result in BF.attack(c):
-        print(result["configuration"], result["score"]["value"])
+        print(result["configuration"], result["score"])
 
     sys.exit(0)
 
