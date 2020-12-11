@@ -1,12 +1,43 @@
 import abc
 import sys
+import copy
 
 from pysgrs.interfaces.score import GenericScore
 from pysgrs import errors
 from pysgrs.settings import settings
 
 
-class GenericBreaker(abc.ABC):
+class GenericState:
+
+    def __init__(self, **kwargs):
+        self.update(**kwargs)
+
+    def __str__(self):
+        return "<{} state={}>".format(self.__class__.__name__, self.__dict__)
+
+    def update(self, **kwargs):
+        self.__dict__.update(**kwargs)
+        return self
+
+    def to_dict(self):
+        return copy.deepcopy(self.__dict__)
+
+    def __getitem__(self, item):
+        return self.__dict__[item]
+
+    def copy(self):
+        return GenericState(**self.to_dict())
+
+    def log(self, message="State: ", log_format="{message:}{full_state:}", **kwargs):
+        state = self.to_dict()
+        settings.logger.debug(log_format.format(message=message, full_state=state, **state, **kwargs))
+
+
+class BreakerState(GenericState):
+    pass
+
+
+class GenericLocalSearchBreaker(abc.ABC):
 
     def __init__(self, score):
 
@@ -14,6 +45,23 @@ class GenericBreaker(abc.ABC):
             raise errors.IllegalParameter("Requires a Score, received {} instead".format(type(factory)))
 
         self._score = score
+        self._current_state = None
+
+    @property
+    def current_state(self):
+        return self._current_state
+
+    @abc.abstractmethod
+    def _initial_state(self, **kwargs):
+        pass
+
+    @abc.abstractmethod
+    def _next_state(self, **kwargs):
+        pass
+
+    @abc.abstractmethod
+    def _score_state(self, **kwargs):
+        pass
 
     @property
     def score(self):

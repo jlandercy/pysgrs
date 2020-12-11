@@ -1,10 +1,10 @@
 import sys
 
-from pysgrs.interfaces import GenericBreaker
+from pysgrs.interfaces import GenericLocalSearchBreaker
 from pysgrs.settings import settings
 
 
-class GeneticAlgorithmBreaker(GenericBreaker):
+class GeneticAlgorithmBreaker(GenericLocalSearchBreaker):
     """
     https://towardsdatascience.com/introduction-to-genetic-algorithms-including-example-code-e396e98d8bf3
     START

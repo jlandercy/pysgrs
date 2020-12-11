@@ -1,55 +1,51 @@
+import abc
 import sys
 
 import numpy as np
 
 from pysgrs.ciphers import PermutationCipher
-from pysgrs.interfaces import GenericBreaker
+from pysgrs.interfaces import GenericLocalSearchBreaker, BreakerState
 from pysgrs.settings import settings
 
 
-class StochasticHillClimbingBreaker(GenericBreaker):
+class StochasticHillClimbingBreaker(GenericLocalSearchBreaker):
 
-    def _inital_state(self, size=26):
-        return np.random.permutation(size)
+    def _initial_state(self, size=26, **kwargs):
+        return BreakerState(permutation=np.random.permutation(size), counter=0, trial_counter=0)
 
-    def _next_state(self, current_state, size=26):
-        idx = np.random.choice(size, size=2, replace=False)
-        next_state = current_state.copy()
-        next_state[idx] = next_state[list(reversed(idx))]
+    def _next_state(self, **kwargs):
+        self._current_state.counter += 1
+        next_state = self.current_state.copy()
+        idx = np.random.choice(next_state.permutation.size, size=2, replace=False)
+        next_state.permutation[idx] = next_state.permutation[np.flip(idx)]
         return next_state
 
-    def _scorer(self, text, state):
-        return self.score.score(PermutationCipher(state).decipher(text))
+    def _score_state(self, state, text):
+        cipher = PermutationCipher(permutation=state.permutation)
+        state.score = self.score.score(cipher.decipher(text))
+        return state
 
     def attack(self, text, max_trials=1000, **kwargs):
 
-        # Inital State:
-        counter = 0
-        trial_counter = 0
-        current_state = self._inital_state()
+        # Initial State:
+        self._current_state = self._score_state(self._initial_state(**kwargs), text)
+
+        # Perform Steepest Ascent:
         while True:
 
-            # Score current state:
-            current_score = self._scorer(text, current_state)
-            yield {
-                "counter": counter,
-                "trial_counter": trial_counter,
-                "current_state": current_state,
-                "current_score": current_score
-            }
+            # Yield Current State:
+            yield self.current_state
 
             # Sample and score new state:
-            next_state = self._next_state(current_state)
-            next_score = self._scorer(text, next_state)
-            counter += 1
+            next_state = self._score_state(self._next_state(**kwargs), text)
 
-            # Decide what to do?
-            if next_score > current_score:
-                trial_counter = 0
-                current_state = next_state
+            # Is next state, better?
+            if next_state.score > self.current_state.score:
+                self._current_state = next_state
+                self._current_state.trial_counter = 0
             else:
-                trial_counter += 1
-                if trial_counter > max_trials:
+                self._current_state.trial_counter += 1
+                if self.current_state.trial_counter > max_trials:
                     break
 
     def analyze(self, text, **kwargs):
@@ -76,10 +72,10 @@ def main():
     s0 = s.score(t)
 
     for state in StochasticHillClimbingBreaker(s).attack(c):
-        print("{counter:}, {trial_counter:}: {current_score:.3f} ({real_score:.3f}): {correct_digit:}".format(
-            **state, real_score=s0, correct_digit=sum(p == state["current_state"])))
+        print("{counter:}/{trial_counter:} {score:.3f}/{solution_score:.3f} {correct_digit:}".format(
+            solution_score=s0, correct_digit=sum(p == state.permutation), **state.to_dict()))
 
-    Cs = PermutationCipher(state["current_state"])
+    Cs = PermutationCipher(state.permutation)
 
     print(t)
     print(c)

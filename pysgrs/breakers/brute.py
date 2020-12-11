@@ -3,13 +3,13 @@ import sys
 import numpy as np
 import pandas as pd
 
-from pysgrs.interfaces import GenericBreaker
+from pysgrs.interfaces import GenericLocalSearchBreaker
 from pysgrs.interfaces.factory import CipherFactory
 from pysgrs import errors
 from pysgrs.settings import settings
 
 
-class BruteForceBreaker(GenericBreaker):
+class BruteForceBreaker(GenericLocalSearchBreaker):
     """
     Attempt to break a Cipher by brute forcing with a Cipher Factory exploring keyspace solution
     """
