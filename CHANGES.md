@@ -26,7 +26,8 @@
 
 ## PySGRS v0.0.x
 
-- [x] `v0.0.23`: **`2020-12-10`**: `updated`: Starting TDD for Breakers 
+- [x] `v0.0.24`: **`2020-12-11`**: `add`: Created Hill Climbing Breaker for Permutation Cypher 
+- [x] `v0.0.23`: **`2020-12-10`**: `update`: Starting TDD for Breakers 
 - [x] `v0.0.22`: **`2020-12-09`**: `add`: Preparing background for cipher breaking
   - [x] Added Key Space GenericGenerator and Cipher GenericFactory;
   - [x] Added Generic Breaker as backbone for BruteForce, HillClimbing and Genetic;
