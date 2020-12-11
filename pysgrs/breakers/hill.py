@@ -27,7 +27,7 @@ class StochasticHillClimbingBreaker(GenericLocalSearchBreaker):
 
     def attack(self, text, max_trials=1000, **kwargs):
 
-        # Initial State:
+        # Create and score Initial State:
         self._current_state = self._score_state(self._initial_state(**kwargs), text)
 
         # Perform Steepest Ascent:
@@ -36,10 +36,10 @@ class StochasticHillClimbingBreaker(GenericLocalSearchBreaker):
             # Yield Current State:
             yield self.current_state
 
-            # Sample and score new state:
+            # Sample and score Next State:
             next_state = self._score_state(self._next_state(**kwargs), text)
 
-            # Is the next state, better?
+            # Is the next state better than the current?
             if next_state.score > self.current_state.score:
                 # Then go for it!
                 self._current_state = next_state
