@@ -37,7 +37,7 @@ class BreakerState(GenericState):
     pass
 
 
-class GenericLocalSearchBreaker(abc.ABC):
+class GenericBreaker(abc.ABC):
 
     def __init__(self, score):
 
@@ -45,6 +45,28 @@ class GenericLocalSearchBreaker(abc.ABC):
             raise errors.IllegalParameter("Requires a Score, received {} instead".format(type(factory)))
 
         self._score = score
+
+    @property
+    def score(self):
+        return self._score
+
+    @abc.abstractmethod
+    def attack(self, text, **kwargs):
+        pass
+
+    @abc.abstractmethod
+    def analyze(self, text, **kwargs):
+        pass
+
+    @abc.abstractmethod
+    def guess(self, text, **kwargs):
+        pass
+
+
+class GenericLocalSearchBreaker(GenericBreaker):
+
+    def __init__(self, score):
+        super().__init__(score)
         self._current_state = None
 
     @property
@@ -61,22 +83,6 @@ class GenericLocalSearchBreaker(abc.ABC):
 
     @abc.abstractmethod
     def _score_state(self, **kwargs):
-        pass
-
-    @property
-    def score(self):
-        return self._score
-
-    @abc.abstractmethod
-    def attack(self, text, **kwargs):
-        pass
-
-    @abc.abstractmethod
-    def analyze(self, text, **kwargs):
-        pass
-
-    @abc.abstractmethod
-    def guess(self, text, **kwargs):
         pass
 
 
