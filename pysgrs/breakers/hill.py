@@ -77,7 +77,7 @@ def main():
     C = PermutationCipher(p)
     c = C.encipher(t)
 
-    s = scores.NGramScore(order=2)
+    s = scores.NGramScore(order=3)
     s0 = s.score(t)
 
     for state in StochasticHillClimbingBreaker(s).attack(c):
