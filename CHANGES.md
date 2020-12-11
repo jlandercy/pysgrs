@@ -23,6 +23,7 @@
  - [ ] Consider the option to create KeyCipher and move key to it in order to make RotationCipher keyless
  - [ ] Remove pandas dependency whenever possible, use it only for use output
  - [ ] Do make performance improvements as Breaker will need it
+ - [ ] Replace by key, add initial and random perturb sample in Cypher to make LocalSearch more generic
 
 ## PySGRS v0.0.x
 

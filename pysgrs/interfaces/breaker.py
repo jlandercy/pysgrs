@@ -82,7 +82,7 @@ class GenericLocalSearchBreaker(GenericBreaker):
         pass
 
     @abc.abstractmethod
-    def _score_state(self, **kwargs):
+    def _score_state(self, text, **kwargs):
         pass
 
 
