@@ -17,12 +17,23 @@ class GeneticAlgorithmBreaker(GenericLocalSearchBreaker):
     def _initial_state(self, **kwargs):
         return BreakerState(population=self._random_population(), counter=0)
 
+    def _convert_likelihood_to_probability(self, likelihood):
+        p = -1.0/np.array(likelihood)
+        return p/np.sum(p)
+
+    def _crossover(self, x, y):
+        print(x, y)
+        offspring = x
+        return offspring
+
     def _july_do_the_thing(self):
-        parents = np.random.choice(self.current_state.population.shape[0],
-                                   size=2, replace=False)#, p=self.current_state.score)
-        crosspoint = np.random.randint(self.current_state.population.shape[1])
-        offspring = self.current_state.population[parents[0], :]
-        offspring[crosspoint:] = self.current_state.population[parents[1], crosspoint:]
+        # Select parents:
+        index = np.random.choice(self.current_state.population.shape[0],
+                                 size=2, replace=False,
+                                 p=self._convert_likelihood_to_probability(self.current_state.score))
+        parents = self.current_state.population[index, :]
+        # Perform cross-over:
+        offspring = self._crossover(*parents)
         print(offspring)
         return offspring
 
