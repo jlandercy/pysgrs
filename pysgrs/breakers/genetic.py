@@ -21,7 +21,7 @@ class GeneticAlgorithmBreaker(GenericLocalSearchBreaker):
         p = 1.0/likelihood**2
         return p/np.sum(p)
 
-    def _crossover(self, x, y, min_length=5, max_length=8):
+    def _crossover(self, x, y, min_length=0, max_length=26):
         # PMX
         length = np.random.randint(min_length, max_length)
         index = np.random.randint(0, x.size - length)
@@ -34,14 +34,15 @@ class GeneticAlgorithmBreaker(GenericLocalSearchBreaker):
         for (outsider, insider) in zip(conflict, missing):
             idx = np.where(x == outsider)[0][0]
             offspring[idx] = insider
-        return offspring
+        #return offspring
+        return x
 
     def _mutate(self, x):
         idx = np.random.choice(x.size, size=2, replace=False)
         x[idx] = x[np.flip(idx)]
         return x
 
-    def _july_do_the_thing(self, mutation_probability=0.001):
+    def _july_do_the_thing(self, mutation_probability=1.01):
         # Select parents:
         index = np.random.choice(self.current_state.population.shape[0],
                                  size=2, replace=False, p=self.current_state.probability)
@@ -57,7 +58,8 @@ class GeneticAlgorithmBreaker(GenericLocalSearchBreaker):
         self._current_state.counter += 1
         next_state = self.current_state.copy()
         next_state.population = []
-        for k in range(self.current_state.population.shape[0]):
+        n = self.current_state.population.shape[0]
+        for k in range(n):
             next_state.population.append(self._july_do_the_thing())
         next_state.population = np.array(next_state.population)
         return next_state
@@ -72,7 +74,7 @@ class GeneticAlgorithmBreaker(GenericLocalSearchBreaker):
         state.fittest = np.argmax(state.score)
         return state
 
-    def attack(self, text, max_trials=50, **kwargs):
+    def attack(self, text, max_trials=500, **kwargs):
 
         self._current_state = self._score_state(self._initial_state(), text)
 
@@ -82,13 +84,20 @@ class GeneticAlgorithmBreaker(GenericLocalSearchBreaker):
 
             next_state = self._score_state(self._next_state(**kwargs), text)
 
+            n = self.current_state.population.shape[0]
+            x = np.vstack([self.current_state.population[np.argsort(self.current_state.score)[(n // 2):], :],
+                           next_state.population[np.argsort(next_state.score)[(n // 2):], :]])
+            next_state.population = x
+
             if np.max(next_state.score) > np.max(self.current_state.score):
                 self._current_state = next_state
                 self._current_state.trial_counter = 0
             else:
                 self._current_state.trial_counter += 1
-                if self.current_state.trial_counter > max_trials:
+                if self._current_state.trial_counter > max_trials:
                     break
+
+
 
     def analyze(self, text, **kwargs):
         pass
@@ -123,7 +132,7 @@ def main():
     for state in GeneticAlgorithmBreaker(s).attack(c):
         #print("{score:.3f}/{solution_score:.3f} {correct_digit:}".format(
         #      solution_score=s0, correct_digit=sum(p == state.population[state.fittest,:]), **state.to_dict()))
-        print(state.counter, state.trial_counter, max(state.score), state.probability, state.score, state.fittest)
+        print(state.counter, state.trial_counter, max(state.score), sum(p == state.population[state.fittest,:]))
 
     Cs = PermutationCipher(state.population[0,:])
 
