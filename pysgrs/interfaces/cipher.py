@@ -30,6 +30,18 @@ class GenericCipher(abc.ABC):
     def decipher(self, s, **kwargs):
         pass
 
+    # @abc.abstractmethod
+    # def keyspace(self, **kwargs):
+    #     pass
+    #
+    # @abc.abstractmethod
+    # def random_key(self, **kwargs):
+    #     pass
+    #
+    # @abc.abstractmethod
+    # def mutate_key(self, **kwargs):
+    #     pass
+
 
 class GenericFunctionalCipher(GenericCipher):
 
