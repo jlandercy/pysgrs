@@ -97,8 +97,6 @@ class GeneticAlgorithmBreaker(GenericLocalSearchBreaker):
                 if self._current_state.trial_counter > max_trials:
                     break
 
-
-
     def analyze(self, text, **kwargs):
         pass
 
