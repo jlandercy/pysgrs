@@ -116,7 +116,7 @@ def main():
     print(initial_score)
 
     breaker = GeneticAlgorithmBreaker(VigenereCipher, scores.MixedNGramScore())
-    breaker.attack(cipher_text, population_size=100, generation_count=200)
+    breaker.attack(cipher_text, population_size=100, generation_count=30)
 
 
 if __name__ == "__main__":
