@@ -99,48 +99,54 @@ class GeneticAlgorithmBreaker:
 
 def main():
 
-    text = """
-    Bonjour tout le monde, on essaye des trucs, on teste, mais c'est pas absolu comme méthode...
-    Il sera sans doute nécessaire de s'appliquer d'avantage pour mieux comprendre les tenants et aboutissants
-    d'une telle méthodologie. En ajoutant du texte on parvient à améliorer le score et donc le critère de
-    convergence semble plus efficace, même si ça reste une illusion de pouvoir explorer l'esapce des états de
-    manière exhaustive. Mais bon, en rejouant plusieurs fois l'algorithme on parvient à trouver vingt-deux
-    des vingt-six caractères recherchés en moins de dix mille itérations et ça c'est déjà quelque chose
-    de positif et encourageant. Il est a noter que la taille, mais également le contenu du texte ont de
-    de l'importance. A cela s'ajoute également que la solution exacte n'est pas forcément celle qui possède
-    le plus haut score en terme de maximum de vraissemblance des digrammes.
-    """
-    text = toolbox.AsciiCleaner.strip_accents(text)
-    print(text)
+    # text = """
+    # Bonjour tout le monde, on essaye des trucs, on teste, mais c'est pas absolu comme méthode...
+    # Il sera sans doute nécessaire de s'appliquer d'avantage pour mieux comprendre les tenants et aboutissants
+    # d'une telle méthodologie. En ajoutant du texte on parvient à améliorer le score et donc le critère de
+    # convergence semble plus efficace, même si ça reste une illusion de pouvoir explorer l'esapce des états de
+    # manière exhaustive. Mais bon, en rejouant plusieurs fois l'algorithme on parvient à trouver vingt-deux
+    # des vingt-six caractères recherchés en moins de dix mille itérations et ça c'est déjà quelque chose
+    # de positif et encourageant. Il est a noter que la taille, mais également le contenu du texte ont de
+    # de l'importance. A cela s'ajoute également que la solution exacte n'est pas forcément celle qui possède
+    # le plus haut score en terme de maximum de vraissemblance des digrammes.
+    # """
+    # text = toolbox.AsciiCleaner.strip_accents(text)
+    # print(text)
+    #
+    # target_score = scores.MixedNGramScore().score(text)
+    # print(target_score)
+    #
+    # key = "GENETICALGORITHMCANSOLVENICEPROBLEMS"
+    # cipher = VigenereCipher(key=key)
+    # cipher_text = cipher.encipher(text)
+    # print(cipher_text)
+    #
+    # initial_score = scores.MixedNGramScore().score(cipher_text)
+    # print(initial_score)
+    #
+    # breaker = GeneticAlgorithmBreaker(VigenereCipher, scores.MixedNGramScore(), key_size=len(key))
+    # generations = list(breaker.attack(cipher_text, population_size=300, generation_count=100, mutation_threshold=0.65))
+    #
+    # new_cipher = VigenereCipher(key=generations[-1]["winner"])
+    # decipher_text = new_cipher.decipher(cipher_text)
+    # print(decipher_text)
+    #
+    # df = pd.DataFrame(generations).set_index("generation")
+    # df.to_excel("breaker_ga.xlsx")
+    # print(df)
+    #
+    # axe = df.plot()
+    # axe.set_title("Vigenère Breaker by Genetic Algorithm")
+    # axe.set_xlabel("Generation")
+    # axe.set_ylabel("Multi n-gram score")
+    # axe.grid()
+    # axe.figure.savefig("breaker_ga.png")
 
-    target_score = scores.MixedNGramScore().score(text)
-    print(target_score)
-
-    key = "GENETICALGORITHMCANSOLVENICEPROBLEMS"
-    cipher = VigenereCipher(key=key)
-    cipher_text = cipher.encipher(text)
-    print(cipher_text)
-
-    initial_score = scores.MixedNGramScore().score(cipher_text)
-    print(initial_score)
-
-    breaker = GeneticAlgorithmBreaker(VigenereCipher, scores.MixedNGramScore(), key_size=len(key))
-    generations = list(breaker.attack(cipher_text, population_size=300, generation_count=100, mutation_threshold=0.65))
-
-    new_cipher = VigenereCipher(key=generations[-1]["winner"])
-    decipher_text = new_cipher.decipher(cipher_text)
-    print(decipher_text)
-
-    df = pd.DataFrame(generations).set_index("generation")
-    df.to_excel("breaker_ga.xlsx")
-    print(df)
-
-    axe = df.plot()
-    axe.set_title("Vigenère Breaker by Genetic Algorithm")
-    axe.set_xlabel("Generation")
-    axe.set_ylabel("Multi n-gram score")
-    axe.grid()
-    axe.figure.savefig("breaker_ga.png")
+    t = "DUMIBKRNRKRFOWVTRSAWRGFUKDOLKAMXLRVSDIUPNGCIVMXGMTSZFIIUYQVQYSAW"
+    breaker = GeneticAlgorithmBreaker(VigenereCipher, scores.MixedNGramScore(), key_size=11)
+    generations = list(breaker.attack(t, population_size=500, generation_count=50, mutation_threshold=0.25))
+    key = generations[-1]["winner"]
+    print(VigenereCipher(key=key).decipher(t))
 
 
 if __name__ == "__main__":
