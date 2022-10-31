@@ -151,6 +151,20 @@ class MultiNGramScore(GenericScore):
         return {"score-%d" % ngram.order: ngram.score(text) for ngram in self.ngrams.values()}
 
 
+class MixedNGramScore(GenericScore):
+
+    def __init__(self, source=None, language="fr", weights=(0.6, 0.3, 0.1)):
+        self.sub_scores = MultiNGramScore(source=source, language=language, min_order=1, max_order=len(weights))
+        self.score_weights = np.array(weights)
+
+    @property
+    def orders(self):
+        return np.arange(len(self.score_weights)) + 1
+
+    def score(self, text):
+        return np.sum(np.array([self.sub_scores.ngrams[order].score(text) for order in self.orders])*self.score_weights)
+
+
 def main():
 
     x = MultiNGramScore()
