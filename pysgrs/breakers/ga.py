@@ -116,7 +116,7 @@ def main():
     target_score = scores.MixedNGramScore().score(text)
     print(target_score)
 
-    key = "FLUCTUATNECMERGITURTESTFORALL"
+    key = "GENETICALGORITHMCANSOLVENICEPROBLEMS"
     cipher = VigenereCipher(key=key)
     cipher_text = cipher.encipher(text)
     print(cipher_text)
@@ -125,7 +125,7 @@ def main():
     print(initial_score)
 
     breaker = GeneticAlgorithmBreaker(VigenereCipher, scores.MixedNGramScore(), key_size=len(key))
-    generations = list(breaker.attack(cipher_text, population_size=300, generation_count=50, mutation_threshold=0.65))
+    generations = list(breaker.attack(cipher_text, population_size=300, generation_count=100, mutation_threshold=0.65))
 
     new_cipher = VigenereCipher(key=generations[-1]["winner"])
     decipher_text = new_cipher.decipher(cipher_text)
