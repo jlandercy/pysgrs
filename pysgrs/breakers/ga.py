@@ -5,6 +5,7 @@ import numpy as np
 
 from pysgrs import scores
 from pysgrs import toolbox
+from pysgrs.alphabets import BasicAlphabet
 from pysgrs.ciphers import VigenereCipher
 from pysgrs.interfaces import GenericLocalSearchBreaker, BreakerState
 from pysgrs.settings import settings
@@ -14,13 +15,78 @@ class GeneticAlgorithmBreaker:
 
     def __init__(self, cipher, score):
         self.cipher = cipher
+        self.alphabet = BasicAlphabet()
         self.score = score
+        self.key_size = 12
 
     def guess_key_length(self, s):
-        return len(self.cipher.key)
+        return self.key_size
 
-    def random_population(self, size=20):
-        pass
+    def random_population(self, population_size=20):
+        return ["".join(np.random.choice(list(self.alphabet.symbols), size=self.key_size)) for i in range(population_size)]
+
+    def make_pairs(self, group):
+        group = np.array(group)
+        np.random.shuffle(group)
+        n = group.size//2
+        return [pair for pair in zip(group[:n], group[n:])]
+
+    def random_index(self):
+        return np.random.choice(range(self.key_size))
+
+    def mutate(self, old_1, old_2):
+        i, j = self.random_index(), self.random_index()
+        i, j = min(i, j), max(i, j)
+        new_1 = list(old_1)
+        new_2 = list(old_2)
+        new_1[i] = old_2[j]
+        new_1[j] = old_2[i]
+        new_2[i] = old_1[j]
+        new_2[j] = old_1[i]
+        return "".join(new_1), "".join(new_2)
+
+    def crossing(self, old_1, old_2, threshold=0.8):
+        index = self.random_index()
+        new_1 = old_1[:index] + old_2[index:]
+        new_2 = old_2[:index] + old_1[index:]
+        if np.random.rand() >= threshold:
+            new_1, new_2 = self.mutate(new_1, new_2)
+        return new_1, new_2
+
+    def group_crossing(self, group):
+        new_group = []
+        for pair in self.make_pairs(group):
+            new_pair = self.crossing(*pair)
+            new_group.extend(new_pair)
+        return new_group
+
+    def score_group(self, text, group):
+        return [self.score.score(VigenereCipher(key=key).decipher(text)) for key in group]
+
+    def attack(self, text, population_size=20, generation_count=30):
+
+        # Create random population:
+        initial_group = self.random_population(population_size=population_size)
+        initial_scores = self.score_group(text, initial_group)
+        #print(initial_group, initial_scores)
+
+        for i in range(generation_count):
+
+            # Create a new population by crossing and mutating:
+            new_group = self.group_crossing(initial_group)
+            new_scores = self.score_group(text, new_group)
+            #print(new_group, new_scores)
+
+            # Merge groups:
+            group = initial_group + new_group
+            group_scores = initial_scores + new_scores
+            index = np.argsort(group_scores)
+
+            # Keep best representative:
+            initial_group = list(np.array(group)[index][population_size:])
+            initial_scores = list(np.array(group_scores)[index][population_size:])
+
+            print(i, np.min(group_scores), np.max(group_scores), np.min(initial_scores), np.max(initial_scores), initial_group[-1])
 
 
 def main():
@@ -49,9 +115,8 @@ def main():
     initial_score = scores.MixedNGramScore().score(cipher_text)
     print(initial_score)
 
-    breaker = GeneticAlgorithmBreaker(cipher, scores.MixedNGramScore)
-    keylength = breaker.guess_key_length(cipher_text)
-    print(keylength)
+    breaker = GeneticAlgorithmBreaker(VigenereCipher, scores.MixedNGramScore())
+    breaker.attack(cipher_text, population_size=100, generation_count=200)
 
 
 if __name__ == "__main__":
