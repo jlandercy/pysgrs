@@ -13,11 +13,11 @@ from pysgrs.settings import settings
 
 class GeneticAlgorithmBreaker:
 
-    def __init__(self, cipher, score):
+    def __init__(self, cipher, score, key_size):
         self.cipher = cipher
         self.alphabet = BasicAlphabet()
         self.score = score
-        self.key_size = 12
+        self.key_size = key_size
 
     def guess_key_length(self, s):
         return self.key_size
@@ -88,6 +88,8 @@ class GeneticAlgorithmBreaker:
 
             print(i, np.min(group_scores), np.max(group_scores), np.min(initial_scores), np.max(initial_scores), initial_group[-1])
 
+        return initial_group[-1]
+
 
 def main():
 
@@ -108,15 +110,20 @@ def main():
     target_score = scores.MixedNGramScore().score(text)
     print(target_score)
 
-    cipher = VigenereCipher(key="NOPAINNOGAIN")
+    key = "RANDOMACCESSMEMORY"
+    cipher = VigenereCipher(key=key)
     cipher_text = cipher.encipher(text)
     print(cipher_text)
 
     initial_score = scores.MixedNGramScore().score(cipher_text)
     print(initial_score)
 
-    breaker = GeneticAlgorithmBreaker(VigenereCipher, scores.MixedNGramScore())
-    breaker.attack(cipher_text, population_size=100, generation_count=30)
+    breaker = GeneticAlgorithmBreaker(VigenereCipher, scores.MixedNGramScore(), key_size=len(key))
+    new_key = breaker.attack(cipher_text, population_size=100, generation_count=100)
+
+    new_cipher = VigenereCipher(key=new_key)
+    decipher_text = new_cipher.decipher(cipher_text)
+    print(decipher_text)
 
 
 if __name__ == "__main__":
