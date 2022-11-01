@@ -136,8 +136,12 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
                 "elapsed": (toc - tic)/1e9
                 #"group": group,
             }
-            print("{generation}/{generation_count:.3f}\t{elapsed:}\t{seed:}\t{population_size:}\t{key_size:}\t{mutation_threshold:}\t{selection_min:.3f}\t{selection_max:.3f}\t{best_individual:}".format(**generation))
+            print("{generation}/{generation_count:}\t{elapsed:.3f}\t{seed:}\t{population_size:}\t{key_size:}\t{mutation_threshold:}\t{selection_min:.3f}\t{selection_max:.3f}\t{best_individual:}".format(**generation))
             yield generation
+
+            # Extra stop criterion:
+            if generation["selection_min"] == generation["selection_max"]:
+                break
 
 
 def main():
@@ -172,7 +176,7 @@ def main():
             # Target:
             target = score.score(text)
 
-            for key in ["GENETICALGORITHM", "COLLATZCONJECTURE", "FLUCTUATNECMERGITUR", "SRGSADIVQUIZ"]:
+            for key in ["SECRET", "SECRETTOKEN", "GENETICALGORITHM", "THECOLLATZCONJECTURE"]:
 
                 # Cipher text:
                 cipher = VigenereCipher(key=key)
