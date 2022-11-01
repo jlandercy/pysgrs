@@ -93,7 +93,8 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
                 record.update(key_size)
                 yield record
 
-    def attack(self, text, key_size=None, population_size=20, generation_count=30, mutation_threshold=0.8, seed=None):
+    def attack(self, text, key_size=None, population_size=20, generation_count=30, mutation_threshold=0.8,
+               score_threshold=None, exact_key=None, seed=None):
 
         if seed is not None:
             np.random.seed(seed)
@@ -139,8 +140,14 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
             print("{generation}/{generation_count:}\t{elapsed:.3f}\t{seed:}\t{population_size:}\t{key_size:}\t{mutation_threshold:}\t{selection_min:.3f}\t{selection_max:.3f}\t{best_individual:}".format(**generation))
             yield generation
 
-            # Extra stop criterion:
-            if generation["selection_min"] == generation["selection_max"]:
+            # Extra stop criteria:
+
+            # Score threshold:
+            if (score_threshold is not None) and (generation["selection_max"] >= score_threshold):
+                break
+
+            # Key found:
+            if (exact_key is not None) and (generation["best_individual"] == exact_key):
                 break
 
 
@@ -176,7 +183,7 @@ def main():
             # Target:
             target = score.score(text)
 
-            for key in ["SECRET", "SECRETTOKEN", "GENETICALGORITHM", "THECOLLATZCONJECTURE"]:
+            for key in ["SECRET", "SECRETTOKEN", "GENETICALGORITHM", "THECOLLATZCONJECTURE", "ABCDEFGHIJKLMNOPQRSTUZVWXYZ"]:
 
                 # Cipher text:
                 cipher = VigenereCipher(key=key)
@@ -186,7 +193,7 @@ def main():
 
                     for mutation_threshold in [0.5, 0.75, 0.90, 0.99]:
 
-                        for population_size in [20, 50, 100, 250]:
+                        for population_size in [10, 20, 50, 100, 250, 500, 1000]:
 
                             # Attack cipher text:
                             # generations = list(
@@ -201,7 +208,8 @@ def main():
                                 breaker.attack(
                                     cipher_text, key_size=len(key),
                                     population_size=population_size, generation_count=50,
-                                    mutation_threshold=mutation_threshold, seed=seed
+                                    mutation_threshold=mutation_threshold, seed=seed,
+                                    exact_key=key
                                 )
                             )
 
