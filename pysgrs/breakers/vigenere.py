@@ -125,7 +125,7 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
                 "selection_min": np.min(initial_scores),
                 "selection_max": np.max(initial_scores),
                 "best_individual": initial_group[-1],
-                "group": group,
+                #"group": group,
             }
             print("{generation}/{generation_count:}\t{key_size:}\t{mutation_threshold:}\t{selection_min:.3f}\t{selection_max:.3f}\t{best_individual:}".format(**generation))
             yield generation
@@ -133,39 +133,59 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
 
 def main():
 
-    text = """
-    Bonjour tout le monde, on essaye des trucs, on teste, mais c'est pas absolu comme méthode...
-    Il sera sans doute nécessaire de s'appliquer d'avantage pour mieux comprendre les tenants et aboutissants
-    d'une telle méthodologie. En ajoutant du texte on parvient à améliorer le score et donc le critère de
-    convergence semble plus efficace, même si ça reste une illusion de pouvoir explorer l'esapce des états de
-    manière exhaustive. Mais bon, en rejouant plusieurs fois l'algorithme on parvient à trouver vingt-deux
-    des vingt-six caractères recherchés en moins de dix mille itérations et ça c'est déjà quelque chose
-    de positif et encourageant. Il est a noter que la taille, mais également le contenu du texte ont de
-    de l'importance. A cela s'ajoute également que la solution exacte n'est pas forcément celle qui possède
-    le plus haut score en terme de maximum de vraissemblance des digrammes.
-    """
-    text = AsciiCleaner.strip_accents(text)
-    print(text)
+    import pathlib
 
-    target_score = scores.MixedNGramScore().score(text)
-    print(target_score)
+    def hamming(x, key):
+        if len(x) == len(key):
+            return distance.hamming(list(x), list(key)) * len(x)
 
-    key = "GENETICALGORITHM"
-    print(len(key))
-    cipher = VigenereCipher(key=key)
-    cipher_text = cipher.encipher(text)
-    print(cipher_text)
+    paths = list(sorted(pathlib.Path("pysgrs/resources/texts/fr").glob("*.txt")))
+    score = scores.MixedNGramScore()
+    breaker = VigenereGeneticAlgorithmBreaker(score)
 
-    initial_score = scores.MixedNGramScore().score(cipher_text)
-    print(initial_score)
+    for path in paths[:1]:
 
-    breaker = VigenereGeneticAlgorithmBreaker(scores.MixedNGramScore())
+        # Load text:
+        text = path.read_text("utf-8")
 
-    generations = list(breaker.attack_with_key_size_guess(cipher_text, min_key_size=5, max_key_size=20, order_by="mean", population_size=250, generation_count=30, mutation_threshold=0.50))
+        # Strip accents:
+        text = AsciiCleaner.strip_accents(text)
 
-    df = pd.DataFrame(generations)
-    df.to_excel("breaker_ga.xlsx")
-    print(df)
+        # Target:
+        target = score.score(text)
+
+        solutions = []
+        for key in ["GENETICALGORITHM", "COLLATZCONJECTURE", "FLUCTUATNECMERGITUR", "SRGSADIVQUIZ"]:
+
+            # Cipher text:
+            cipher = VigenereCipher(key=key)
+            cipher_text = cipher.encipher(text)
+
+            for population_size in [20, 50, 100, 250]:
+
+                for mutation_threshold in [0.5, 0.75, 0.85, 0.95, 0.99]:
+
+                    for seed in [123, 456, 789, 123456, 456789, 789123]:
+
+                        np.random.seed(seed)
+
+                        # Create Breaker
+                        generations = list(
+                            breaker.attack_with_key_size_guess(
+                                cipher_text, min_key_size=10, max_key_size=30, order_by="mean", max_guess=2,
+                                population_size=population_size, generation_count=5, mutation_threshold=mutation_threshold
+                            )
+                        )
+
+                        frame = pd.DataFrame(generations)
+                        frame["hamming_distance"] = frame["best_individual"].apply(hamming, args=(key,))
+                        frame = frame.assign(target=target, seed=seed, original_key=key, text_length=len(text), path=str(path))
+                        solutions.append(frame)
+
+        # Dump results:
+        solutions = pd.concat(solutions)
+        print(solutions)
+        solutions.to_excel("vigenere_breaker.xlsx")
 
 
 if __name__ == "__main__":
