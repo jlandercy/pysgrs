@@ -92,7 +92,10 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
                 record.update(key_size)
                 yield record
 
-    def attack(self, text, key_size=None, population_size=20, generation_count=30, mutation_threshold=0.8):
+    def attack(self, text, key_size=None, population_size=20, generation_count=30, mutation_threshold=0.8, seed=None):
+
+        if seed is not None:
+            np.random.seed(seed)
 
         # Create random population:
         initial_group = self.random_population(key_size, population_size=population_size)
@@ -116,6 +119,7 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
             generation = {
                 "generation": i+1,
                 "generation_count": generation_count,
+                "seed": seed,
                 "mutation_threshold": mutation_threshold,
                 "key_size": key_size,
                 "population_size": population_size,
@@ -126,7 +130,7 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
                 "best_individual": initial_group[-1],
                 #"group": group,
             }
-            print("{generation}/{generation_count:}\t{population_size:}\t{key_size:}\t{mutation_threshold:}\t{selection_min:.3f}\t{selection_max:.3f}\t{best_individual:}".format(**generation))
+            print("{generation}/{generation_count:}\t{seed:}\t{population_size:}\t{key_size:}\t{mutation_threshold:}\t{selection_min:.3f}\t{selection_max:.3f}\t{best_individual:}".format(**generation))
             yield generation
 
 
@@ -174,21 +178,26 @@ def main():
 
                         for seed in [123, 123456, 123456789, 987654321]:
 
-                            # Reset random seed to make it reproducible:
-                            np.random.seed(seed)
-
                             # Create Breaker
                             generations = list(
                                 breaker.attack_with_key_size_guess(
                                     cipher_text, min_key_size=10, max_key_size=30, order_by="mean", max_guess=4,
-                                    population_size=population_size, generation_count=40, mutation_threshold=mutation_threshold
+                                    population_size=population_size, generation_count=50,
+                                    mutation_threshold=mutation_threshold, seed=seed
                                 )
                             )
 
                             frame = pd.DataFrame(generations)
                             frame["hamming_distance"] = frame["best_individual"].apply(hamming, args=(key,))
-                            frame = frame.assign(weights=str(weights), target=target, seed=seed, original_key=key, text_length=len(text), path=str(path))
+                            frame = frame.assign(weights=str(weights), target=target, original_key=key, text_length=len(text), path=str(path))
                             solutions.append(frame)
+
+        #                     break
+        #                 break
+        #             break
+        #         break
+        #     break
+        # break
 
     # Dump results:
     solutions = pd.concat(solutions)
