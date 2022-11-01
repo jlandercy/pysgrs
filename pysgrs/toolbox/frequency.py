@@ -86,16 +86,16 @@ class FrequencyAnalyzer(Analyzer):
         return ngrams
 
     @staticmethod
-    def keysize_coincidences(s, max_keysize=25):
-        code_size = len(s)
+    def keysize_coincidences(text, min_key_size=1, max_key_size=25):
+        code_size = len(text)
         coincidences = []
-        for ncol in np.arange(1, max_keysize + 1):
+        for ncol in np.arange(min_key_size, max_key_size + 1):
             nrow = int(np.ceil(code_size / ncol))
-            block = Shaper.to_matrix(s, shape=(nrow, ncol))
+            block = Shaper.to_matrix(text, shape=(nrow, ncol))
             for k in np.arange(ncol):
                 column = Shaper.to_str(block[:, k])
                 coincidence = FrequencyAnalyzer.analyze(column, max_ngram=1)[0].sum()["coincidence"]
-                coincidences.append({"keysize": ncol, "column": k, "coincidence": coincidence})
+                coincidences.append({"key_size": ncol, "column_index": k, "coincidence": coincidence})
         return pd.DataFrame(coincidences)
 
 
@@ -107,7 +107,7 @@ def main():
 
     freqs = FrequencyAnalyzer.analyze()
     for f in freqs:
-        print(f.iloc[:500,:].reset_index().to_json(orient="records"))
+        print(f.iloc[:500, :].reset_index().to_json(orient="records"))
         print(f)
         print(f.sum())
 
