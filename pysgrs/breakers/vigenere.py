@@ -161,6 +161,8 @@ def main():
 
     paths = list(sorted(pathlib.Path("pysgrs/resources/texts/fr").glob("*.txt")))
 
+    counter = 0
+
     solutions = []
     for weights in [
         [1, 0, 0],
@@ -190,11 +192,11 @@ def main():
                 cipher = VigenereCipher(key=key)
                 cipher_text = cipher.encipher(text)
 
-                for seed in [123, 123456, 123456789, 987654321]:
+                for seed in [123456789, 987654321, 546987123]:
 
-                    for mutation_threshold in [0.5, 0.75, 0.90, 0.99]:
+                    for mutation_threshold in [0.5, 0.80, 0.99]:
 
-                        for population_size in [10, 20, 50, 100, 250, 500, 1000]:
+                        for population_size in [10, 50, 100, 500, 1000]:
 
                             # Attack cipher text:
                             # generations = list(
@@ -214,9 +216,11 @@ def main():
                                 )
                             )
 
+                            counter += 1
                             frame = pd.DataFrame(generations)
                             frame["hamming_distance"] = frame["best_individual"].apply(hamming, args=(key,))
                             frame = frame.assign(weights=str(weights), target=target, original_key=key, text_length=len(text), path=str(path))
+                            frame.to_excel("media/break_vigenere_{}.xlsx".format(counter))
                             solutions.append(frame)
 
         #                     break
@@ -229,7 +233,7 @@ def main():
     # Dump results:
     solutions = pd.concat(solutions)
     print(solutions)
-    solutions.to_excel("vigenere_breaker.xlsx")
+    solutions.to_excel("media/break_vigenere_all.xlsx")
 
 
 if __name__ == "__main__":
