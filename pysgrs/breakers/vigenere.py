@@ -1,5 +1,6 @@
 import abc
 import sys
+import time
 
 import numpy as np
 import pandas as pd
@@ -103,6 +104,8 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
 
         for i in range(generation_count):
 
+            tic = time.time_ns()
+
             # Create a new population by crossing and mutating:
             new_group = self.group_crossing(initial_group, mutation_threshold=mutation_threshold)
             new_scores = self.score_group(text, new_group)
@@ -116,6 +119,8 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
             initial_group = list(np.array(group)[index][population_size:])
             initial_scores = list(np.array(group_scores)[index][population_size:])
 
+            toc = time.time_ns()
+
             generation = {
                 "generation": i+1,
                 "generation_count": generation_count,
@@ -128,9 +133,10 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
                 "selection_min": np.min(initial_scores),
                 "selection_max": np.max(initial_scores),
                 "best_individual": initial_group[-1],
+                "elapsed": (toc - tic)/1e9
                 #"group": group,
             }
-            print("{generation}/{generation_count:}\t{seed:}\t{population_size:}\t{key_size:}\t{mutation_threshold:}\t{selection_min:.3f}\t{selection_max:.3f}\t{best_individual:}".format(**generation))
+            print("{generation}/{generation_count:.3f}\t{elapsed:}\t{seed:}\t{population_size:}\t{key_size:}\t{mutation_threshold:}\t{selection_min:.3f}\t{selection_max:.3f}\t{best_individual:}".format(**generation))
             yield generation
 
 
@@ -172,16 +178,24 @@ def main():
                 cipher = VigenereCipher(key=key)
                 cipher_text = cipher.encipher(text)
 
-                for population_size in [20, 50, 100, 250]:
+                for seed in [123, 123456, 123456789, 987654321]:
 
                     for mutation_threshold in [0.5, 0.75, 0.90, 0.99]:
 
-                        for seed in [123, 123456, 123456789, 987654321]:
+                        for population_size in [20, 50, 100, 250]:
 
-                            # Create Breaker
+                            # Attack cipher text:
+                            # generations = list(
+                            #     breaker.attack_with_key_size_guess(
+                            #         cipher_text, min_key_size=10, max_key_size=30, order_by="mean", max_guess=4,
+                            #         population_size=population_size, generation_count=50,
+                            #         mutation_threshold=mutation_threshold, seed=seed
+                            #     )
+                            # )
+
                             generations = list(
-                                breaker.attack_with_key_size_guess(
-                                    cipher_text, min_key_size=10, max_key_size=30, order_by="mean", max_guess=4,
+                                breaker.attack(
+                                    cipher_text, key_size=len(key),
                                     population_size=population_size, generation_count=50,
                                     mutation_threshold=mutation_threshold, seed=seed
                                 )
