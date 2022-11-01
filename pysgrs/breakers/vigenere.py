@@ -155,7 +155,7 @@ def main():
         score = scores.MixedNGramScore(weights=weights)
         breaker = VigenereGeneticAlgorithmBreaker(score)
 
-        for path in paths[:1]:
+        for path in paths:
 
             # Load text:
             text = path.read_text("utf-8")
