@@ -87,7 +87,6 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
 
     def attack_with_key_size_guess(self, text, min_key_size=10, max_key_size=48, order_by="min", max_guess=5, **kwargs):
         key_sizes = self.guess_key_sizes(text, min_key_size=min_key_size, max_key_size=max_key_size, order_by=order_by).reset_index()
-        print(key_sizes)
         for key_size in key_sizes.iloc[:max_guess].to_dict(orient='records'):
             for record in self.attack(text, key_size=key_size["key_size"], **kwargs):
                 record.update(key_size)
@@ -127,7 +126,7 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
                 "best_individual": initial_group[-1],
                 #"group": group,
             }
-            print("{generation}/{generation_count:}\t{key_size:}\t{mutation_threshold:}\t{selection_min:.3f}\t{selection_max:.3f}\t{best_individual:}".format(**generation))
+            print("{generation}/{generation_count:}\t{population_size:}\t{key_size:}\t{mutation_threshold:}\t{selection_min:.3f}\t{selection_max:.3f}\t{best_individual:}".format(**generation))
             yield generation
 
 
@@ -140,52 +139,61 @@ def main():
             return distance.hamming(list(x), list(key)) * len(x)
 
     paths = list(sorted(pathlib.Path("pysgrs/resources/texts/fr").glob("*.txt")))
-    score = scores.MixedNGramScore()
-    breaker = VigenereGeneticAlgorithmBreaker(score)
 
-    for path in paths[:1]:
+    solutions = []
+    for weights in [
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1],
+        [0.6, 0.3, 0.1],
+    ]:
 
-        # Load text:
-        text = path.read_text("utf-8")
+        score = scores.MixedNGramScore(weights=weights)
+        breaker = VigenereGeneticAlgorithmBreaker(score)
 
-        # Strip accents:
-        text = AsciiCleaner.strip_accents(text)
+        for path in paths[:1]:
 
-        # Target:
-        target = score.score(text)
+            # Load text:
+            text = path.read_text("utf-8")
 
-        solutions = []
-        for key in ["GENETICALGORITHM", "COLLATZCONJECTURE", "FLUCTUATNECMERGITUR", "SRGSADIVQUIZ"]:
+            # Strip accents:
+            text = AsciiCleaner.strip_accents(text)
 
-            # Cipher text:
-            cipher = VigenereCipher(key=key)
-            cipher_text = cipher.encipher(text)
+            # Target:
+            target = score.score(text)
 
-            for population_size in [20, 50, 100, 250]:
+            for key in ["GENETICALGORITHM", "COLLATZCONJECTURE", "FLUCTUATNECMERGITUR", "SRGSADIVQUIZ"]:
 
-                for mutation_threshold in [0.5, 0.75, 0.85, 0.95, 0.99]:
+                # Cipher text:
+                cipher = VigenereCipher(key=key)
+                cipher_text = cipher.encipher(text)
 
-                    for seed in [123, 456, 789, 123456, 456789, 789123]:
+                for population_size in [20, 50, 100, 250]:
 
-                        np.random.seed(seed)
+                    for mutation_threshold in [0.5, 0.75, 0.90, 0.99]:
 
-                        # Create Breaker
-                        generations = list(
-                            breaker.attack_with_key_size_guess(
-                                cipher_text, min_key_size=10, max_key_size=30, order_by="mean", max_guess=2,
-                                population_size=population_size, generation_count=5, mutation_threshold=mutation_threshold
+                        for seed in [123, 123456, 123456789, 987654321]:
+
+                            # Reset random seed to make it reproducible:
+                            np.random.seed(seed)
+
+                            # Create Breaker
+                            generations = list(
+                                breaker.attack_with_key_size_guess(
+                                    cipher_text, min_key_size=10, max_key_size=30, order_by="mean", max_guess=4,
+                                    population_size=population_size, generation_count=40, mutation_threshold=mutation_threshold
+                                )
                             )
-                        )
 
-                        frame = pd.DataFrame(generations)
-                        frame["hamming_distance"] = frame["best_individual"].apply(hamming, args=(key,))
-                        frame = frame.assign(target=target, seed=seed, original_key=key, text_length=len(text), path=str(path))
-                        solutions.append(frame)
+                            frame = pd.DataFrame(generations)
+                            frame["hamming_distance"] = frame["best_individual"].apply(hamming, args=(key,))
+                            frame = frame.assign(weights=str(weights), target=target, seed=seed, original_key=key, text_length=len(text), path=str(path))
+                            solutions.append(frame)
 
-        # Dump results:
-        solutions = pd.concat(solutions)
-        print(solutions)
-        solutions.to_excel("vigenere_breaker.xlsx")
+    # Dump results:
+    solutions = pd.concat(solutions)
+    print(solutions)
+    solutions.to_excel("vigenere_breaker.xlsx")
 
 
 if __name__ == "__main__":
