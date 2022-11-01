@@ -94,7 +94,7 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
                 yield record
 
     def attack(self, text, key_size=None, population_size=20, generation_count=30, mutation_threshold=0.8,
-               score_threshold=None, exact_key=None, seed=None):
+               score_threshold=None, exact_key=None, seed=None, stop_on_convergence=False):
 
         if seed is not None:
             np.random.seed(seed)
@@ -142,6 +142,14 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
 
             # Extra stop criteria:
 
+            # Trapped in local min:
+            if stop_on_convergence and (generation["selection_min"] == generation["selection_max"]):
+                break
+
+            # No crossing possible all the same:
+            if all([initial_group[-1] == key for key in initial_group]):
+                break
+
             # Score threshold:
             if (score_threshold is not None) and (generation["selection_max"] >= score_threshold):
                 break
@@ -165,10 +173,10 @@ def main():
 
     solutions = []
     for weights in [
+        [0.6, 0.3, 0.1],
         [1, 0, 0],
         [0, 1, 0],
         [0, 0, 1],
-        [0.6, 0.3, 0.1],
     ]:
 
         score = scores.MixedNGramScore(weights=weights)
