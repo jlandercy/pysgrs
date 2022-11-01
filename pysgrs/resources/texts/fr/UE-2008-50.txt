@@ -1,0 +1,493 @@
+CHAPITRE I
+
+DISPOSITIONS GÉNÉRALES
+
+Article premier
+
+Objet
+
+La présente directive établit des mesures visant:
+
+1)
+
+
+à définir et à fixer des objectifs concernant la qualité de l’air ambiant, afin d’éviter, de prévenir ou de réduire les effets nocifs pour la santé humaine et pour l’environnement dans son ensemble;
+
+2)
+
+
+à évaluer la qualité de l’air ambiant dans les États membres sur la base de méthodes et de critères communs;
+
+3)
+
+
+à obtenir des informations sur la qualité de l’air ambiant afin de contribuer à lutter contre la pollution de l’air et les nuisances et de surveiller les tendances à long terme et les améliorations obtenues grâce aux mesures nationales et communautaires;
+
+4)
+
+
+à faire en sorte que ces informations sur la qualité de l’air ambiant soient mises à la disposition du public;
+
+5)
+
+
+à préserver la qualité de l’air ambiant, lorsqu’elle est bonne, et à l’améliorer dans les autres cas;
+
+6)
+
+
+à promouvoir une coopération accrue entre les États membres en vue de réduire la pollution atmosphérique.
+
+Article 2
+
+Définitions
+
+Aux fins de la présente directive, on entend par:
+
+1)
+
+
+«air ambiant»: l’air extérieur de la troposphère, à l’exclusion des lieux de travail tels que définis par la directive 89/654/CEE (20), auxquels s’appliquent les dispositions en matière de santé et de sécurité au travail et auxquels le public n’a normalement pas accès;
+
+2)
+
+
+«polluant»: toute substance présente dans l’air ambiant et susceptible d’avoir des effets nocifs sur la santé humaine et/ou sur l’environnement dans son ensemble;
+
+3)
+
+
+«niveau»: la concentration d’un polluant dans l’air ambiant ou son dépôt sur les surfaces en un temps donné;
+
+4)
+
+
+«évaluation»: toute méthode utilisée pour mesurer, calculer, prévoir ou estimer des niveaux;
+
+5)
+
+
+«valeur limite»: un niveau fixé sur la base des connaissances scientifiques, dans le but d’éviter, de prévenir ou de réduire les effets nocifs sur la santé humaine et/ou l’environnement dans son ensemble, à atteindre dans un délai donné et à ne pas dépasser une fois atteint;
+
+6)
+
+
+«niveau critique»: un niveau fixé sur la base des connaissances scientifiques, au-delà duquel des effets nocifs directs peuvent se produire sur certains récepteurs, tels que arbres, autres plantes ou écosystèmes naturels, mais pas sur des êtres humains;
+
+7)
+
+
+«marge de dépassement»: le pourcentage de la valeur limite dont cette valeur peut être dépassée dans les conditions fixées par la présente directive;
+
+8)
+
+
+«plans relatifs à la qualité de l'air»: les plans énonçant des mesures visant à atteindre les valeurs limites ou valeurs cibles;
+
+9)
+
+
+«valeur cible»: un niveau fixé dans le but d’éviter, de prévenir ou de réduire les effets nocifs sur la santé humaine et/ou l’environnement dans son ensemble, à atteindre dans la mesure du possible sur une période donnée;
+
+10)
+
+
+«seuil d'alerte»: un niveau au-delà duquel une exposition de courte durée présente un risque pour la santé humaine de l’ensemble de la population et à partir duquel les États membres doivent immédiatement prendre des mesures;
+
+11)
+
+
+«seuil d'information»: un niveau au-delà duquel une exposition de courte durée présente un risque pour la santé humaine des groupes particulièrement sensibles de la population et pour lequel des informations immédiates et adéquates sont nécessaires;
+
+12)
+
+
+«seuil d’évaluation supérieur»: un niveau en deçà duquel il est permis, pour évaluer la qualité de l’air ambiant, d’utiliser une combinaison de mesures fixes et de techniques de modélisation et/ou de mesures indicatives;
+
+13)
+
+
+«seuil d’évaluation inférieur»: un niveau en deçà duquel il est suffisant, pour évaluer la qualité de l’air ambiant, d’utiliser des techniques de modélisation ou d’estimation objective;
+
+14)
+
+
+«objectif à long terme»: un niveau à atteindre à long terme, sauf lorsque cela n’est pas réalisable par des mesures proportionnées, afin d’assurer une protection efficace de la santé humaine et de l’environnement;
+
+15)
+
+
+«contributions des sources naturelles»: les émissions de polluants qui ne résultent pas directement ou indirectement des activités humaines, mais qui sont notamment dues à des événements naturels tels que les éruptions volcaniques, les activités sismiques, les activités géothermiques, les feux de terres non cultivées, les vents violents, les embruns marins, la resuspension atmosphérique ou le transport de particules naturelles provenant de régions désertiques;
+
+16)
+
+
+«zone»: une partie du territoire d’un État membre délimitée par lui aux fins de l’évaluation et de la gestion de la qualité de l’air;
+
+17)
+
+
+«agglomération»: une zone qui constitue une conurbation caractérisée par une population supérieure à 250 000 habitants ou, lorsque la population est inférieure ou égale à 250 000 habitants, par une densité d’habitants au kilomètre carré à établir par les États membres;
+
+18)
+
+
+«PM10»: les particules passant dans un orifice d’entrée calibré tel que défini dans la méthode de référence pour l’échantillonnage et la mesure du PM10, norme EN 12 341, avec un rendement de séparation de 50 % pour un diamètre aérodynamique de 10 µm;
+
+19)
+
+
+«PM2,5»: les particules passant dans un orifice d’entrée calibré tel que défini dans la méthode de référence pour l’échantillonnage et la mesure du PM2,5, norme EN 14907, avec un rendement de séparation de 50 % pour un diamètre aérodynamique de 2,5 µm;
+
+20)
+
+
+«indicateur d’exposition moyenne»: un niveau moyen déterminé sur la base des mesures effectuées dans des lieux caractéristiques de la pollution de fond urbaine sur l’ensemble du territoire d’un État membre et qui reflète l’exposition de la population. Il est utilisé afin de calculer l’objectif national de réduction de l’exposition et l’obligation en matière de concentration relative à l’exposition;
+
+21)
+
+
+«obligation en matière de concentration relative à l'exposition»: le niveau fixé sur la base de l’indicateur d’exposition moyenne, à atteindre dans un délai donné, afin de réduire l’impact négatif sur la santé humaine;
+
+22)
+
+
+«objectif national de réduction de l'exposition»: un pourcentage de réduction de l’indicateur d’exposition moyenne de la population d’un État membre, fixé pour l’année de référence, dans le but de réduire les effets nocifs sur la santé humaine, à atteindre dans la mesure du possible sur une période donnée;
+
+23)
+
+
+«lieux caractéristiques de la pollution de fond urbaine»: des lieux situés dans des zones urbaines où les niveaux sont représentatifs de l’exposition de la population urbaine en général;
+
+24)
+
+
+«oxydes d'azote»: la somme du rapport de mélange en volume (ppbv) de monoxyde d’azote (oxyde nitrique) et de dioxyde d’azote, exprimé en unités de concentration massique de dioxyde d’azote (µg/m3);
+
+25)
+
+
+«mesures fixes»: des mesures effectuées à des endroits fixes, soit en continu, soit par échantillonnage aléatoire, afin de déterminer les niveaux conformément aux objectifs de qualité des données applicables;
+
+26)
+
+
+«mesures indicatives»: des mesures qui respectent des objectifs de qualité des données moins stricts que ceux qui sont requis pour les mesures fixes;
+
+27)
+
+
+«composés organiques volatils» (COV): les composés organiques provenant de sources anthropiques et biogènes, autres que le méthane, capables de produire des oxydants photochimiques par réaction avec des oxydes d’azote sous l’effet du rayonnement solaire;
+
+28)
+
+
+«précurseurs de l'ozone»: des substances qui contribuent à la formation d’ozone troposphérique, dont certaines sont énumérées à l’annexe X.
+
+Article 3
+
+Responsabilités
+
+Les États membres désignent, aux niveaux appropriés, les autorités et organismes compétents chargés:
+
+a)
+
+
+d’évaluer la qualité de l’air ambiant;
+
+b)
+
+
+d’agréer les dispositifs de mesure (méthodes, appareils, réseaux et laboratoires);
+
+c)
+
+
+de garantir l’exactitude des mesures;
+
+d)
+
+
+d’analyser les méthodes d’évaluation;
+
+e)
+
+
+de coordonner sur leur territoire les éventuels programmes communautaires d’assurance de la qualité organisés par la Commission;
+
+f)
+
+
+de coopérer avec les autres États membres et la Commission.
+
+Le cas échéant, les autorités et organismes compétents se conforment à l’annexe I, section C.
+
+Article 4
+
+Établissement des zones et des agglomérations
+
+Les États membres établissent des zones et des agglomérations sur l’ensemble de leur territoire. L’évaluation de la qualité de l’air et la gestion de la qualité de l’air sont effectuées dans toutes les zones et agglomérations.
+
+CHAPITRE II
+
+ÉVALUATION DE LA QUALITÉ DE L’AIR AMBIANT
+
+SECTION 1
+
+Évaluation de la qualité de l’air ambiant en ce qui concerne l’anhydride sulfureux, le dioxyde d’azote et les oxydes d’azote, les particules, le plomb, le benzène et le monoxyde de carbone
+
+Article 5
+
+Système d’évaluation
+
+1.   Les seuils d’évaluation supérieurs et inférieurs indiqués à l’annexe II, section A, s’appliquent à l’anhydride sulfureux, au dioxyde d’azote et aux oxydes d’azote, aux particules (PM10 et PM2,5), au plomb, au benzène et au monoxyde de carbone.
+
+Chaque zone ou agglomération est classée par rapport à ces seuils d’évaluation.
+
+2.   La classification visée au paragraphe 1 est réexaminée tous les cinq ans au moins conformément à la procédure définie à l’annexe II, section B.
+
+Cependant, la classification est réexaminée plus fréquemment en cas de modification importante des activités ayant des incidences sur les concentrations ambiantes d’anhydride sulfureux, de dioxyde d’azote ou, le cas échéant, d’oxydes d’azote, de particules (PM10, PM2,5), de plomb, de benzène ou de monoxyde de carbone.
+
+Article 6
+
+Critères d’évaluation
+
+1.   Les États membres évaluent la qualité de l’air ambiant portant sur les polluants visés à l’article 5 dans toutes leurs zones et agglomérations, conformément aux critères fixés aux paragraphes 2, 3 et 4 du présent article et aux critères figurant à l’annexe III.
+
+2.   Dans toutes les zones et agglomérations où le niveau de polluants visé au paragraphe 1 dépasse le seuil d’évaluation supérieur établi pour ces polluants, l’évaluation de la qualité de l’air ambiant s’effectue à l’aide de mesures fixes. Ces mesures fixes peuvent être complétées par des techniques de modélisation et/ou des mesures indicatives afin de fournir des informations adéquates sur la répartition géographique de la qualité de l’air ambiant.
+
+3.   Dans toutes les zones et agglomérations où le niveau de polluants visé au paragraphe 1 est inférieur au seuil d’évaluation supérieur établi pour ces polluants, il est permis, pour évaluer la qualité de l’air ambiant, d’utiliser une combinaison de mesures fixes et de techniques de modélisation et/ou de mesures indicatives.
+
+4.   Dans toutes les zones et agglomérations où le niveau de polluants visé au paragraphe 1 est inférieur au seuil d’évaluation inférieur établi pour ces polluants, il est suffisant, pour évaluer la qualité de l’air ambiant, d’utiliser des techniques de modélisation ou d’estimation objective, ou les deux.
+
+5.   En plus des évaluations visées aux paragraphes 2, 3 et 4, des mesures sont effectuées dans des lieux ruraux caractéristiques de la pollution de fond à l’écart des sources importantes de pollution atmosphérique, dans le but de fournir, au minimum, des informations sur la concentration totale en masse et les concentrations évaluées par spéciation chimique des particules fines (PM2,5) en moyenne annuelle, selon les critères suivants:
+
+a)
+
+
+un point de prélèvement est installé par 100 000 km2;
+
+b)
+
+
+chaque État membre crée au moins une station de mesure ou peut convenir avec les États membres limitrophes de créer une ou plusieurs stations de mesure communes, couvrant les zones contiguës concernées, afin d’atteindre la résolution spatiale nécessaire;
+
+c)
+
+
+le cas échéant, la surveillance est coordonnée avec la stratégie de surveillance et le programme de mesure du programme concerté de surveillance continue et d’évaluation du transport à longue distance des polluants atmosphériques en Europe (EMEP);
+
+d)
+
+
+l’annexe I, sections A et C, s’applique en ce qui concerne les objectifs de qualité des données pour les mesures de concentration de la masse des particules, et l’annexe IV s’applique dans son intégralité.
+
+Les États membres informent la Commission des méthodes de mesure utilisées pour mesurer la composition chimique des particules fines (PM2,5).
+
+Article 7
+
+Points de prélèvement
+
+1.   L’emplacement des points de prélèvement pour la mesure de l’anhydride sulfureux, du dioxyde d’azote et des oxydes d’azote, des particules (PM10 et PM2,5), du plomb, du benzène et du monoxyde de carbone dans l’air ambiant est déterminé selon les critères énoncés à l’annexe III.
+
+2.   Dans chaque zone ou agglomération où les mesures fixes constituent la seule source d’information pour évaluer la qualité de l’air, le nombre de points de prélèvement pour chaque polluant concerné n’est pas inférieur au nombre minimal de points de prélèvement indiqué à l’annexe V, section A.
+
+3.   Dans les zones et agglomérations dans lesquelles les renseignements fournis par les points de prélèvement pour les mesures fixes sont complétés par des informations provenant de la modélisation et/ou de mesures indicatives, le nombre total de points de prélèvement indiqué à l’annexe V, section A, peut être réduit de 50 % au maximum, pour autant que les conditions suivantes soient remplies:
+
+a)
+
+
+les méthodes complémentaires fournissent des informations suffisantes pour évaluer la qualité de l’air en ce qui concerne les valeurs limites ou les seuils d’alerte, ainsi que des renseignements adéquats pour le public;
+
+b)
+
+
+le nombre de points de prélèvement à installer et la résolution spatiale des autres techniques sont suffisants pour établir la concentration du polluant concerné conformément aux objectifs de qualité des données indiqués à l’annexe I, section A, et permettent aux résultats de l’évaluation de respecter les critères indiqués à l’annexe I, section B.
+
+Les résultats provenant de la modélisation et/ou de mesures indicatives sont pris en compte pour l’évaluation de la qualité de l’air en ce qui concerne les valeurs cibles.
+
+4.   L’application, dans les États membres, des critères de sélection des points de prélèvement est suivie par la Commission de façon à favoriser une application harmonisée de ces critères dans l’ensemble de l’Union européenne.
+
+Article 8
+
+Méthodes de référence pour les mesures
+
+1.   Les États membres appliquent, pour les mesures, les méthodes de référence et les critères indiqués à l’annexe VI, sections A et C.
+
+2.   D’autres méthodes de mesure peuvent être utilisées moyennant le respect des conditions énoncées à l’annexe VI, section B.
+
+SECTION 2
+
+Évaluation de la qualité de l’air ambiant en ce qui concerne l’ozone
+
+Article 9
+
+Critères d’évaluation
+
+1.   Lorsque, dans une zone ou une agglomération, les concentrations d’ozone ont dépassé, au cours d’une des cinq dernières années de mesure, les objectifs à long terme indiqués à l’annexe VII, section C, des mesures fixes sont effectuées.
+
+2.   Lorsque les données disponibles concernent moins de cinq années, les États membres peuvent, pour déterminer si les objectifs à long terme visés au paragraphe 1 ont été dépassés au cours de ces cinq années, combiner les résultats des campagnes de mesure de courte durée, effectuées à des moments et en des lieux susceptibles de correspondre aux plus hauts niveaux de pollution, avec les résultats obtenus à partir des inventaires des émissions et de la modélisation.
+
+Article 10
+
+Points de prélèvement
+
+1.   L’implantation des points de prélèvement pour la mesure de l’ozone est déterminée selon les critères indiqués à l’annexe VIII.
+
+2.   Dans chaque zone ou agglomération où les mesures constituent la seule source d’information pour évaluer la qualité de l’air, le nombre de points de prélèvement pour les mesures fixes de l’ozone n’est pas inférieur au nombre minimal de points de prélèvement indiqué à l’annexe IX, section A.
+
+3.   Dans les zones et agglomérations dans lesquelles les renseignements fournis par les points de prélèvement pour les mesures fixes sont complétés par des informations provenant de la modélisation et/ou de mesures indicatives, le nombre de points de prélèvement indiqué à l’annexe IX, section A, peut être réduit, pour autant que les conditions suivantes soient remplies:
+
+a)
+
+
+les méthodes complémentaires fournissent des informations suffisantes pour évaluer la qualité de l’air en ce qui concerne les valeurs cibles, les objectifs à long terme, les seuils d’information et d’alerte;
+
+b)
+
+
+le nombre de points de prélèvement à installer et la résolution spatiale des autres techniques sont suffisants pour établir la concentration de l’ozone conformément aux objectifs de qualité des données indiqués à l’annexe I, section A, et permettent aux résultats de l’évaluation de respecter les critères indiqués à l’annexe I, section B;
+
+c)
+
+
+le nombre de points de prélèvement dans chaque zone ou agglomération est d’au moins un point de prélèvement pour deux millions d’habitants ou d’un point de prélèvement pour 50 000 km2, le nombre retenu étant le plus élevé des deux, mais il ne doit pas être inférieur à un point de prélèvement dans chaque zone ou agglomération;
+
+d)
+
+
+le dioxyde d’azote est mesuré dans tous les points de prélèvement restants, à l’exception des stations consacrées à la pollution de fond rurale, visées à l’annexe VIII, section A.
+
+Les résultats provenant de la modélisation et/ou de mesures indicatives sont pris en compte pour l’évaluation de la qualité de l’air en ce qui concerne les valeurs cibles.
+
+4.   Le dioxyde d’azote est mesuré dans au moins 50 % des points de prélèvement pour l’ozone requis au titre de l’annexe IX, section A. Cette mesure est effectuée en continu, sauf dans les stations consacrées à la pollution de fond rurale, visées à l’annexe VIII, section A, dans lesquelles d’autres méthodes de mesure peuvent être utilisées.
+
+5.   Dans les zones et agglomérations dans lesquelles, au cours de chacune des cinq dernières années de mesure, les concentrations sont inférieures aux objectifs à long terme, le nombre de points de prélèvement pour les mesures fixes est déterminé conformément à l’annexe IX, section B.
+
+6.   Chaque État membre veille à ce qu’au moins un point de prélèvement fournissant des données sur les concentrations des précurseurs de l’ozone énumérés à l’annexe X soit installé et fonctionne sur son territoire. Chaque État membre choisit le nombre et l’implantation des stations où les précurseurs de l’ozone doivent être mesurés, en tenant compte des objectifs et des méthodes figurant à l’annexe X.
+
+Article 11
+
+Méthodes de référence pour les mesures
+
+1.   Les États membres appliquent, pour la mesure de l’ozone, la méthode de référence indiquée à l’annexe VI, section A, point 8. D’autres méthodes de mesure peuvent être utilisées moyennant le respect des conditions énoncées à l’annexe VI, section B.
+
+2.   Les États membres informent la Commission des méthodes qu’ils utilisent pour prélever et mesurer les COV énumérés à l’annexe X.
+
+CHAPITRE III
+
+GESTION DE LA QUALITÉ DE L’AIR AMBIANT
+
+Article 12
+
+Exigences lorsque les niveaux sont inférieurs aux valeurs limites
+
+Dans les zones et agglomérations où les niveaux d’anhydride sulfureux, de dioxyde d’azote, de PM10, de PM2,5, de plomb, de benzène et de monoxyde de carbone dans l’air ambiant sont inférieurs aux valeurs limites indiquées aux annexes XI et XIV, les États membres veillent à maintenir les niveaux de ces polluants en deçà des valeurs limites et s’efforcent de préserver la meilleure qualité de l’air ambiant compatible avec un développement durable.
+
+Article 13
+
+Valeurs limites et seuils d’alerte pour la protection de la santé humaine
+
+1.   Les États membres veillent à ce que, dans l’ensemble de leurs zones et agglomérations, les niveaux d’anhydride sulfureux, de PM10, de plomb et de monoxyde de carbone dans l’air ambiant ne dépassent pas les valeurs limites fixées à l’annexe XI.
+
+En ce qui concerne le dioxyde d’azote et le benzène, les valeurs limites indiquées à l’annexe XI ne peuvent pas être dépassées à partir des dates indiquées à ladite annexe.
+
+Le respect de ces exigences est évalué conformément à l’annexe III.
+
+Les marges de dépassement indiquées à l’annexe XI s’appliquent conformément à l’article 22, paragraphe 3, et à l’article 23, paragraphe 1.
+
+2.   Les seuils d’alerte applicables pour les concentrations d’anhydride sulfureux et de dioxyde d’azote dans l’air ambiant sont les seuils indiqués à l’annexe XII, section A.
+
+Article 14
+
+Niveaux critiques
+
+1.   Les États membres veillent au respect des niveaux critiques indiqués à l’annexe XIII, évalués conformément à l’annexe III, section A.
+
+2.   Lorsque les mesures fixes constituent la seule source d’information pour évaluer la qualité de l’air, le nombre de points de prélèvement n’est pas inférieur au nombre minimal indiqué à l’annexe V, section C. Lorsque ces renseignements sont complétés par des informations provenant de mesures indicatives ou de la modélisation, le nombre minimal de points de prélèvement peut être réduit de 50 % au maximum, à condition que les estimations des concentrations du polluant concerné puissent être établies conformément aux objectifs de qualité des données énoncés à l’annexe I, section A.
+
+Article 15
+
+Objectif national de réduction de l’exposition aux PM2,5 pour la protection de la santé humaine
+
+1.   Les États membres prennent toutes les mesures nécessaires n’entraînant pas de coûts disproportionnés pour réduire l’exposition aux PM2,5 en vue d’atteindre l’objectif national de réduction de l’exposition indiqué à l’annexe XIV, section B, pour l’année prévue à ladite annexe.
+
+2.   Les États membres veillent à ce que l’indicateur d’exposition moyenne pour l’année 2015, établi en application de l’annexe XIV, section A, ne dépasse pas l’obligation en matière de concentration relative à l’exposition prévue à la section C de ladite annexe.
+
+3.   L’indicateur d’exposition moyenne pour les PM2,5 est évalué conformément à l’annexe XIV, section A.
+
+4.   Chaque État membre, conformément à l’annexe III, veille à ce que la répartition et le nombre de points de prélèvement servant de base à l’indicateur d’exposition moyenne aux PM2,5 reflètent correctement le niveau d’exposition de la population en général. Le nombre de points de prélèvement n’est pas inférieur au nombre déterminé en application de l’annexe V, section B.
+
+Article 16
+
+Valeurs cibles et valeurs limites applicables aux PM2,5 pour la protection de la santé humaine
+
+1.   Les États membres prennent toutes les mesures nécessaires n’entraînant pas de coûts disproportionnés pour veiller à ce que les concentrations de PM2,5 dans l’air ambiant ne dépassent pas la valeur cible indiquée à l’annexe XIV, section D, après la date mentionnée dans ladite annexe.
+
+2.   Les États membres veillent à ce que les concentrations de PM2,5 dans l’air ambiant ne dépassent pas les valeurs limites spécifiées à l’annexe XIV, section E, dans l’ensemble de leurs zones et agglomérations, après la date mentionnée dans ladite annexe. Le respect de ces exigences est évalué conformément à l’annexe III.
+
+3.   La marge de dépassement indiquée à l’annexe XIV, section E, s’applique conformément à l’article 23, paragraphe 1.
+
+Article 17
+
+Exigences dans les zones et agglomérations où les concentrations d’ozone dépassent les valeurs cibles et les objectifs à long terme
+
+1.   Les États membres prennent toutes les mesures nécessaires n’entraînant pas de coûts disproportionnés pour veiller à ce que les valeurs cibles et les objectifs à long terme soient atteints.
+
+2.   Pour les zones et agglomérations dans lesquelles une valeur cible est dépassée, les États membres veillent à ce que le programme élaboré au titre de l’article 6 de la directive 2001/81/CE, ainsi que, le cas échéant, le plan relatif à la qualité de l’air, soient mis en œuvre afin d’atteindre les valeurs cibles, sauf lorsque cela n’est pas réalisable par des mesures nécessaires n’entraînant pas de coûts disproportionnés, à partir de la date indiquée à l’annexe VII, section B, de la présente directive.
+
+3.   Pour les zones et agglomérations dans lesquelles les niveaux d’ozone dans l’air ambiant sont supérieurs aux objectifs à long terme, mais inférieurs ou égaux aux valeurs cibles, les États membres élaborent et mettent en œuvre des mesures efficaces au regard de leur coût dans le but d’atteindre les objectifs à long terme. Ces mesures sont, au minimum, conformes à tous les plans relatifs à la qualité de l’air et au programme visé au paragraphe 2.
+
+Article 18
+
+Exigences dans les zones et agglomérations où les niveaux d’ozone répondent aux objectifs à long terme
+
+Dans les zones et agglomérations dans lesquelles les niveaux d’ozone répondent aux objectifs à long terme, les États membres maintiennent, dans la mesure où des facteurs tels que la nature transfrontalière de la pollution par l’ozone et les conditions météorologiques le permettent, les niveaux d’ozone en deçà des objectifs à long terme et préservent par des mesures proportionnées la meilleure qualité de l’air ambiant compatible avec un développement durable ainsi qu’un niveau élevé de protection de l’environnement et de la santé humaine.
+
+Article 19
+
+Mesures requises en cas de dépassement des seuils d’information ou d’alerte
+
+Lorsque le seuil d’information indiqué à l’annexe XII ou l’un des seuils d’alerte indiqués à ladite annexe est dépassé, les États membres prennent les mesures nécessaires pour informer le public par la radio, la télévision, la presse ou l’internet.
+
+Les États membres transmettent aussi à la Commission, à titre provisoire, les informations relatives aux niveaux enregistrés et à la durée des dépassements du seuil d’alerte ou du seuil d’information.
+
+Article 20
+
+Contributions des sources naturelles
+
+1.   Les États membres transmettent à la Commission, pour une année donnée, les listes des zones et des agglomérations dans lesquelles les dépassements des valeurs limites pour un polluant déterminé sont imputables aux contributions des sources naturelles. Les États membres transmettent des informations sur les concentrations et les sources, ainsi que des éléments prouvant que les dépassements sont imputables à des sources naturelles.
+
+2.   Lorsque la Commission a été informée d’un dépassement imputable à des sources naturelles conformément au paragraphe 1, ce dépassement n’est pas considéré comme un dépassement aux fins de la présente directive.
+
+3.   La Commission publie, au plus tard le 11 juin 2010, des lignes directrices sur la méthode à utiliser pour prouver et déduire les dépassements imputables à des sources naturelles.
+
+Article 21
+
+Dépassements imputables au sablage ou au salage hivernal des routes
+
+1.   Les États membres peuvent désigner des zones ou des agglomérations dans lesquelles il y a dépassement des valeurs limites fixées pour les PM10 dans l’air ambiant provenant de la remise en suspension de particules provoquée par le sablage ou le salage hivernal des routes.
+
+2.   Les États membres transmettent à la Commission les listes de ces zones ou agglomérations, accompagnées d’informations sur les concentrations et les sources de PM10 dans celles-ci.
+
+3.   En informant la Commission conformément à l’article 27, les États membres fournissent les preuves appropriées pour démontrer que tout dépassement est dû à ces particules remises en suspension et que toute mesure utile a été prise pour diminuer les concentrations.
+
+4.   Sans préjudice de l’article 20, dans le cas des zones ou agglomérations visées au paragraphe 1 du présent article, les États membres ne sont tenus d’établir le plan relatif à la qualité de l’air prévu à l’article 23 que dans le cas où les dépassements sont imputables à des sources de PM10 autres que le sablage ou le salage hivernal des routes.
+
+5.   La Commission publie, au plus tard le 11 juin 2010, des lignes directrices sur la méthode à utiliser pour déterminer les contributions provenant de la remise en suspension de particules provoquée par le sablage ou le salage hivernal des routes.
+
+Article 22
+
+Report des délais fixés pour atteindre certaines valeurs limites et exemption de l’obligation d’appliquer celles-ci
+
+1.   Lorsque, dans une zone ou agglomération donnée, les valeurs limites fixées pour le dioxyde d’azote ou le benzène ne peuvent pas être respectées dans les délais indiqués à l’annexe XI, un État membre peut reporter ces délais de cinq ans au maximum pour la zone ou agglomération en cause, à condition qu’un plan relatif à la qualité de l’air soit établi conformément à l’article 23 pour la zone ou l’agglomération à laquelle le report de délai s’appliquerait. Ce plan est complété par les informations énumérées à l’annexe XV, section B, relatives aux polluants concernés et démontre comment les valeurs limites seront respectées avant la nouvelle échéance.
+
+2.   Lorsque, dans une zone ou agglomération donnée, les valeurs limites fixées à l’annexe XI pour les PM10 ne peuvent pas être respectées en raison des caractéristiques de dispersion du site, de conditions climatiques défavorables ou de contributions transfrontalières, un État membre est exempté de l’obligation d’appliquer ces valeurs limites jusqu’au 11 juin 2011, moyennant le respect des conditions prévues au paragraphe 1 et à condition que cet État membre fasse la preuve qu’il a pris toutes les mesures appropriées aux niveaux national, régional et local pour respecter les délais.
+
+3.   Lorsqu’un État membre applique le paragraphe 1 ou 2, il veille à ce que le dépassement de la valeur limite fixée pour chaque polluant ne soit pas supérieur à la marge de dépassement maximale indiquée à l’annexe XI pour chacun des polluants concernés.
+
+4.   Les États membres notifient à la Commission les zones ou agglomérations dans lesquelles ils estiment que les paragraphes 1 ou 2 sont applicables et transmettent le plan relatif à la qualité de l’air visé au paragraphe 1, avec tous les renseignements nécessaires pour permettre à la Commission d’évaluer si les conditions pertinentes sont remplies. Dans son évaluation, la Commission prend en considération les effets estimés, actuellement et dans le futur, sur la qualité de l’air ambiant dans les États membres, des mesures qui ont été prises par les États membres, ainsi que les effets estimés, sur la qualité de l’air ambiant, des mesures communautaires actuelles et des mesures prévues, que doit proposer la Commission.
+
+En l’absence d’objection de la part de la Commission dans les neuf mois qui suivent la réception de la notification, les conditions pertinentes pour l’application du paragraphe 1 ou du paragraphe 2 sont réputées remplies.
+
+En cas d’objection, la Commission peut demander aux États membres d’adapter les plans relatifs à la qualité de l’air ou d’en fournir de nouveaux.

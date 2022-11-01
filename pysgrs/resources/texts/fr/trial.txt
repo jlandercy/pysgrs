@@ -6,4 +6,4 @@ manière exhaustive. Mais bon, en rejouant plusieurs fois l'algorithme on parvie
 des vingt-six caractères recherchés en moins de dix mille itérations et ça c'est déjà quelque chose
 de positif et encourageant. Il est a noter que la taille, mais également le contenu du texte ont de
 de l'importance. A cela s'ajoute également que la solution exacte n'est pas forcément celle qui possède
-le plus haut score en terme de maximum de vraissemblance des digrammes.
+le plus haut score en terme de maximum de vraissemblance des n-grammes.

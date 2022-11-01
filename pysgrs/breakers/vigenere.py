@@ -176,6 +176,7 @@ def main():
 
             # Load text:
             text = path.read_text("utf-8")
+            print(path)
 
             # Strip accents:
             text = AsciiCleaner.strip_accents(text)
