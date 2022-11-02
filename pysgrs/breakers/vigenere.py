@@ -1,6 +1,7 @@
 import abc
 import sys
 import time
+import uuid
 
 import numpy as np
 import pandas as pd
@@ -40,8 +41,12 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
     def guess_key_sizes(self, text, min_key_size=1, max_key_size=48, normalize=True, order_by="min"):
         if normalize:
             text = AsciiCleaner.normalize(text)
-        coincidences = FrequencyAnalyzer.keysize_coincidences(text, min_key_size=min_key_size, max_key_size=max_key_size)
-        guesses = coincidences.groupby("key_size")["coincidence"].agg(["min", "mean", "median", "max"]).sort_values(order_by, ascending=False)
+        coincidences = FrequencyAnalyzer.keysize_coincidences(
+            text, min_key_size=min_key_size, max_key_size=max_key_size
+        )
+        guesses = coincidences.groupby("key_size")["coincidence"].agg(
+            ["min", "mean", "median", "max"]
+        ).sort_values(order_by, ascending=False)
         guesses.columns = guesses.columns.map(lambda x: "coincidence_" + x)
         return guesses
 
@@ -57,7 +62,15 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
     def random_index(self, key_size):
         return np.random.choice(range(key_size))
 
-    def mutate(self, old_1, old_2):
+    def swap_gene(self, old_1, old_2, index):
+        new_1, new_2 = list(old_1), list(old_2)
+        new_1[index], new_2[index] = new_2[index], new_1[index]
+        return "".join(new_1), "".join(new_2)
+
+    def double_cross_mutation(self, old_1, old_2):
+        """
+        S. S.Omran, A Cryptanalytic Attack on Vigenère Cipher Using Genetic Algorithm
+        """
         i, j = self.random_index(len(old_1)), self.random_index(len(old_2))
         i, j = min(i, j), max(i, j)
         new_1 = list(old_1)
@@ -68,18 +81,27 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
         new_2[j] = old_1[i]
         return "".join(new_1), "".join(new_2)
 
-    def crossing(self, old_1, old_2, mutation_threshold=0.8):
+    def single_point_crossover(self, old_1, old_2, threshold=0.8, mutation=double_cross_mutation):
+        """
+        Single-Point Crossover w/ Mutation
+        """
         index = self.random_index(len(old_1))
         new_1 = old_1[:index] + old_2[index:]
         new_2 = old_2[:index] + old_1[index:]
-        if np.random.rand() >= mutation_threshold:
-            new_1, new_2 = self.mutate(new_1, new_2)
+        if np.random.rand() >= threshold:
+            new_1, new_2 = mutation(new_1, new_2)
         return new_1, new_2
 
-    def group_crossing(self, group, mutation_threshold=0.8):
+    def uniform_crossover(self, old_1, old_2, threshold=0.5):
+        """
+        Uniform cross-over
+        """
+        pass
+
+    def group_crossover(self, group, threshold=0.8, crossover=single_point_crossover):
         new_group = []
         for pair in self.make_pairs(group):
-            new_pair = self.crossing(*pair, mutation_threshold=mutation_threshold)
+            new_pair = crossover(*pair, threshold=threshold)
             new_group.extend(new_pair)
         return new_group
 
@@ -87,15 +109,22 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
         return [self.score.score(VigenereCipher(key=key).decipher(text)) for key in group]
 
     def attack_with_key_size_guess(self, text, min_key_size=10, max_key_size=48, order_by="min", max_guess=5, **kwargs):
-        key_sizes = self.guess_key_sizes(text, min_key_size=min_key_size, max_key_size=max_key_size, order_by=order_by).reset_index()
+        key_sizes = self.guess_key_sizes(
+            text, min_key_size=min_key_size, max_key_size=max_key_size, order_by=order_by
+        ).reset_index()
         for key_size in key_sizes.iloc[:max_guess].to_dict(orient='records'):
             for record in self.attack(text, key_size=key_size["key_size"], **kwargs):
                 record.update(key_size)
                 yield record
 
-    def attack(self, text, key_size=None, population_size=20, generation_count=30, mutation_threshold=0.8,
-               score_threshold=None, exact_key=None, seed=None, stop_on_convergence=False):
+    def attack(self, text, key_size=None, population_size=20, generation_count=30, threshold=0.8,
+               score_threshold=None, exact_key=None, seed=None, stop_on_convergence=False,
+               crossover=single_point_crossover):
 
+        # Attack identifier
+        identifier = uuid.uuid4().hex
+
+        # Set seed to make attack reproducible
         if seed is not None:
             np.random.seed(seed)
 
@@ -108,7 +137,7 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
             tic = time.time_ns()
 
             # Create a new population by crossing and mutating:
-            new_group = self.group_crossing(initial_group, mutation_threshold=mutation_threshold)
+            new_group = self.group_crossover(initial_group, threshold=threshold, crossover=crossover)
             new_scores = self.score_group(text, new_group)
 
             # Merge groups:
@@ -123,17 +152,18 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
             toc = time.time_ns()
 
             generation = {
+                "seed": seed,
+                "identifier": identifier,
                 "generation": i+1,
                 "generation_count": generation_count,
-                "seed": seed,
-                "mutation_threshold": mutation_threshold,
+                "threshold": threshold,
                 "key_size": key_size,
                 "population_size": population_size,
                 "global_min": np.min(group_scores),
                 "global_max": np.max(group_scores),
                 "selection_min": np.min(initial_scores),
                 "selection_max": np.max(initial_scores),
-                "best_individual": initial_group[-1],
+                "best_key": initial_group[-1],
                 "elapsed": (toc - tic)/1e9
                 #"group": group,
             }
@@ -219,7 +249,7 @@ def main():
                                 breaker.attack(
                                     cipher_text, key_size=len(key),
                                     population_size=population_size, generation_count=50,
-                                    mutation_threshold=mutation_threshold, seed=seed,
+                                    threshold=mutation_threshold, seed=seed,
                                     exact_key=key
                                 )
                             )
