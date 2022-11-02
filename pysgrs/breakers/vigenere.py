@@ -227,8 +227,12 @@ def main():
                             counter += 1
                             frame = pd.DataFrame(generations)
                             frame["hamming_distance"] = frame["best_individual"].apply(hamming, args=(key,))
-                            frame = frame.assign(weights=str(weights), target=target, original_key=key, text_length=len(text), path=str(path))
-                            frame.to_excel("media/break_vigenere_{}.xlsx".format(counter))
+                            filename = "media/break_vigenere_{}.xlsx".format(counter)
+                            frame = frame.assign(
+                                weights=str(weights), setup=counter, target=target, original_key=key,
+                                text_length=len(text), path=str(path), dump=filename
+                            )
+                            frame.to_excel(filename)
                             solutions.append(frame)
 
         #                     break
