@@ -70,11 +70,11 @@ class KeySpace(GenericSpace):
                 else:
                     yield key
 
-    def sample(self, size=1):
+    def sample(self, size=1, weights=None):
         key_sizes = self.sample_key_size(size=size)
         keys = []
         for key_size in key_sizes:
-            key = np.random.choice(list(self.alphabet.symbols), size=key_size)
+            key = np.random.choice(list(self.alphabet.symbols), size=key_size, p=weights)
             keys.append("".join(key))
         return keys
 
