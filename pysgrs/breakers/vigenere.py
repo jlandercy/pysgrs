@@ -1,5 +1,6 @@
 import time
 import uuid
+from operator import itemgetter
 
 import numpy as np
 import pandas as pd
@@ -9,7 +10,7 @@ from pysgrs import scores
 from pysgrs.toolbox import AsciiCleaner, FrequencyAnalyzer
 from pysgrs.alphabets import BasicAlphabet
 from pysgrs.toolbox.spaces import KeySpace
-from pysgrs.toolbox.operators import NumerusClaususSelection, RouletteWheelSelection, SinglePointCrossover, TworsMutation
+from pysgrs.toolbox.operators import NumerusClaususSelection, RouletteWheelSelection, SinglePointCrossover, TworsMutation, RandomMutation
 from pysgrs.interfaces import GenericBreaker
 from pysgrs.ciphers import VigenereCipher
 
@@ -180,7 +181,7 @@ class VigenereGeneticAlgorithmBreaker:
 
     def __init__(
         self,
-        selection_operator=NumerusClaususSelection,
+        selection_operator=RouletteWheelSelection,
         crossover_operator=SinglePointCrossover,
         mutation_operator=TworsMutation,
         score_function=scores.mixed_ngrams_fr,
@@ -204,7 +205,7 @@ class VigenereGeneticAlgorithmBreaker:
     def attack(
         self,
         cipher_text, key_size=None,
-        seed=None, population_size=200, max_steps=250, crossover_probability=0.5, mutation_probability=0.01,
+        seed=None, population_size=100, max_steps=50, crossover_probability=0.5, mutation_probability=0.2,
         halt_on_score_threshold=None, halt_on_exact_key=None, halt_on_convergence=True,
     ):
 
@@ -226,7 +227,7 @@ class VigenereGeneticAlgorithmBreaker:
         key_space = self.key_space_factory(alphabet=self.alphabet, min_key_size=key_size)
         #print("Key Space Size: %d" % key_space.size())
 
-        # Start the attack:
+        # Initial population:
         population = key_space.sample(size=population_size)
 
         # Generate new populations:
@@ -238,7 +239,11 @@ class VigenereGeneticAlgorithmBreaker:
             text_scores = [self.score_function.score(text) for text in texts]
             toc = time.time_ns()
 
-            # Best candidate for this step:
+            # Elitism:
+            order = np.argsort(text_scores)
+            population = list(itemgetter(*order)(population))[-population_size:]
+            text_scores = list(itemgetter(*order)(text_scores))[-population_size:]
+
             best_index = np.argmax(text_scores)
 
             # Dispatch step information:
@@ -269,15 +274,21 @@ class VigenereGeneticAlgorithmBreaker:
                 break
 
             # Create new generation (GA comes to play):
-            batch_size = len(population) // 2
+            offspring = []
             selection = self.selection_operator.select(population, text_scores, size=population_size)
-            population = []
+            batch_size = len(selection) // 2
+
             for pair in zip(selection[batch_size:], selection[:batch_size]):
-                population.extend([
+                offspring.extend([
                     self.mutation_operator.mutate(individual, probability=mutation_probability)
-                    for individual in self.crossover_operator.crossover(*pair, probability=crossover_probability)
+                    for individual in self.crossover_operator.crossover(
+                        *pair,
+                        probability=crossover_probability,
+                        symbols=self.alphabet.symbols
+                    )
                 ])
-            #print(population)
+
+            population += offspring
 
 
 def main():

@@ -27,7 +27,7 @@ class BasicVigenereGeneticAlgorithmBreaker(GenericVigenereBreakerTest, unittest.
     de l'importance. A cela s'ajoute également que la solution exacte n'est pas forcément celle qui possède
     le plus haut score en terme de maximum de vraissemblance des n-grammes.
     """
-    _key = "EULALIE"
+    _key = "SECRETTOKEN"
 
     def setUp(self) -> None:
         self.cipher = self._breaker.cipher_factory(key=self._key)

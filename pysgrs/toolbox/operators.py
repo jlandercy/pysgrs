@@ -25,6 +25,7 @@ class RouletteWheelSelection(SelectionOperator):
         min_score = np.min(scores)
         extent = np.max(scores) - min_score
         fitness = scale*(np.array(scores) - min_score)/extent + bias
+        fitness = np.power(1/np.array(scores), 2)
         probabilities = fitness/np.sum(fitness)
         selection = np.random.choice(population, p=probabilities, size=size)
         return list(selection)
