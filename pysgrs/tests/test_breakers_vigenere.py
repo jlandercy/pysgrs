@@ -28,4 +28,4 @@ class BasicVigenereGeneticAlgorithmBreaker(GenericVigenereBreakerTest, unittest.
 
     def test_cipher_attack(self):
         for step in self._breaker.attack(self.cipher_text, key_size=len(self._key)):
-            print("{step_index}/{max_steps}\t{min_score}\t{max_score}".format(**step))
+            print("{step_index}/{max_steps}\t{scoring_time:.3f}\t{min_score}\t{max_score}\t{best_key}\t{best_text}".format(**step))

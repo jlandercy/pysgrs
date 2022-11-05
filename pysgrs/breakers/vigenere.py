@@ -230,17 +230,25 @@ class VigenereGeneticAlgorithmBreaker:
         # Generate new populations:
         for step_index in range(max_steps + 1):
 
-            # Decipher text for each individual and assess fitness
+            # Decipher text for each individual and assess fitness:
+            tic = time.time_ns()
             texts = [self.cipher_factory(key=individual).decipher(cipher_text) for individual in population]
-            scores = [self.score_function.score(text) for text in texts]
+            text_scores = [self.score_function.score(text) for text in texts]
+            toc = time.time_ns()
+
+            # Best candidate for this step:
+            best_index = np.argmax(text_scores)
 
             # Dispatch step information:
             yield {
                 "attack_id": attack_id,
                 "step_index": step_index,
                 "max_steps": max_steps,
-                "min_score": np.min(scores),
-                "max_score": np.max(scores)
+                "min_score": np.min(text_scores),
+                "max_score": np.max(text_scores),
+                "scoring_time": (toc - tic)/1e9,
+                "best_key": population[best_index],
+                "best_text": texts[best_index]
             }
 
             # Stop criterion:
