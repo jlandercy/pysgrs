@@ -205,7 +205,7 @@ class VigenereGeneticAlgorithmBreaker:
         self,
         cipher_text, key_size=None,
         seed=None, population_size=50, max_steps=50, crossover_probability=0.1, mutation_probability=0.1,
-        halt_score_threshold=None, halt_exact_key=None, halt_on_convergence=True,
+        halt_on_score_threshold=None, halt_on_exact_key=None, halt_on_convergence=True,
     ):
 
         # Attack identifier:
@@ -221,11 +221,10 @@ class VigenereGeneticAlgorithmBreaker:
 
         # Create the key space:
         key_space = self.key_space_factory(alphabet=self.alphabet, min_key_size=key_size)
-        print("Key Space Size: %d" % key_space.size())
+        #print("Key Space Size: %d" % key_space.size())
 
         # Start the attack:
         population = key_space.sample(size=population_size)
-        print(population)
 
         # Generate new populations:
         for step_index in range(max_steps + 1):
@@ -240,7 +239,7 @@ class VigenereGeneticAlgorithmBreaker:
             best_index = np.argmax(text_scores)
 
             # Dispatch step information:
-            yield {
+            step = {
                 "attack_id": attack_id,
                 "step_index": step_index,
                 "max_steps": max_steps,
@@ -250,12 +249,30 @@ class VigenereGeneticAlgorithmBreaker:
                 "best_key": population[best_index],
                 "best_text": texts[best_index]
             }
+            yield step
 
-            # Stop criterion:
+            # Break on convergence (potentially trapped in local minimum):
+            if halt_on_convergence and (step["min_score"] == step["max_score"]):
+                break
 
-            # Create new generation:
+            # Break on score threshold:
+            if (halt_on_score_threshold is not None) and (step["max_score"] >= halt_on_score_threshold):
+                break
 
-            pass
+            # Break if known key is found:
+            if (halt_on_exact_key is not None) and (step["best_key"] == halt_on_exact_key):
+                break
+
+            # Create new generation (GA comes to play):
+            batch_size = len(population) // 2
+            selection = self.selection_operator.select(population, text_scores, size=population_size)
+            population = []
+            for pair in zip(selection[batch_size:], selection[:batch_size]):
+                population.extend([
+                    self.mutation_operator.mutate(individual)
+                    for individual in self.crossover_operator.crossover(*pair)
+                ])
+            #print(population)
 
 
 def main():
