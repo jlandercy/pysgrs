@@ -181,10 +181,10 @@ class VigenereGeneticAlgorithmBreaker:
 
     def __init__(
         self,
-        selection_operator=RouletteWheelSelection,
+        selection_operator=NumerusClaususSelection,
         crossover_operator=SinglePointCrossover,
         mutation_operator=TworsMutation,
-        score_function=scores.mixed_ngrams_fr,
+        score_function=scores.mixed_ngrams_fr, #scores.MixedNGramScore(weights=[1,0,0]),
         alphabet=BasicAlphabet(),
         language="fr"
     ):
@@ -213,7 +213,8 @@ class VigenereGeneticAlgorithmBreaker:
         attack_id = uuid.uuid4().hex
 
         # Normalize:
-        normal_cipher_text = AsciiCleaner.normalize(cipher_text)
+        normal_cipher_text = AsciiCleaner.strip_accents(cipher_text)
+        print(normal_cipher_text)
 
         # Guess key size if not known:
         if key_size is None:
@@ -244,8 +245,6 @@ class VigenereGeneticAlgorithmBreaker:
             population = list(itemgetter(*order)(population))[-population_size:]
             text_scores = list(itemgetter(*order)(text_scores))[-population_size:]
 
-            best_index = np.argmax(text_scores)
-
             # Dispatch step information:
             step = {
                 "attack_id": attack_id,
@@ -256,8 +255,8 @@ class VigenereGeneticAlgorithmBreaker:
                 "min_score": np.min(text_scores),
                 "max_score": np.max(text_scores),
                 "scoring_time": (toc - tic)/1e9,
-                "best_key": population[best_index],
-                "best_text": self.cipher_factory(key=population[best_index]).decipher(cipher_text)
+                "best_key": population[-1],
+                "best_text": self.cipher_factory(key=population[-1]).decipher(cipher_text)
             }
             yield step
 
