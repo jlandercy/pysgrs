@@ -1,5 +1,3 @@
-import abc
-import sys
 import time
 import uuid
 
@@ -8,35 +6,19 @@ import pandas as pd
 from scipy.spatial import distance
 
 from pysgrs import scores
-from pysgrs.toolbox import AsciiCleaner, Shaper, FrequencyAnalyzer
+from pysgrs.toolbox import AsciiCleaner, FrequencyAnalyzer
 from pysgrs.alphabets import BasicAlphabet
-from pysgrs.interfaces import GenericLocalSearchBreaker, BreakerState
+from pysgrs.interfaces import GenericBreaker
 from pysgrs.ciphers import VigenereCipher
-from pysgrs.settings import settings
 
 
-class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
+class VigenereGeneticAlgorithmBreaker_v1:
 
     def __init__(self, score, alphabet=BasicAlphabet(), language="fr"):
-        super().__init__(score)
+        self.score = score
         self.factory = VigenereCipher
         self.alphabet = alphabet
         self.language = language
-
-    def _initial_state(self, **kwargs):
-        pass
-
-    def _next_state(self, **kwargs):
-        pass
-
-    def _score_state(self, text, **kwargs):
-        pass
-
-    def analyze(self, text, **kwargs):
-        pass
-
-    def guess(self, text, **kwargs):
-        pass
 
     def guess_key_sizes(self, text, min_key_size=1, max_key_size=48, normalize=True, order_by="min"):
         if normalize:
@@ -89,7 +71,7 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
         new_1 = old_1[:index] + old_2[index:]
         new_2 = old_2[:index] + old_1[index:]
         if np.random.rand() >= threshold:
-            new_1, new_2 = mutation(new_1, new_2)
+            new_1, new_2 = mutation(self, new_1, new_2)
         return new_1, new_2
 
     def uniform_crossover(self, old_1, old_2, threshold=0.5):
@@ -101,7 +83,7 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
     def group_crossover(self, group, threshold=0.8, crossover=single_point_crossover):
         new_group = []
         for pair in self.make_pairs(group):
-            new_pair = crossover(*pair, threshold=threshold)
+            new_pair = crossover(self, *pair, threshold=threshold)
             new_group.extend(new_pair)
         return new_group
 
@@ -167,7 +149,7 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
                 "elapsed": (toc - tic)/1e9
                 #"group": group,
             }
-            print("{generation}/{generation_count:}\t{elapsed:.3f}\t{seed:}\t{population_size:}\t{key_size:}\t{mutation_threshold:}\t{selection_min:.3f}\t{selection_max:.3f}\t{best_individual:}".format(**generation))
+            print("{generation}/{generation_count:}\t{elapsed:.3f}\t{seed:}\t{population_size:}\t{key_size:}\t{threshold:}\t{selection_min:.3f}\t{selection_max:.3f}\t{best_key:}".format(**generation))
             yield generation
 
             # Extra stop criteria:
@@ -185,7 +167,7 @@ class VigenereGeneticAlgorithmBreaker(GenericLocalSearchBreaker):
                 break
 
             # Key found:
-            if (exact_key is not None) and (generation["best_individual"] == exact_key):
+            if (exact_key is not None) and (generation["best_key"] == exact_key):
                 break
 
 
@@ -210,7 +192,7 @@ def main():
     ]:
 
         score = scores.MixedNGramScore(weights=weights)
-        breaker = VigenereGeneticAlgorithmBreaker(score)
+        breaker = VigenereGeneticAlgorithmBreaker_v1(score)
 
         for path in paths:
 
@@ -256,7 +238,7 @@ def main():
 
                             counter += 1
                             frame = pd.DataFrame(generations)
-                            frame["hamming_distance"] = frame["best_individual"].apply(hamming, args=(key,))
+                            frame["hamming_distance"] = frame["best_key"].apply(hamming, args=(key,))
                             filename = "media/break_vigenere_{}.xlsx".format(counter)
                             frame = frame.assign(
                                 weights=str(weights), setup=counter, target=target, original_key=key,

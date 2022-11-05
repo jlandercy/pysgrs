@@ -1,11 +1,10 @@
-import sys
 import string
 import unicodedata
 import re
 
 from pysgrs.settings import settings
 from pysgrs import errors
-from pysgrs.toolbox.shaper import Shaper
+from pysgrs.toolbox.shapers import Shaper
 
 
 class Cleaner:
@@ -45,11 +44,3 @@ class AsciiCleaner(Cleaner):
         s = AsciiCleaner.clean(s)
         s = s.replace(" ", "").upper()
         return s
-
-
-def main():
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

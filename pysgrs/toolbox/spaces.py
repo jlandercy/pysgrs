@@ -2,17 +2,18 @@ import itertools
 
 import numpy as np
 
+from pysgrs.alphabets.basic import BasicAlphabet
 from pysgrs.interfaces.space import GenericSpace
 
 
 class ParameterSpace(GenericSpace):
 
     def __init__(self, **parameters):
-        self._paramaters = parameters
+        self._parameters = parameters
 
     @property
     def parameters(self):
-        return self._paramaters
+        return self._parameters
 
     def generate(self, mode="dict"):
         for parameter in itertools.product(*[value for value in self.parameters.values()]):
@@ -80,3 +81,10 @@ class KeySpace(GenericSpace):
 
     def size(self):
         return np.sum(self.key_space_sizes)
+
+
+basic_space_10 = KeySpace(
+    alphabet=BasicAlphabet(),
+    min_key_size=10,
+    max_key_size=10
+)

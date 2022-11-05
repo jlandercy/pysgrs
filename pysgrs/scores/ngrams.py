@@ -167,3 +167,6 @@ class MixedNGramScore(GenericScore):
 
     def score(self, text):
         return np.sum(np.array([self.sub_scores.ngrams[order].score(text) for order in self.orders])*self.score_weights)
+
+
+mixed_ngrams_fr = MixedNGramScore(weights=[0.6, 0.3, 0.1], language="fr")

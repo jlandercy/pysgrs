@@ -1,5 +1,4 @@
 import abc
-import sys
 import collections
 from collections.abc import Iterable
 import pathlib
@@ -9,7 +8,7 @@ import pandas as pd
 
 from pysgrs.settings import settings
 from pysgrs import errors
-from pysgrs.toolbox.shaper import Shaper
+from pysgrs.toolbox.shapers import Shaper
 from pysgrs.toolbox.cleaner import AsciiCleaner
 
 
@@ -97,22 +96,3 @@ class FrequencyAnalyzer(Analyzer):
                 coincidence = FrequencyAnalyzer.analyze(column, max_ngram=1)[0].sum()["coincidence"]
                 coincidences.append({"key_size": ncol, "column_index": k, "coincidence": coincidence})
         return pd.DataFrame(coincidences)
-
-
-def main():
-
-    # freqs = FrequencyAnalyzer.to_format(max_ngram=5)
-    # with p.open("w") as fh:
-    #     json.dump(freqs, fh)
-
-    freqs = FrequencyAnalyzer.analyze()
-    for f in freqs:
-        print(f.iloc[:500, :].reset_index().to_json(orient="records"))
-        print(f)
-        print(f.sum())
-
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()
