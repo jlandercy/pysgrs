@@ -9,7 +9,7 @@ from pysgrs import scores
 from pysgrs.toolbox import AsciiCleaner, FrequencyAnalyzer
 from pysgrs.alphabets import BasicAlphabet
 from pysgrs.toolbox.spaces import KeySpace
-from pysgrs.toolbox.operators import RouletteWheelSelection, SinglePointCrossover, TworsMutation
+from pysgrs.toolbox.operators import NumerusClaususSelection, RouletteWheelSelection, SinglePointCrossover, TworsMutation
 from pysgrs.interfaces import GenericBreaker
 from pysgrs.ciphers import VigenereCipher
 
@@ -180,7 +180,7 @@ class VigenereGeneticAlgorithmBreaker:
 
     def __init__(
         self,
-        selection_operator=RouletteWheelSelection,
+        selection_operator=NumerusClaususSelection,
         crossover_operator=SinglePointCrossover,
         mutation_operator=TworsMutation,
         score_function=scores.mixed_ngrams_fr,
@@ -204,12 +204,15 @@ class VigenereGeneticAlgorithmBreaker:
     def attack(
         self,
         cipher_text, key_size=None,
-        seed=None, population_size=50, max_steps=50, crossover_probability=0.1, mutation_probability=0.1,
+        seed=None, population_size=200, max_steps=250, crossover_probability=0.5, mutation_probability=0.01,
         halt_on_score_threshold=None, halt_on_exact_key=None, halt_on_convergence=True,
     ):
 
         # Attack identifier:
         attack_id = uuid.uuid4().hex
+
+        # Normalize:
+        normal_cipher_text = AsciiCleaner.normalize(cipher_text)
 
         # Guess key size if not known:
         if key_size is None:
@@ -231,7 +234,7 @@ class VigenereGeneticAlgorithmBreaker:
 
             # Decipher text for each individual and assess fitness:
             tic = time.time_ns()
-            texts = [self.cipher_factory(key=individual).decipher(cipher_text) for individual in population]
+            texts = [self.cipher_factory(key=individual).decipher(normal_cipher_text) for individual in population]
             text_scores = [self.score_function.score(text) for text in texts]
             toc = time.time_ns()
 
@@ -243,11 +246,13 @@ class VigenereGeneticAlgorithmBreaker:
                 "attack_id": attack_id,
                 "step_index": step_index,
                 "max_steps": max_steps,
+                "population_size": len(population),
+                "key_size": key_size,
                 "min_score": np.min(text_scores),
                 "max_score": np.max(text_scores),
                 "scoring_time": (toc - tic)/1e9,
                 "best_key": population[best_index],
-                "best_text": texts[best_index]
+                "best_text": self.cipher_factory(key=population[best_index]).decipher(cipher_text)
             }
             yield step
 
@@ -269,8 +274,8 @@ class VigenereGeneticAlgorithmBreaker:
             population = []
             for pair in zip(selection[batch_size:], selection[:batch_size]):
                 population.extend([
-                    self.mutation_operator.mutate(individual)
-                    for individual in self.crossover_operator.crossover(*pair)
+                    self.mutation_operator.mutate(individual, probability=mutation_probability)
+                    for individual in self.crossover_operator.crossover(*pair, probability=crossover_probability)
                 ])
             #print(population)
 
