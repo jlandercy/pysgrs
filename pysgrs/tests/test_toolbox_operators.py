@@ -61,7 +61,7 @@ class GenericCrossoverOperatorTest:
 
     def test_crossover_operator(self):
         for parents in self.parent_tuples:
-            children = self._operator.crossover(*parents, *self._parameters)
+            children = self._operator.crossover(*parents, **self._parameters)
             #print(*parents, " -> ", *children)
             self.assertTrue(all([len(child) == len(children[0]) for child in children]))
 
@@ -92,12 +92,25 @@ class GenericMutationOperatorTest:
 
     def test_mutation_operator(self):
         for individual in self.population:
-            mutated = self._operator.mutate(individual, *self._parameters)
-            #print(individual, " -> ", mutated)
+            mutated = self._operator.mutate(individual, **self._parameters)
+            print(individual, " -> ", mutated)
             self.assertEqual(len(individual), len(mutated))
+
+
+class TestRandomMutationOperator(GenericMutationOperatorTest, unittest.TestCase):
+    _operator = toolbox.RandomMutation
+    _generator = spaces.basic_space_10
+    _parameters = {"probability": 0.5}
+
+
+class TestExtendedRandomMutationOperator(GenericMutationOperatorTest, unittest.TestCase):
+    _operator = toolbox.RandomMutation
+    _generator = spaces.basic_space_10
+    _parameters = {"probability": 0.5, "symbols": spaces.basic_space_10.alphabet.symbols}
 
 
 class TestTworsMutationOperator(GenericMutationOperatorTest, unittest.TestCase):
     _operator = toolbox.TworsMutation
     _generator = spaces.basic_space_10
+    _parameters = {"probability": 0.5}
 

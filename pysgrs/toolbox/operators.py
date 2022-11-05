@@ -53,7 +53,7 @@ class SinglePointCrossover(CrossoverOperator):
 
 class UniformCrossover(CrossoverOperator):
     @staticmethod
-    def crossover(parent_1, parent_2, probability=0.1, **kwargs):
+    def crossover(parent_1, parent_2, probability=0.5, **kwargs):
         """
         Swap corresponding genes among parents with defined probability
         """
@@ -74,27 +74,37 @@ class UniformCrossover(CrossoverOperator):
         return child_1, child_2
 
 
-class UniformMutation(MutationOperator):
-    @staticmethod
-    def mutate(individual, **kwargs):
-        pass
-
-
 class RandomMutation(MutationOperator):
     @staticmethod
-    def mutate(individual, **kwargs):
+    def mutate(individual, probability=0.01, symbols=None, **kwargs):
         """
-        Randomly change genes
+        Randomly change genes using symbols with a defined probability rate
         """
-        pass
+
+        if symbols is None:
+            symbols = individual
+        symbols = list(symbols)
+
+        key_size = len(individual)
+
+        mutated = list(individual)
+        for i in range(key_size):
+            if np.random.uniform() >= (1. - probability):
+                mutated[i] = np.random.choice(symbols)
+
+        if isinstance(individual, str):
+            mutated = "".join(mutated)
+
+        return mutated
 
 
 class TworsMutation(MutationOperator):
     @staticmethod
-    def mutate(individual, probability=0.1, **kwargs):
+    def mutate(individual, probability=0.05, **kwargs):
         """Swap to genes within the genome"""
 
         if np.random.uniform() >= (1. - probability):
+
             # Mutation Points:
             key_size = len(individual)
             point_1 = np.random.randint(0, key_size - 1)
