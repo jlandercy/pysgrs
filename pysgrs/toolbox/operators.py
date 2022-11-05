@@ -42,7 +42,7 @@ class SinglePointCrossover(CrossoverOperator):
 
         # Cross Point:
         key_size = len(parent_1)
-        point = np.random.random_integers(0, key_size)
+        point = np.random.randint(0, key_size)
 
         # Single point swap:
         child_1 = parent_1[:point] + parent_2[point:]
@@ -91,6 +91,21 @@ class RandomMutation(MutationOperator):
 
 class TworsMutation(MutationOperator):
     @staticmethod
-    def mutate(individual, **kwargs):
+    def mutate(individual, probability=0.1, **kwargs):
         """Swap to genes within the genome"""
-        pass
+
+        if np.random.uniform() >= (1. - probability):
+            # Mutation Points:
+            key_size = len(individual)
+            point_1 = np.random.randint(0, key_size - 1)
+            point_2 = np.random.randint(0, key_size - 1)
+
+            child = list(individual)
+            child[point_2], child[point_1] = child[point_1], child[point_2]
+
+            if isinstance(individual, str):
+                child = "".join(child)
+
+            return child
+
+        return individual

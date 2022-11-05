@@ -62,7 +62,7 @@ class GenericCrossoverOperatorTest:
     def test_crossover_operator(self):
         for parents in self.parent_tuples:
             children = self._operator.crossover(*parents, *self._parameters)
-            print(*parents, " -> ", *children)
+            #print(*parents, " -> ", *children)
             self.assertTrue(all([len(child) == len(children[0]) for child in children]))
 
 
@@ -74,3 +74,30 @@ class TestSinglePointCrossoverOperator(GenericCrossoverOperatorTest, unittest.Te
 class TestUniformCrossoverOperator(GenericCrossoverOperatorTest, unittest.TestCase):
     _operator = toolbox.UniformCrossover
     _generator = spaces.basic_space_10
+
+
+class GenericMutationOperatorTest:
+
+    _seed = 123
+    _size = 200
+    _operator = None
+    _generator = None
+    _parameters = {}
+
+    def setUp(self) -> None:
+        # Fix seed:
+        np.random.seed(self._seed)
+        # Generate population and assess score:
+        self.population = self._generator.sample(size=self._size)
+
+    def test_mutation_operator(self):
+        for individual in self.population:
+            mutated = self._operator.mutate(individual, *self._parameters)
+            #print(individual, " -> ", mutated)
+            self.assertEqual(len(individual), len(mutated))
+
+
+class TestTworsMutationOperator(GenericMutationOperatorTest, unittest.TestCase):
+    _operator = toolbox.TworsMutation
+    _generator = spaces.basic_space_10
+
