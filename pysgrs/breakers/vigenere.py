@@ -8,6 +8,8 @@ from scipy.spatial import distance
 from pysgrs import scores
 from pysgrs.toolbox import AsciiCleaner, FrequencyAnalyzer
 from pysgrs.alphabets import BasicAlphabet
+from pysgrs.toolbox.spaces import KeySpace
+from pysgrs.toolbox.operators import RouletteWheelSelection, SinglePointCrossover, TworsMutation
 from pysgrs.interfaces import GenericBreaker
 from pysgrs.ciphers import VigenereCipher
 
@@ -169,6 +171,83 @@ class VigenereGeneticAlgorithmBreaker_v1:
             # Key found:
             if (exact_key is not None) and (generation["best_key"] == exact_key):
                 break
+
+
+class VigenereGeneticAlgorithmBreaker:
+
+    cipher_factory = VigenereCipher
+    key_space_factory = KeySpace
+
+    def __init__(
+        self,
+        selection_operator=RouletteWheelSelection,
+        crossover_operator=SinglePointCrossover,
+        mutation_operator=TworsMutation,
+        score_function=scores.mixed_ngrams_fr,
+        alphabet=BasicAlphabet(),
+        language="fr"
+    ):
+
+        # Setup:
+        self.alphabet = alphabet
+        self.language = language
+
+        # Genetic Algorithm requirements:
+        self.selection_operator = selection_operator
+        self.crossover_operator = crossover_operator
+        self.mutation_operator = mutation_operator
+        self.score_function = score_function
+
+    def guess_key_size(self, text):
+        return 10
+
+    def attack(
+        self,
+        cipher_text, key_size=None,
+        seed=None, population_size=50, max_steps=50, crossover_probability=0.1, mutation_probability=0.1,
+        halt_score_threshold=None, halt_exact_key=None, halt_on_convergence=True,
+    ):
+
+        # Attack identifier:
+        attack_id = uuid.uuid4().hex
+
+        # Guess key size if not known:
+        if key_size is None:
+            key_size = self.guess_key_size()
+
+        # Fix the seed before the attack for reproducibility sake:
+        if seed is not None:
+            np.random.seed(seed)
+
+        # Create the key space:
+        key_space = self.key_space_factory(alphabet=self.alphabet, min_key_size=key_size)
+        print("Key Space Size: %d" % key_space.size())
+
+        # Start the attack:
+        population = key_space.sample(size=population_size)
+        print(population)
+
+        # Generate new populations:
+        for step_index in range(max_steps + 1):
+
+            # Decipher text for each individual and assess fitness
+            texts = [self.cipher_factory(key=individual).decipher(cipher_text) for individual in population]
+            scores = [self.score_function.score(text) for text in texts]
+
+            # Dispatch step information:
+            yield {
+                "attack_id": attack_id,
+                "step_index": step_index,
+                "max_steps": max_steps,
+                "min_score": np.min(scores),
+                "max_score": np.max(scores)
+            }
+
+            # Stop criterion:
+
+            # Create new generation:
+
+            pass
 
 
 def main():

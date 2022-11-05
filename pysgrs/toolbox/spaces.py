@@ -33,7 +33,7 @@ class KeySpace(GenericSpace):
         self._alphabet = alphabet
 
         if max_key_size is None:
-            max_key_size = max_key_size
+            max_key_size = min_key_size
 
         self._min_key_size = min_key_size
         self._max_key_size = max_key_size
