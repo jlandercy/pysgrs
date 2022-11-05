@@ -155,6 +155,8 @@ class MixedNGramScore(GenericScore):
 
     def __init__(self, source=None, language="fr", weights=(0.6, 0.3, 0.1)):
         self.sub_scores = MultiNGramScore(source=source, language=language, min_order=1, max_order=len(weights))
+        if not np.sum(weights) == 1:
+            raise ValueError("Sum of weights must be equal to unity")
         self.score_weights = np.array(weights)
 
     @property
