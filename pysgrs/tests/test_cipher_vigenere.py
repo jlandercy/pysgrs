@@ -1,4 +1,3 @@
-import sys
 import unittest
 
 from pysgrs.tests.test_cipher import TestStreamCipher
@@ -48,12 +47,3 @@ class TestVigenereStreamCipherMediumKey(TestStreamCipher, unittest.TestCase):
         "Vf ril glyrax qh trxuk xstrsw, qh fmtfc xstrsw vg n gkyrx hlc.",
         "Jily diy dtqex urctoji esik lnor shgvxstrs xb lny; yifpd mioehlr tayp llgi fs ftl shgvxstrs."
     ]
-
-
-def main():
-    unittest.main()
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

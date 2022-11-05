@@ -1,4 +1,3 @@
-import sys
 import unittest
 import itertools
 
@@ -11,12 +10,3 @@ from pysgrs import scores
 from pysgrs import toolbox
 from pysgrs import errors
 from pysgrs import settings
-
-
-def main():
-    unittest.main()
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

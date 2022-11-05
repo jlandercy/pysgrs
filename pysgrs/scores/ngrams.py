@@ -1,4 +1,3 @@
-import sys
 import collections
 import pathlib
 import json
@@ -153,10 +152,13 @@ class MultiNGramScore(GenericScore):
 
 class MixedNGramScore(GenericScore):
 
-    def __init__(self, source=None, language="fr", weights=(0.6, 0.3, 0.1)):
+    def __init__(self, source=None, language="fr", weights=(0.6, 0.3, 0.1), normalize=True):
+
         self.sub_scores = MultiNGramScore(source=source, language=language, min_order=1, max_order=len(weights))
-        if not np.sum(weights) == 1:
-            raise ValueError("Sum of weights must be equal to unity")
+
+        weights = np.array(weights)
+        if normalize:
+            weights = weights/np.sum(weights)
         self.score_weights = np.array(weights)
 
     @property
@@ -165,16 +167,3 @@ class MixedNGramScore(GenericScore):
 
     def score(self, text):
         return np.sum(np.array([self.sub_scores.ngrams[order].score(text) for order in self.orders])*self.score_weights)
-
-
-def main():
-
-    x = MultiNGramScore()
-    #x = NGramScore()
-    print(x)
-
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

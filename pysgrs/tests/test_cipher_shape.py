@@ -1,4 +1,3 @@
-import sys
 import unittest
 
 import numpy as np
@@ -46,12 +45,3 @@ class TestRowCycleCipherIdentity(TestShapeCipher, unittest.TestCase):
     ciphertexts = [
         "ABCDEFGHIKLMNOPQRSTUVWXYZ",
     ]
-
-
-def main():
-    unittest.main()
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

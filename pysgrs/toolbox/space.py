@@ -1,7 +1,11 @@
 import itertools
 
+import numpy as np
 
-class ParameterSpace:
+from pysgrs.interfaces.space import GenericSpace
+
+
+class ParameterSpace(GenericSpace):
 
     def __init__(self, **parameters):
         self._paramaters = parameters
@@ -17,30 +21,57 @@ class ParameterSpace:
             else:
                 yield parameter
 
+    def sample(self, size=1):
+        pass
+
+
+class KeySpace(GenericSpace):
+
+    def __init__(self, alphabet, min_key_size=10, max_key_size=None):
+
+        self._alphabet = alphabet
+
+        if max_key_size is None:
+            max_key_size = max_key_size
+
+        self._min_key_size = min_key_size
+        self._max_key_size = max_key_size
+
+    @property
+    def alphabet(self):
+        return self._alphabet
+
+    @property
+    def min_key_size(self):
+        return self._min_key_size
+
+    @property
+    def max_key_size(self):
+        return self._max_key_size
+
+    @property
+    def key_sizes(self):
+        return np.arange(self.min_key_size, self.max_key_size + 1)
+
+    @property
+    def key_space_sizes(self):
+        return np.power(np.full(self.key_sizes.shape, fill_value=1.)*self.alphabet.size, self.key_sizes)
+
+    def sample_key_size(self, size=1):
+        return np.random.choice(self.key_sizes, size=size, p=self.key_space_sizes/self.size())
+
+    def generate(self, mode="dict", join=True):
+        for key_size in self.key_sizes:
+            for key in itertools.product(self.alphabet.symbols, repeat=key_size):
+                if join:
+                    key = "".join(key)
+                if mode == "dict":
+                    yield {"key_size": key_size, "key": key}
+                else:
+                    yield key
+
+    def sample(self, size=1):
+        pass
+
     def size(self):
-        count = 0
-        for _ in self.generate():
-            count += 1
-        return count
-
-
-dummy_space = ParameterSpace(
-    text=[
-        "LA VIE EST UNE ETRANGE ENTREPRISE, PLEINE DE RISQUES ET SANS BUT REVELE.",
-        "LA CRYPTOGRAPHIE EST UNE SUPERBE DISCIPLINE ET EGALEMENT LE REFLET DE NOS LIMITES.",
-        "JE N'AI D'YEUX QUE POUR TOI, L'AMOUR REND AVEUGLE N'EST-CE PAS ?",
-        "LA TELEVISION REND BETE ET MECHANT SURTOUT LES EMISSIONS FAITES PAR DES CONS POUR LES CONS.",
-        "JULES N'A PAS RECU DE CEASAR CETTE ANNEE, PERSONNE NE SAIT SI ON LE REVERA A CANNES."
-    ],
-    seed=[123456789],
-    key=["A", "AB", "ABC", "ABCD", "ABCDE"],
-    population_size=[50, 100, 150, 200],
-    threshold=[0.5],
-    weights=[[0.6, 0.3, 0.1]]
-)
-
-if __name__ == "__main__":
-
-    for p in dummy_space.generate():
-        print(p)
-    print(dummy_space.size())
+        return np.sum(self.key_space_sizes)

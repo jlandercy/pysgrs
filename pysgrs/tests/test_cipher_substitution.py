@@ -1,4 +1,3 @@
-import sys
 import unittest
 
 from pysgrs.tests.test_cipher import TestStreamCipher
@@ -121,12 +120,3 @@ class TestAffineStreamCipher(TestStreamCipher, unittest.TestCase):
     ciphertexts = [
         "INSXCHMRWBGLQVAFKPUZEJOTYD"
     ]
-
-
-def main():
-    unittest.main()
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

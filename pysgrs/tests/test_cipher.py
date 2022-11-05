@@ -1,4 +1,3 @@
-import sys
 import unittest
 
 from pysgrs import errors
@@ -52,12 +51,3 @@ class TestShapeCipher(TestStreamCipher):
         "ABCDEFGHIKLMNOPQRSTUVWXYZ",
         #"ABCDE\nFGHIK\nLMNOP\nQRSTU\nVWXYZ"
     ]
-
-
-def main():
-    unittest.main()
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

@@ -1,4 +1,3 @@
-import sys
 import unittest
 
 from pysgrs import alphabets
@@ -53,12 +52,3 @@ class TestAlphabet:
     def test_is_index_size_constant(self):
         if isinstance(self.alphabet, alphabets.StringAlphabet):
             self.assertTrue(self.alphabet.is_index_size_constant)
-
-
-def main():
-    unittest.main()
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

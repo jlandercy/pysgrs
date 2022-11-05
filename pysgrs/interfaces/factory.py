@@ -27,6 +27,7 @@ class GenericStaticGenerator(GenericGenerator):
         pass
 
 
+# To deprecate:
 class KeySpaceGenerator(GenericStaticGenerator):
 
     @staticmethod

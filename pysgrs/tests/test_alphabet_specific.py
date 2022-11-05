@@ -1,4 +1,3 @@
-import sys
 import unittest
 
 from pysgrs import alphabets
@@ -72,12 +71,3 @@ class TestBaconAlphabet(TestStringAlphabet, unittest.TestCase):
 
     def test_index_symbols(self):
         self.assertEqual({"a", "b"}, self.alphabet.index_symbols)
-
-
-def main():
-    unittest.main()
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

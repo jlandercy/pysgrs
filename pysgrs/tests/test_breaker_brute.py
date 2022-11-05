@@ -1,4 +1,3 @@
-import sys
 import unittest
 
 import pandas as pd
@@ -17,12 +16,3 @@ class TestBruteForceBreakerOnRotationCipher(TestBruteForceBreaker, unittest.Test
         scores.NGramScore(language="fr", order=2)
     )
     ciphers = interfaces.CipherFactory(ciphers.RotationCipher, offset=[3, 7, 12, 16, 21, 24])
-
-
-def main():
-    unittest.main()
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

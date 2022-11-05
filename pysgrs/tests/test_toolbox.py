@@ -1,4 +1,3 @@
-import sys
 import unittest
 
 import numpy as np
@@ -113,12 +112,3 @@ class TestHelperCleanerRemovePunctuation(unittest.TestCase):
     def test_sentence_cleaning(self):
         for sentence in self.sentences:
             self.assertEqual(sentence[1], toolbox.AsciiCleaner.remove_punctuation(sentence[0]))
-
-
-def main():
-    unittest.main()
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

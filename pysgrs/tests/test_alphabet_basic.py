@@ -1,4 +1,3 @@
-import sys
 import unittest
 
 from pysgrs import alphabets
@@ -134,12 +133,3 @@ class TestAlphabetMixed(TestAlphabet, unittest.TestCase):
 class TestBinaryAlphabet(TestAlphabet, unittest.TestCase):
 
     alphabet = alphabets.BinaryAlphabet()
-
-
-def main():
-    unittest.main()
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

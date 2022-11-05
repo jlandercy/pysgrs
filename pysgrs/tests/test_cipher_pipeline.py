@@ -1,4 +1,3 @@
-import sys
 import unittest
 
 from pysgrs.tests.test_cipher import TestStreamCipher
@@ -112,12 +111,3 @@ class TestPipelineCipherEquivalenceCaeserVigenere(TestStreamCipher, unittest.Tes
 
     cipher = ciphers.PipelineCipher([ciphers.RotationCipher(offset=-3), ciphers.VigenereCipher(key="D")])
     ciphertexts = TestStreamCipher.plaintexts
-
-
-def main():
-    unittest.main()
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

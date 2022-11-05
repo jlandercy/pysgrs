@@ -1,4 +1,3 @@
-import sys
 import unittest
 
 from pysgrs.tests.test_cipher import TestStreamCipher
@@ -124,12 +123,3 @@ class URLSafeCipher(TestStreamCipher, unittest.TestCase):
         "Wise%20men%20speak%20because%20they%20have%20something%20to%20say%3B%20fools%20because%20they%20have%20to%20say%20something.",
         "Gaga%20Gougou%20Gougou%20Dada"
     ]
-
-
-def main():
-    unittest.main()
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

@@ -1,4 +1,3 @@
-import sys
 import unittest
 
 import pandas as pd
@@ -61,11 +60,3 @@ class TestBruteForceBreaker:
             optimum = df.loc[0, "configuration"]
             self.assertEqual(solution["configuration"], optimum)
 
-
-def main():
-    unittest.main()
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()
