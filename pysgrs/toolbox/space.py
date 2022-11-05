@@ -71,7 +71,12 @@ class KeySpace(GenericSpace):
                     yield key
 
     def sample(self, size=1):
-        pass
+        key_sizes = self.sample_key_size(size=size)
+        keys = []
+        for key_size in key_sizes:
+            key = np.random.choice(list(self.alphabet.symbols), size=key_size)
+            keys.append("".join(key))
+        return keys
 
     def size(self):
         return np.sum(self.key_space_sizes)

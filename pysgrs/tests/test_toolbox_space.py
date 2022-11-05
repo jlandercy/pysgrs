@@ -42,6 +42,7 @@ class TestKeySpaceGeneration(unittest.TestCase):
             min_key_size=1,
             max_key_size=3,
         )
+        np.random.seed(123)
 
     def test_space_generation(self):
         for key in self.space.generate():
@@ -60,7 +61,10 @@ class TestKeySpaceGeneration(unittest.TestCase):
         self.assertEqual(len(list(self.space.generate(mode="tuple"))), size)
 
     def test_sample_key_size(self):
-        np.random.seed(123)
         sizes = self.space.sample_key_size(size=300000)
         exact = np.sum(self.space.key_space_sizes*self.space.key_sizes)/self.space.size()
         self.assertTrue(np.isclose(np.mean(sizes), exact, rtol=0.001))
+
+    def test_sample_key(self):
+        keys = self.space.sample(size=20)
+        self.assertTrue(all([self.space.min_key_size <= len(key) <= self.space.max_key_size for key in keys]))
