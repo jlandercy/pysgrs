@@ -18,16 +18,17 @@ class GenericVigenereBreakerTest:
 
     breaker_factory = breakers.VigenereGeneticAlgorithmBreaker
     parameters_space = toolbox.ParameterSpace(
-        seed=[123456789, 987654321, 546987123],
-        text=texts.small_text_fr,
-        key=["SECRET", "SECRETTOKEN", "GENETICALGORITHM", "THECOLLATZCONJECTURE", "ABCDEFGHIJKLMNOPQRSTUVWXYZ"],
+        text=texts.small_text_fr[:1],
+        key=["SECRET", "SECRETTOKEN", "GENETICALGORITHM"],
         max_steps=[50],
-        population_size=[50, 100, 250, 500],
+        population_size=[50, 100, 250],
         elitism_ratio=[0.1, 1.0],
         elitism_size=[None],
-        mutation_operator=[toolbox.TworsMutation, toolbox.RandomMutation],
-        mutation_probability=[0.01, 0.1, 0.25],
+        mutation_operator=[toolbox.TworsMutation], #, toolbox.RandomMutation],
+        mutation_probability=[0.20, 0.50],
+        seed=[123456789, 987654321, 546987123],
         score_function=[
+            scores.MixedNGramScore(weights=[1, 2, 3], floor=1e-20, scaler=lambda x: x),
             scores.mixed_ngrams_fr,
             #scores.mixed_ngrams_1_fr,
             #scores.mixed_ngrams_2_fr,
@@ -53,7 +54,7 @@ class BasicVigenereGeneticAlgorithmBreaker(GenericVigenereBreakerTest, unittest.
         tests = []
         for run_index, parameters in enumerate(self.generate()):
 
-            pprint.pprint(parameters)
+            #pprint.pprint(parameters)
 
             results = []
             for step in self.breaker_factory(
@@ -80,3 +81,13 @@ class BasicVigenereGeneticAlgorithmBreaker(GenericVigenereBreakerTest, unittest.
             #break
         tests = pd.concat(tests)
         tests.to_excel("./media/attack.xlsx")
+
+
+class TestFitness(unittest.TestCase):
+
+    def test_fitness(self):
+        x = scores.NGramScore().frequency
+        f = toolbox.FrequencyAnalyzer.get_counts(texts.small_text_fr[0])
+        #y = scores.NGramScore(scores.NGramScore(toolbox.FrequencyAnalyzer.get_counts(texts.small_text_fr[0])).score("xx")[0]).frequency
+        print(x)
+        print(f)

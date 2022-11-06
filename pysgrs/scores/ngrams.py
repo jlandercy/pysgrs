@@ -124,7 +124,7 @@ class NGramScore(GenericScore):
 
 class MultiNGramScore(GenericScore):
 
-    def __init__(self, source=None, language="fr", min_order=1, max_order=5):
+    def __init__(self, source=None, language="fr", min_order=1, max_order=5, **kwargs):
 
         if source is None:
             source = settings.resources / 'ngrams/ngrams_{}.json'.format(language)
@@ -136,7 +136,7 @@ class MultiNGramScore(GenericScore):
 
         self._ngrams = dict()
         for order in range(min_order, max_order+1):
-            ngram = NGramScore(order=order, language=language)
+            ngram = NGramScore(order=order, language=language, **kwargs)
             self._ngrams[ngram.order] = ngram
 
     def __str__(self):
@@ -152,9 +152,9 @@ class MultiNGramScore(GenericScore):
 
 class MixedNGramScore(GenericScore):
 
-    def __init__(self, source=None, language="fr", weights=(0.6, 0.3, 0.1), normalize=True):
+    def __init__(self, source=None, language="fr", weights=(0.6, 0.3, 0.1), normalize=True, **kwargs):
 
-        self.sub_scores = MultiNGramScore(source=source, language=language, min_order=1, max_order=len(weights))
+        self.sub_scores = MultiNGramScore(source=source, language=language, min_order=1, max_order=len(weights), **kwargs)
 
         weights = np.array(weights)
         if normalize:
