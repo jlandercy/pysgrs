@@ -181,7 +181,7 @@ class VigenereGeneticAlgorithmBreaker:
 
     def __init__(
         self,
-        selection_operator=operators.NumerusClaususSelection,
+        selection_operator=operators.RouletteWheelSelection,
         crossover_operator=operators.SinglePointCrossover,
         mutation_operator=operators.TworsMutation,
         score_function=scores.mixed_ngrams_fr,
@@ -235,7 +235,7 @@ class VigenereGeneticAlgorithmBreaker:
 
     def attack(
         self,
-        cipher_text, key_size=None, memoization=False,
+        cipher_text, key_size=None, memoization=True,
         seed=None, population_size=100, max_steps=50, crossover_probability=0.5, mutation_probability=0.1,
         halt_on_score_threshold=None, halt_on_exact_key=None, halt_on_convergence=True,
     ):
@@ -246,6 +246,8 @@ class VigenereGeneticAlgorithmBreaker:
                 "step_index": step_index,
                 "max_steps": max_steps,
                 "population_size": population.shape[0],
+                "key_space_size": key_space_size,
+                "memory_size": len(self.memory),
                 "key_size": key_size,
                 "min_score": population.iloc[-1, :]["score"],
                 "max_score": population.iloc[0, :]["score"],
@@ -267,25 +269,22 @@ class VigenereGeneticAlgorithmBreaker:
 
         # Create the key space:
         key_space = self.key_space_factory(alphabet=self.alphabet, min_key_size=key_size)
-        #print("Key Space Size: %d" % key_space.size())
+        key_space_size = key_space.size()
 
         # Initial population:
         step_index = 0
         tic = time.time_ns()
         population = self.score_texts(cipher_text, keys=key_space.sample(size=population_size), memoization=memoization)
-        print(population)
         toc = time.time_ns()
         yield step_logger()
 
         # Generate new populations:
         for step_index in np.arange(1, max_steps + 1):
 
-            # Create new generation (GA comes to play):
-
-            # Start a new generation:
+            # Start new generation:
             tic = time.time_ns()
 
-            # Selection
+            # Selection:
             selection = self.selection_operator.select(population["key"].values, population["score"].values, size=population_size)
 
             # Crossover & Mutation:
@@ -303,14 +302,16 @@ class VigenereGeneticAlgorithmBreaker:
             offspring = self.score_texts(cipher_text, keys=offspring, memoization=memoization)
 
             # Elitism:
-
-
-            # Elitism:
-            population = pd.concat([population, offspring]).sort_values("score", ascending=False)
+            population = pd.concat([
+                population.iloc[:2, :],
+                offspring
+            ]).sort_values("score", ascending=False)
             population = population.iloc[:population_size, :]
 
-            # End of generation:
+            # End of new generation:
             toc = time.time_ns()
+
+            # Extra Stop Criteria:
 
             # Dispatch step information:
             step = step_logger()
