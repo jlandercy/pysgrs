@@ -170,3 +170,6 @@ class MixedNGramScore(GenericScore):
 
 
 mixed_ngrams_fr = MixedNGramScore(weights=[0.6, 0.3, 0.1], language="fr")
+mixed_ngrams_1_fr = MixedNGramScore(weights=[0.3, 0.6, 0.1], language="fr")
+mixed_ngrams_2_fr = MixedNGramScore(weights=[0.1, 0.6, 0.3], language="fr")
+mixed_ngrams_3_fr = MixedNGramScore(weights=[0.1, 0.3, 0.6], language="fr")

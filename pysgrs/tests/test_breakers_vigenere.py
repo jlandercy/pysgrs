@@ -21,12 +21,18 @@ class GenericVigenereBreakerTest:
         seed=[123456789, 987654321, 546987123],
         text=texts.small_text_fr,
         key=["SECRET", "SECRETTOKEN", "GENETICALGORITHM", "THECOLLATZCONJECTURE", "ABCDEFGHIJKLMNOPQRSTUVWXYZ"],
+        max_steps=[50],
         population_size=[50, 100, 200, 500],
         elitism_ratio=[0.1, 0.2, 0.5],
         elitism_size=[None, 2],
         mutation_operator=[toolbox.TworsMutation, toolbox.RandomMutation],
         mutation_probability=[0.01, 0.1, 0.25],
-        score_function=[scores.mixed_ngrams_fr]
+        score_function=[
+            scores.mixed_ngrams_fr,
+            scores.mixed_ngrams_1_fr,
+            scores.mixed_ngrams_2_fr,
+            scores.mixed_ngrams_3_fr
+        ]
     )
 
     def generate(self):
@@ -42,9 +48,10 @@ class BasicVigenereGeneticAlgorithmBreaker(GenericVigenereBreakerTest, unittest.
 
     def test_cipher_attack(self):
 
+        tests = []
         for parameters in self.generate():
 
-            pprint.pprint(parameters)
+            #pprint.pprint(parameters)
 
             results = []
             for step in self.breaker_factory(
@@ -65,6 +72,9 @@ class BasicVigenereGeneticAlgorithmBreaker(GenericVigenereBreakerTest, unittest.
                 print("{step_index}/{max_steps}\t{step_time_ms: 10.3f} ms\t{memory_size}\t{population_size}\t{key_size}\t{mutation_probability}\t{min_score}\t{max_score}\t{best_key}\t{best_text_short}".format(**step))
 
             results = pd.DataFrame(results)
-            results.to_excel("./media/attack_%s.xlsx" % step["attack_id"])
+            results.to_excel("./media/steps/attack_%s.xlsx" % step["attack_id"])
+            tests.append(results)
 
             #break
+        tests = pd.concat(tests)
+        tests.to_excel("./media/attack.xlsx")
