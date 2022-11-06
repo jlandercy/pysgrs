@@ -38,9 +38,9 @@ class BasicVigenereGeneticAlgorithmBreaker(GenericVigenereBreakerTest, unittest.
         self.assertEqual(self._text, self.cipher.decipher(self.cipher_text))
 
     def test_cipher_attack(self):
-        for step in self._breaker.attack(self.cipher_text, key_size=len(self._key), seed=123):
+        for step in self._breaker.attack(self.cipher_text, key_size=len(self._key), seed=12345, halt_on_exact_key=self._key):
             step["best_text_short"] = step["best_text"][:64].replace("\n", "")
-            print("{step_index}/{max_steps}\t{scoring_time:.3f}\t{memory_size}\t{population_size}\t{key_size}\t{min_score}\t{max_score}\t{best_key}\t{best_text_short}".format(**step))
+            print("{step_index}/{max_steps}\t{scoring_time: 10.3f} ms\t{memory_size}\t{population_size}\t{key_size}\t{min_score}\t{max_score}\t{best_key}\t{best_text_short}".format(**step))
 
     def test_original_version(self):
         for step in breakers.VigenereGeneticAlgorithmBreaker_v1(

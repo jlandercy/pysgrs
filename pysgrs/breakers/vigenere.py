@@ -236,7 +236,8 @@ class VigenereGeneticAlgorithmBreaker:
     def attack(
         self,
         cipher_text, key_size=None, memoization=True,
-        seed=None, population_size=100, max_steps=50, crossover_probability=0.5, mutation_probability=0.1,
+        seed=None, population_size=200, max_steps=300,
+        elitism_ratio=None, elitism_size=2, crossover_probability=0.5, mutation_probability=0.1,
         halt_on_score_threshold=None, halt_on_exact_key=None, halt_on_convergence=True,
     ):
 
@@ -251,7 +252,7 @@ class VigenereGeneticAlgorithmBreaker:
                 "key_size": key_size,
                 "min_score": population.iloc[-1, :]["score"],
                 "max_score": population.iloc[0, :]["score"],
-                "scoring_time": (toc - tic) / 1e9,
+                "scoring_time": (toc - tic) / 1e6,
                 "best_key": population.iloc[0, :]["key"],
                 "best_text": population.iloc[0, :]["text"]
             }
@@ -270,6 +271,13 @@ class VigenereGeneticAlgorithmBreaker:
         # Create the key space:
         key_space = self.key_space_factory(alphabet=self.alphabet, min_key_size=key_size)
         key_space_size = key_space.size()
+
+        # Elitism size:
+        if elitism_size is None:
+            if elitism_ratio is None:
+                elitism_size = 0
+            else:
+                elitism_size = int(elitism_ratio*population_size)
 
         # Initial population:
         step_index = 0
@@ -303,7 +311,7 @@ class VigenereGeneticAlgorithmBreaker:
 
             # Elitism:
             population = pd.concat([
-                population.iloc[:2, :],
+                population.iloc[:elitism_size, :],
                 offspring
             ]).sort_values("score", ascending=False)
             population = population.iloc[:population_size, :]
