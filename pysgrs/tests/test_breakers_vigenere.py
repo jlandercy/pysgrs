@@ -4,6 +4,7 @@ from pysgrs import interfaces
 from pysgrs import ciphers
 from pysgrs import breakers
 from pysgrs import scores
+from pysgrs import toolbox
 
 
 class GenericVigenereBreakerTest:
@@ -31,7 +32,7 @@ class BasicVigenereGeneticAlgorithmBreaker(GenericVigenereBreakerTest, unittest.
 
     def setUp(self) -> None:
         self.cipher = self._breaker.cipher_factory(key=self._key)
-        self.cipher_text = self.cipher.encipher(self._text)
+        self.cipher_text = self.cipher.encipher(toolbox.AsciiCleaner.strip_accents(self._text))
 
     def test_reversible_cipher(self):
         self.assertEqual(self._text, self.cipher.decipher(self.cipher_text))
