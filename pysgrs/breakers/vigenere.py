@@ -1,6 +1,6 @@
 import time
 import uuid
-from operator import itemgetter
+import hashlib
 
 import numpy as np
 import pandas as pd
@@ -84,6 +84,8 @@ class VigenereGeneticAlgorithmBreaker:
 
         def step_logger():
             return {
+                "timestamp": pd.Timestamp.now().isoformat(),
+                "cipher_text_hash": cipher_text_hash,
                 "attack_id": attack_id,
                 "seed": seed,
                 "memoization": memoization,
@@ -108,11 +110,12 @@ class VigenereGeneticAlgorithmBreaker:
                 "max_score": population.iloc[0, :]["score"],
                 "best_key": population.iloc[0, :]["key"],
                 "best_text": population.iloc[0, :]["text"],
-                "best_text_short": population.iloc[0, :]["text"][:64].replace("\n", "")
+                "best_text_short": population.iloc[0, :]["text"][:64].replace("\n", "").replace("\t", "")
             }
 
-        # Attack identifier:
+        # Attack identifier and Cipher Text hash:
         attack_id = uuid.uuid4().hex
+        cipher_text_hash = hashlib.sha256(cipher_text.encode()).hexdigest()
 
         # Guess key size if not known:
         if key_size is None:

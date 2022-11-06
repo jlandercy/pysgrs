@@ -43,6 +43,7 @@ class BasicVigenereGeneticAlgorithmBreaker(GenericVigenereBreakerTest, unittest.
         self.assertEqual(self._text, self.cipher.decipher(self.cipher_text))
 
     def test_cipher_attack(self):
+
         score = -np.inf
         results = []
         for step in self._breaker.attack(
@@ -57,4 +58,4 @@ class BasicVigenereGeneticAlgorithmBreaker(GenericVigenereBreakerTest, unittest.
             self.assertTrue(score <= step["max_score"])
             score = step["max_score"]
         results = pd.DataFrame(results)
-        print(results)
+        results.to_excel("./media/attack_%s.xlsx" % step["attack_id"])
