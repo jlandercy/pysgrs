@@ -22,16 +22,16 @@ class GenericVigenereBreakerTest:
         text=texts.small_text_fr,
         key=["SECRET", "SECRETTOKEN", "GENETICALGORITHM", "THECOLLATZCONJECTURE", "ABCDEFGHIJKLMNOPQRSTUVWXYZ"],
         max_steps=[50],
-        population_size=[50, 100, 200, 500],
-        elitism_ratio=[0.1, 0.2, 0.5],
-        elitism_size=[None, 2],
+        population_size=[50, 100, 250, 500],
+        elitism_ratio=[0.1, 1.0],
+        elitism_size=[None],
         mutation_operator=[toolbox.TworsMutation, toolbox.RandomMutation],
         mutation_probability=[0.01, 0.1, 0.25],
         score_function=[
             scores.mixed_ngrams_fr,
-            scores.mixed_ngrams_1_fr,
-            scores.mixed_ngrams_2_fr,
-            scores.mixed_ngrams_3_fr
+            #scores.mixed_ngrams_1_fr,
+            #scores.mixed_ngrams_2_fr,
+            #scores.mixed_ngrams_3_fr
         ]
     )
 
@@ -48,10 +48,12 @@ class BasicVigenereGeneticAlgorithmBreaker(GenericVigenereBreakerTest, unittest.
 
     def test_cipher_attack(self):
 
-        tests = []
-        for parameters in self.generate():
+        run_size = self.parameters_space.size()
 
-            #pprint.pprint(parameters)
+        tests = []
+        for run_index, parameters in enumerate(self.generate()):
+
+            pprint.pprint(parameters)
 
             results = []
             for step in self.breaker_factory(
@@ -69,9 +71,9 @@ class BasicVigenereGeneticAlgorithmBreaker(GenericVigenereBreakerTest, unittest.
                 ] if key in parameters}
             ):
                 results.append(step)
-                print("{step_index}/{max_steps}\t{step_time_ms: 10.3f} ms\t{memory_size}\t{population_size}\t{key_size}\t{mutation_probability}\t{min_score}\t{max_score}\t{best_key}\t{best_text_short}".format(**step))
+                print("{run_index}/{run_size}\t{step_index}/{max_steps}\t{step_time_ms: 10.3f} ms\t{memory_size}\t{population_size}\t{key_size}\t{mutation_probability}\t{min_score}\t{max_score}\t{best_key}\t{best_text_short}".format(**step, run_size=run_size, run_index=run_index))
 
-            results = pd.DataFrame(results)
+            results = pd.DataFrame(results).assign(run_index=run_index, run_size=run_size)
             results.to_excel("./media/steps/attack_%s.xlsx" % step["attack_id"])
             tests.append(results)
 
