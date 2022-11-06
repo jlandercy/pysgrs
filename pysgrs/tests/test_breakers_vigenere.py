@@ -18,10 +18,10 @@ class GenericVigenereBreakerTest:
 
     breaker_factory = breakers.VigenereGeneticAlgorithmBreaker
     parameters_space = toolbox.ParameterSpace(
-        seed=[1234567, 8901234, 5678901],
+        seed=[123456789, 987654321, 546987123],
         text=texts.small_text_fr,
-        key=["SECRET", "SECRETTOKEN", "THECOLLATZCONJECTURE"],
-        population_size=[50, 100, 250],
+        key=["SECRET", "SECRETTOKEN", "GENETICALGORITHM", "THECOLLATZCONJECTURE", "ABCDEFGHIJKLMNOPQRSTUVWXYZ"],
+        population_size=[50, 100, 200, 500],
         elitism_ratio=[0.1, 0.2, 0.5],
         elitism_size=[None, 2],
         mutation_operator=[toolbox.TworsMutation, toolbox.RandomMutation],
