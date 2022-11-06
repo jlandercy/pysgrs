@@ -18,16 +18,15 @@ class NumerusClaususSelection(SelectionOperator):
 
 class RouletteWheelSelection(SelectionOperator):
     @staticmethod
-    def select(population, scores, size=1, scale=1., bias=0.1, **kwargs):
+    def select(population, scores, size=1, scale=1., bias=0.001, **kwargs):
         """
         Perform roulette wheel selection (random choice with replacement weighted by likelihood)
         """
         min_score = np.min(scores)
         extent = np.max(scores) - min_score
         fitness = scale*(np.array(scores) - min_score)/extent + bias
-        fitness = np.power(1/np.array(scores), 2)
         probabilities = fitness/np.sum(fitness)
-        print(probabilities)
+        #print(probabilities)
         selection = np.random.choice(population, p=probabilities, size=size)
         return list(selection)
 

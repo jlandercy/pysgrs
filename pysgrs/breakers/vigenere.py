@@ -10,7 +10,7 @@ from pysgrs import scores
 from pysgrs.toolbox import AsciiCleaner, FrequencyAnalyzer
 from pysgrs.alphabets import BasicAlphabet
 from pysgrs.toolbox.spaces import KeySpace
-from pysgrs.toolbox.operators import NumerusClaususSelection, RouletteWheelSelection, SinglePointCrossover, TworsMutation, RandomMutation
+from pysgrs.toolbox import operators
 from pysgrs.interfaces import GenericBreaker
 from pysgrs.ciphers import VigenereCipher
 
@@ -181,10 +181,10 @@ class VigenereGeneticAlgorithmBreaker:
 
     def __init__(
         self,
-        selection_operator=NumerusClaususSelection,
-        crossover_operator=SinglePointCrossover,
-        mutation_operator=TworsMutation,
-        score_function=scores.mixed_ngrams_fr, #scores.MixedNGramScore(weights=[1,0,0]),
+        selection_operator=operators.NumerusClaususSelection,
+        crossover_operator=operators.SinglePointCrossover,
+        mutation_operator=operators.TworsMutation,
+        score_function=scores.mixed_ngrams_fr,
         alphabet=BasicAlphabet(),
         language="fr"
     ):
@@ -199,22 +199,63 @@ class VigenereGeneticAlgorithmBreaker:
         self.mutation_operator = mutation_operator
         self.score_function = score_function
 
+        # Memoization:
+        self.memory = dict()
+
     def guess_key_size(self, text):
         return 10
 
+    def score_text(self, cipher_text, key, memoization=False):
+
+        # Memory restitution:
+        if memoization:
+            if key in self.memory:
+                return self.memory[key]
+
+        # Compute:
+        factory = self.cipher_factory(key=key)
+        text = factory.decipher(cipher_text)
+        score = self.score_function.score(text)
+        result = {
+            "key": key,
+            "score": score,
+            "text": text,
+        }
+
+        # Memory storage:
+        if memoization:
+            self.memory[key] = result
+
+        return result
+
+    def score_texts(self, cipher_text, keys, memoization=False):
+        results = pd.DataFrame([self.score_text(cipher_text, key, memoization=memoization) for key in keys])
+        results = results.sort_values("score", ascending=False).reset_index(drop=True)
+        return results
+
     def attack(
         self,
-        cipher_text, key_size=None,
-        seed=None, population_size=100, max_steps=50, crossover_probability=0.5, mutation_probability=0.2,
+        cipher_text, key_size=None, memoization=False,
+        seed=None, population_size=100, max_steps=50, crossover_probability=0.5, mutation_probability=0.1,
         halt_on_score_threshold=None, halt_on_exact_key=None, halt_on_convergence=True,
     ):
 
+        def step_logger():
+            return {
+                "attack_id": attack_id,
+                "step_index": step_index,
+                "max_steps": max_steps,
+                "population_size": population.shape[0],
+                "key_size": key_size,
+                "min_score": population.iloc[-1, :]["score"],
+                "max_score": population.iloc[0, :]["score"],
+                "scoring_time": (toc - tic) / 1e9,
+                "best_key": population.iloc[0, :]["key"],
+                "best_text": population.iloc[0, :]["text"]
+            }
+
         # Attack identifier:
         attack_id = uuid.uuid4().hex
-
-        # Normalize:
-        normal_cipher_text = AsciiCleaner.strip_accents(cipher_text)
-        print(normal_cipher_text)
 
         # Guess key size if not known:
         if key_size is None:
@@ -229,35 +270,50 @@ class VigenereGeneticAlgorithmBreaker:
         #print("Key Space Size: %d" % key_space.size())
 
         # Initial population:
-        population = key_space.sample(size=population_size)
+        step_index = 0
+        tic = time.time_ns()
+        population = self.score_texts(cipher_text, keys=key_space.sample(size=population_size), memoization=memoization)
+        print(population)
+        toc = time.time_ns()
+        yield step_logger()
 
         # Generate new populations:
-        for step_index in range(max_steps + 1):
+        for step_index in np.arange(1, max_steps + 1):
 
-            # Decipher text for each individual and assess fitness:
+            # Create new generation (GA comes to play):
+
+            # Start a new generation:
             tic = time.time_ns()
-            texts = [self.cipher_factory(key=individual).decipher(normal_cipher_text) for individual in population]
-            text_scores = [self.score_function.score(text) for text in texts]
-            toc = time.time_ns()
+
+            # Selection
+            selection = self.selection_operator.select(population["key"].values, population["score"].values, size=population_size)
+
+            # Crossover & Mutation:
+            offspring = []
+            batch_size = len(selection) // 2
+            for pair in zip(selection[batch_size:], selection[:batch_size]):
+                offspring.extend([
+                    self.mutation_operator.mutate(individual, probability=mutation_probability)
+                    for individual in self.crossover_operator.crossover(
+                        *pair,
+                        probability=crossover_probability,
+                        symbols=self.alphabet.symbols
+                    )
+                ])
+            offspring = self.score_texts(cipher_text, keys=offspring, memoization=memoization)
 
             # Elitism:
-            order = np.argsort(text_scores)
-            population = list(itemgetter(*order)(population))[-population_size:]
-            text_scores = list(itemgetter(*order)(text_scores))[-population_size:]
+
+
+            # Elitism:
+            population = pd.concat([population, offspring]).sort_values("score", ascending=False)
+            population = population.iloc[:population_size, :]
+
+            # End of generation:
+            toc = time.time_ns()
 
             # Dispatch step information:
-            step = {
-                "attack_id": attack_id,
-                "step_index": step_index,
-                "max_steps": max_steps,
-                "population_size": len(population),
-                "key_size": key_size,
-                "min_score": np.min(text_scores),
-                "max_score": np.max(text_scores),
-                "scoring_time": (toc - tic)/1e9,
-                "best_key": population[-1],
-                "best_text": self.cipher_factory(key=population[-1]).decipher(cipher_text)
-            }
+            step = step_logger()
             yield step
 
             # Break on convergence (potentially trapped in local minimum):
@@ -271,23 +327,6 @@ class VigenereGeneticAlgorithmBreaker:
             # Break if known key is found:
             if (halt_on_exact_key is not None) and (step["best_key"] == halt_on_exact_key):
                 break
-
-            # Create new generation (GA comes to play):
-            offspring = []
-            selection = self.selection_operator.select(population, text_scores, size=population_size)
-            batch_size = len(selection) // 2
-
-            for pair in zip(selection[batch_size:], selection[:batch_size]):
-                offspring.extend([
-                    self.mutation_operator.mutate(individual, probability=mutation_probability)
-                    for individual in self.crossover_operator.crossover(
-                        *pair,
-                        probability=crossover_probability,
-                        symbols=self.alphabet.symbols
-                    )
-                ])
-
-            population += offspring
 
 
 def main():
