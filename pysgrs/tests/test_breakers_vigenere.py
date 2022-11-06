@@ -1,10 +1,15 @@
 import unittest
 
-from pysgrs import interfaces
-from pysgrs import ciphers
+import numpy as np
+import pandas as pd
+
 from pysgrs import breakers
 from pysgrs import scores
 from pysgrs import toolbox
+
+
+pd.options.display.max_columns = 60
+pd.options.display.max_rows = 300
 
 
 class GenericVigenereBreakerTest:
@@ -38,17 +43,18 @@ class BasicVigenereGeneticAlgorithmBreaker(GenericVigenereBreakerTest, unittest.
         self.assertEqual(self._text, self.cipher.decipher(self.cipher_text))
 
     def test_cipher_attack(self):
-        for step in self._breaker.attack(self.cipher_text, key_size=len(self._key), seed=12345, halt_on_exact_key=self._key):
-            step["best_text_short"] = step["best_text"][:64].replace("\n", "")
-            print("{step_index}/{max_steps}\t{scoring_time: 10.3f} ms\t{memory_size}\t{population_size}\t{key_size}\t{min_score}\t{max_score}\t{best_key}\t{best_text_short}".format(**step))
-
-    def test_original_version(self):
-        for step in breakers.VigenereGeneticAlgorithmBreaker_v1(
-            score=scores.mixed_ngrams_fr
-        ).attack(
-            self.cipher_text, key_size=len(self._key),
-            population_size=100, generation_count=50,
-            threshold=0.2, seed=123,
-            exact_key=self._key
+        score = -np.inf
+        results = []
+        for step in self._breaker.attack(
+                self.cipher_text,
+                key_size=len(self._key),
+                seed=12345,
+                halt_on_exact_key=self._key
         ):
-            pass
+            results.append(step)
+            print("{step_index}/{max_steps}\t{step_time_ms: 10.3f} ms\t{memory_size}\t{population_size}\t{key_size}\t{min_score}\t{max_score}\t{best_key}\t{best_text_short}".format(**step))
+            # Assert gradient descent:
+            self.assertTrue(score <= step["max_score"])
+            score = step["max_score"]
+        results = pd.DataFrame(results)
+        print(results)
