@@ -87,6 +87,7 @@ class VigenereGeneticAlgorithmBreaker:
                 "timestamp": pd.Timestamp.now().isoformat(),
                 "cipher_text_hash": cipher_text_hash,
                 "attack_id": attack_id,
+                "language": self.language,
                 "seed": seed,
                 "memoization": memoization,
                 "step_index": step_index,
