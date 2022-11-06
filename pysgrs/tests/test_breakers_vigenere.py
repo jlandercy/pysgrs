@@ -40,3 +40,14 @@ class BasicVigenereGeneticAlgorithmBreaker(GenericVigenereBreakerTest, unittest.
         for step in self._breaker.attack(self.cipher_text, key_size=len(self._key)):
             step["best_text_short"] = step["best_text"][:64].replace("\n", "")
             print("{step_index}/{max_steps}\t{scoring_time:.3f}\t{population_size}\t{key_size}\t{min_score}\t{max_score}\t{best_key}\t{best_text_short}".format(**step))
+
+    def test_original_version(self):
+        for step in breakers.VigenereGeneticAlgorithmBreaker_v1(
+            score=scores.mixed_ngrams_fr
+        ).attack(
+            self.cipher_text, key_size=len(self._key),
+            population_size=100, generation_count=50,
+            threshold=0.2, seed=123,
+            exact_key=self._key
+        ):
+            pass
