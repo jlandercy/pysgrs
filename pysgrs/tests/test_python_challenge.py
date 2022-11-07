@@ -1,0 +1,11 @@
+import unittest
+
+cipher_texts = [
+    "YIGNJ GWETR GMATB WSRAC RXNBF BVXNY LQQPG XKGWK LHRWC ABFSL BECCE PRWRR UGAHQ ESKHW GKFNK GOEIZ SURME IEHMN ZXAGF WXZRR HYMWF VPRAQ QNHWE HINOG WHFZL XHVSR BSIXT YSAFS ZQIAQ SIXVG ZQQJB VANBK CGIHL IXXEI G"
+]
+
+class TestBreaker(unittest.TestCase):
+
+    def test_cipher_texts(self):
+        pass
+
