@@ -6,57 +6,87 @@ from pysgrs import breakers, toolbox
 from pysgrs.tests.test_breakers_vigenere import GenericVigenereBreakerTest, BasicVigenereGeneticAlgorithmBreaker
 
 
-cipher_texts = [
-    """
-    YIGNJ GWETR GMATB WSRAC RXNBF BVXNY LQQPG XKGWK LHRWC ABFSL
-    BECCE PRWRR UGAHQ ESKHW GKFNK GOEIZ SURME IEHMN ZXAGF WXZRR
-    HYMWF VPRAQ QNHWE HINOG WHFZL XHVSR BSIXT YSAFS ZQIAQ SIXVG
-    ZQQJB VANBK CGIHL IXXEI G
-    """,
-    """
-    XVBDU IQEQA NJQFP TFCMC BERUS CICGT CFNLB VPNJC GXOLV TGXNK
-    IBVIA JIJDN LVUIA OLVSJ NFUWI WTQIF XLRCK IWGFQ FFAEA BTJVY
-    ZSXTU IGAIA SIDPI JWNBC HWQJP IKIEI PNQLG CUERH CFFDV GJNFC
-    ECWQL ZSXTA IWQGG XINPI JQVQJ VQOLR IEYVW IFLVK PLFZL VCHVD
-    AKIFV LLOAV TSEAZ FFIWF XVSJN ZTLWB GWWMH DZAII FHOWF CAAIF
-    IWFVC HDUIY NWWNX RGJRU PNQHH GWAHP RZMQF GRVLD UIABV CAQWM
-    HACTH VGGRC KAADW KB
-    """,  # DISPARITION
-    """
-    Jv qpbl, wpv bpr gww'cj axidg kfxl ewtcb qxpqpu
-    Qd eqdg r jxym gql uxet zgdcbumz
-    Op dpmpmt kmaw um yycc B eiu ashm i kjzjs
-    Mpmuv ygx bpg egvaba vyyi gmdgi bxx
-    Ug hrrwxz bqcb bx
-    """,  # CRYPTII
-    """
-    YIGNJ GWETR GMATB WSRAC RXNBF BVXNY LQQPG XKGWK LHRWC ABFSL
-    BECCE PRWRR UGAHQ ESKHW GKFNK GOEIZ SURME IEHMN ZXAGF WXZRR
-    HYMWF VPRAQ QNHWE HINOG WHFZL XHVSR BSIXT YSAFS ZQIAQ SIXVG
-    ZQQJB VANBK CGIHL IXXEI GPMUH ZZNQM DGRPO DCGZE MFFMW VBYJR
-    VVZXK USULR QIZNZ WQAMY SALRF IQGQE WWMFB MWYRR HCIUZ XANPM
-    LPYIG FCTZX KBIXP EVWSY TGGLW HTNUI AXRRT GGBWA GKHVR FFNTG
-    GXBFC VWMAG OCIDZ XAQSJ XXVRS EMVRT AFCKL IEPSC ITTNU QIVHJ
-    YIIEI XSVTR DWOPR RSGTG BXKGO ZLPRB WFBGI GXUSV RQRRS NXRSE
-    MFMVG VBQSQ MHTHV QFMPI AXRRA ECEWA WMVHN FSVTN SLKRZ THWPM
-    GRDQZ TBVZQ VIAXH BCVGB UCZMP IAXSY TGGJC VHBHR GPOEC EVXMG
-    BMUII MSAVG BMXYI A
-    """,  # NEONICOTINOIDE
-    """
-    S'égyqvfé à bro qzcjl (Hnjlpodggfjg lkmdsnayj), wm éuvvsbé lcklfnsmvv,
-    wkh hc alueatèel zzdsfh cgoeqimszlrk amj hbjh wm lwfepxfqjw ohhhcidasa
-    (pp e'mkl oohsyb ims qhrj ymwzdjsd îtwk rh usil ; u'wgg as xieewsèyi
-    rclgquicym imw n si gtmk jnhhp bwjfvaszzw wb Njgezsdwr) lx uifk zrh
-    férqgfg pôamèimk wh zdbeiyfshzij lm kiq-tge lw do Avymmdds-Tjwyém.
-    """  # HERISSONPOLISSON
+challenges = [
+    {
+        "cipher_text":
+            """
+            YIGNJ GWETR GMATB WSRAC RXNBF BVXNY LQQPG XKGWK LHRWC ABFSL
+            BECCE PRWRR UGAHQ ESKHW GKFNK GOEIZ SURME IEHMN ZXAGF WXZRR
+            HYMWF VPRAQ QNHWE HINOG WHFZL XHVSR BSIXT YSAFS ZQIAQ SIXVG
+            ZQQJB VANBK CGIHL IXXEI G
+            """,
+        "key": "NEONICOTINOIDE"
+    },
+    {
+        "cipher_text":
+            """
+            XVBDU IQEQA NJQFP TFCMC BERUS CICGT CFNLB VPNJC GXOLV TGXNK
+            IBVIA JIJDN LVUIA OLVSJ NFUWI WTQIF XLRCK IWGFQ FFAEA BTJVY
+            ZSXTU IGAIA SIDPI JWNBC HWQJP IKIEI PNQLG CUERH CFFDV GJNFC
+            ECWQL ZSXTA IWQGG XINPI JQVQJ VQOLR IEYVW IFLVK PLFZL VCHVD
+            AKIFV LLOAV TSEAZ FFIWF XVSJN ZTLWB GWWMH DZAII FHOWF CAAIF
+            IWFVC HDUIY NWWNX RGJRU PNQHH GWAHP RZMQF GRVLD UIABV CAQWM
+            HACTH VGGRC KAADW KB
+            """,
+        "key": "DISPARITION"
+    },
+    {
+        "cipher_text":
+            """
+            Jv qpbl, wpv bpr gww'cj axidg kfxl ewtcb qxpqpu
+            Qd eqdg r jxym gql uxet zgdcbumz
+            Op dpmpmt kmaw um yycc B eiu ashm i kjzjs
+            Mpmuv ygx bpg egvaba vyyi gmdgi bxx
+            Ug hrrwxz bqcb bx
+            """,
+        "key": "CRYPTII"
+    },
+    {
+        "cipher_text":
+            """
+            YIGNJ GWETR GMATB WSRAC RXNBF BVXNY LQQPG XKGWK LHRWC ABFSL
+            BECCE PRWRR UGAHQ ESKHW GKFNK GOEIZ SURME IEHMN ZXAGF WXZRR
+            HYMWF VPRAQ QNHWE HINOG WHFZL XHVSR BSIXT YSAFS ZQIAQ SIXVG
+            ZQQJB VANBK CGIHL IXXEI GPMUH ZZNQM DGRPO DCGZE MFFMW VBYJR
+            VVZXK USULR QIZNZ WQAMY SALRF IQGQE WWMFB MWYRR HCIUZ XANPM
+            LPYIG FCTZX KBIXP EVWSY TGGLW HTNUI AXRRT GGBWA GKHVR FFNTG
+            GXBFC VWMAG OCIDZ XAQSJ XXVRS EMVRT AFCKL IEPSC ITTNU QIVHJ
+            YIIEI XSVTR DWOPR RSGTG BXKGO ZLPRB WFBGI GXUSV RQRRS NXRSE
+            MFMVG VBQSQ MHTHV QFMPI AXRRA ECEWA WMVHN FSVTN SLKRZ THWPM
+            GRDQZ TBVZQ VIAXH BCVGB UCZMP IAXSY TGGJC VHBHR GPOEC EVXMG
+            BMUII MSAVG BMXYI A
+            """,
+        "key": "NEONICOTINOIDE"
+    },
+    {
+        "cipher_text":
+            """
+            S'égyqvfé à bro qzcjl (Hnjlpodggfjg lkmdsnayj), wm éuvvsbé lcklfnsmvv,
+            wkh hc alueatèel zzdsfh cgoeqimszlrk amj hbjh wm lwfepxfqjw ohhhcidasa
+            (pp e'mkl oohsyb ims qhrj ymwzdjsd îtwk rh usil ; u'wgg as xieewsèyi
+            rclgquicym imw n si gtmk jnhhp bwjfvaszzw wb Njgezsdwr) lx uifk zrh
+            férqgfg pôamèimk wh zdbeiyfshzij lm kiq-tge lw do Avymmdds-Tjwyém.
+            """,
+        "key": "HERISSONPOLISSON"
+    },
+    {
+        "cipher_text":
+            """
+            Re qrti vk Nsrtrw
+            Kwh duvlk h'omumj lewk
+            Jy eumbj ur dk tfvyyek
+            Yb inyek qolbeay
+            """,
+        "key": "GEORGES"
+    }
 ]
 
 
 class TestBreaker(BasicVigenereGeneticAlgorithmBreaker, unittest.TestCase):
 
     parameters_space = toolbox.ParameterSpace(
-        cipher_text=[cipher_texts[4]],
-        key_size=[9, 16, 25, 23],
+        cipher_text=[challenge["cipher_text"] for challenge in challenges],
+        key_size=[7, 14],
         max_steps=[50],
         seed=[123456, 7890123, 5678901],
         population_size=[1000],
@@ -127,6 +157,13 @@ class TestBreaker(BasicVigenereGeneticAlgorithmBreaker, unittest.TestCase):
         tests.to_excel("./media/attack.xlsx")
 
     def test_decipher(self):
-        x = breakers.VigenereGeneticAlgorithmBreaker.cipher_factory(key="NEONICOTINOIDE").decipher(cipher_texts[3])
-        print(x)
+        for i, challenge in enumerate(challenges):
+            print('')
+            print("=" * 80)
+            print(i)
+            print(challenge["cipher_text"])
+            print(challenge["key"])
+            text = breakers.VigenereGeneticAlgorithmBreaker.cipher_factory(key=challenge["key"]).decipher(challenge["cipher_text"])
+            print(text)
+            print("-" * 80)
 
