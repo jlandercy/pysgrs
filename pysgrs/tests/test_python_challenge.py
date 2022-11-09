@@ -21,22 +21,35 @@ cipher_texts = [
     AKIFV LLOAV TSEAZ FFIWF XVSJN ZTLWB GWWMH DZAII FHOWF CAAIF
     IWFVC HDUIY NWWNX RGJRU PNQHH GWAHP RZMQF GRVLD UIABV CAQWM
     HACTH VGGRC KAADW KB
-    """,
+    """,  # DISPARITION
     """
     Jv qpbl, wpv bpr gww'cj axidg kfxl ewtcb qxpqpu
     Qd eqdg r jxym gql uxet zgdcbumz
     Op dpmpmt kmaw um yycc B eiu ashm i kjzjs
     Mpmuv ygx bpg egvaba vyyi gmdgi bxx
     Ug hrrwxz bqcb bx
+    """,  # CRYPTII
     """
+    YIGNJ GWETR GMATB WSRAC RXNBF BVXNY LQQPG XKGWK LHRWC ABFSL
+    BECCE PRWRR UGAHQ ESKHW GKFNK GOEIZ SURME IEHMN ZXAGF WXZRR
+    HYMWF VPRAQ QNHWE HINOG WHFZL XHVSR BSIXT YSAFS ZQIAQ SIXVG
+    ZQQJB VANBK CGIHL IXXEI GPMUH ZZNQM DGRPO DCGZE MFFMW VBYJR
+    VVZXK USULR QIZNZ WQAMY SALRF IQGQE WWMFB MWYRR HCIUZ XANPM
+    LPYIG FCTZX KBIXP EVWSY TGGLW HTNUI AXRRT GGBWA GKHVR FFNTG
+    GXBFC VWMAG OCIDZ XAQSJ XXVRS EMVRT AFCKL IEPSC ITTNU QIVHJ
+    YIIEI XSVTR DWOPR RSGTG BXKGO ZLPRB WFBGI GXUSV RQRRS NXRSE
+    MFMVG VBQSQ MHTHV QFMPI AXRRA ECEWA WMVHN FSVTN SLKRZ THWPM
+    GRDQZ TBVZQ VIAXH BCVGB UCZMP IAXSY TGGJC VHBHR GPOEC EVXMG
+    BMUII MSAVG BMXYI A
+    """  # NEONICOTINOIDE
 ]
 
 
 class TestBreaker(BasicVigenereGeneticAlgorithmBreaker, unittest.TestCase):
 
     parameters_space = toolbox.ParameterSpace(
-        cipher_text=[cipher_texts[0]],
-        key_size=[23, 24, 25, 26],
+        cipher_text=[cipher_texts[3]],
+        key_size=[14, 19],
         max_steps=[50],
         seed=[123456, 7890123, 5678901],
         population_size=[1000],
@@ -105,5 +118,9 @@ class TestBreaker(BasicVigenereGeneticAlgorithmBreaker, unittest.TestCase):
             #break
         tests = pd.concat(tests)
         tests.to_excel("./media/attack.xlsx")
+
+    def test_decipher(self):
+        x = breakers.VigenereGeneticAlgorithmBreaker.cipher_factory(key="NEONICOTINOIDE").decipher(cipher_texts[3])
+        print(x)
 
 
