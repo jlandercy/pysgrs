@@ -41,15 +41,22 @@ cipher_texts = [
     MFMVG VBQSQ MHTHV QFMPI AXRRA ECEWA WMVHN FSVTN SLKRZ THWPM
     GRDQZ TBVZQ VIAXH BCVGB UCZMP IAXSY TGGJC VHBHR GPOEC EVXMG
     BMUII MSAVG BMXYI A
-    """  # NEONICOTINOIDE
+    """,  # NEONICOTINOIDE
+    """
+    S'égyqvfé à bro qzcjl (Hnjlpodggfjg lkmdsnayj), wm éuvvsbé lcklfnsmvv,
+    wkh hc alueatèel zzdsfh cgoeqimszlrk amj hbjh wm lwfepxfqjw ohhhcidasa
+    (pp e'mkl oohsyb ims qhrj ymwzdjsd îtwk rh usil ; u'wgg as xieewsèyi
+    rclgquicym imw n si gtmk jnhhp bwjfvaszzw wb Njgezsdwr) lx uifk zrh
+    férqgfg pôamèimk wh zdbeiyfshzij lm kiq-tge lw do Avymmdds-Tjwyém.
+    """  # HERISSONPOLISSON
 ]
 
 
 class TestBreaker(BasicVigenereGeneticAlgorithmBreaker, unittest.TestCase):
 
     parameters_space = toolbox.ParameterSpace(
-        cipher_text=[cipher_texts[3]],
-        key_size=[14, 19],
+        cipher_text=[cipher_texts[4]],
+        key_size=[9, 16, 25, 23],
         max_steps=[50],
         seed=[123456, 7890123, 5678901],
         population_size=[1000],
@@ -122,5 +129,4 @@ class TestBreaker(BasicVigenereGeneticAlgorithmBreaker, unittest.TestCase):
     def test_decipher(self):
         x = breakers.VigenereGeneticAlgorithmBreaker.cipher_factory(key="NEONICOTINOIDE").decipher(cipher_texts[3])
         print(x)
-
 
