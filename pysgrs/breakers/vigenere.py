@@ -43,8 +43,26 @@ class VigenereGeneticAlgorithmBreaker:
         # Memoization:
         self.memory = dict()
 
-    def guess_key_size(self, text):
-        return 10
+    @staticmethod
+    def guess_key_sizes(text, min_key_size=1, max_key_size=48, normalize=False, order_by="max", ascending=False):
+        if normalize:
+            text = AsciiCleaner.normalize(text)
+        coincidences = FrequencyAnalyzer.keysize_coincidences(
+            text, min_key_size=min_key_size, max_key_size=max_key_size
+        )
+        guesses = coincidences.groupby("key_size")["coincidence"].agg(
+            ["min", "mean", "median", "max"]
+        )
+        #guesses["score"] = guesses["mean"] + guesses["median"] + (guesses["min"] + guesses["max"])/guesses["max"]
+        guesses = guesses.sort_values(order_by, ascending=ascending)
+        #guesses.columns = guesses.columns.map(lambda x: "coincidence_" + x)
+        return guesses
+
+    @staticmethod
+    def guess_key_size(text, min_key_size=1, max_key_size=48, normalize=False, order_by="max"):
+        return VigenereGeneticAlgorithmBreaker.guess_key_sizes(
+            text, min_key_size=min_key_size, max_key_size=max_key_size, normalize=normalize, order_by=order_by
+        ).index[0]
 
     def score_text(self, cipher_text, key, memoization=False):
 
