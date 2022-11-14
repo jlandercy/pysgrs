@@ -129,7 +129,7 @@ class VigenereGeneticAlgorithmBreaker:
                 "max_score": population.iloc[0, :]["score"],
                 "best_key": population.iloc[0, :]["key"],
                 #"best_text": population.iloc[0, :]["text"],
-                "best_text_short": population.iloc[0, :]["text"][:128].replace("\n", " ").replace("\t", " ")
+                "best_text_short": population.iloc[0, :]["text"][:256].replace("\n", " ").replace("\t", " ")
             }
 
         # Attack identifier and Cipher Text hash:

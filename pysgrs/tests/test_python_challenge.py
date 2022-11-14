@@ -102,32 +102,41 @@ class TestBreaker(BasicVigenereGeneticAlgorithmBreaker, unittest.TestCase):
         #     "key_sizes": [16],
         #     "cipher_text_id": "jlandercy-2"
         # },
+        # {
+        #     "cipher_text": """
+        #         Pstv o yhw alvwcrw huaéumpctlg oymj-nzme usyazrggdre lzhw hr rrzxttwp
+        #         lh ha dtnevr tplukj. Syoi cpwvyzfae à dhw azqjvrf xprprgk, p'Spzfbqhpwp
+        #         hh Vbrppluxp mv s'Vvewcdppyw hp mmeêheh, qltw fiaxgatuixmpa à qrf mhpènif,
+        #         wpwl i lbr jscri hn yih pwxqpa uvif-pijdlprk rzpzvg. Ropp di qihvgie hr
+        #         rzqbdrf iken h'nmxcla ywerroppoyf, eitcdtlvv ksf zwjcsif wx o'hckfrv mydifnrw
+        #         pu grp. Ptnl sfg aduxmfw à hpz xiérnwmzyw hn à qih pluedqvlg, znqh np wrefwl
+        #         xrg zhrlnéi do fixn oh wzv cpfr qm géplvgaxtvv cwzlxép.
+        #     """,
+        #     "halt_on_exact_key": "LHIRONDELLEDUNEPALDELICHONNIPALENSE",
+        #     "key_sizes": [35],
+        #     "cipher_text_id": "jlandercy-3"
+        # },
         {
             "cipher_text": """
-                Pstv o yhw alvwcrw huaéumpctlg oymj-nzme usyazrggdre lzhw hr rrzxttwp
-                lh ha dtnevr tplukj. Syoi cpwvyzfae à dhw azqjvrf xprprgk, p'Spzfbqhpwp
-                hh Vbrppluxp mv s'Vvewcdppyw hp mmeêheh, qltw fiaxgatuixmpa à qrf mhpènif,
-                wpwl i lbr jscri hn yih pwxqpa uvif-pijdlprk rzpzvg. Ropp di qihvgie hr
-                rzqbdrf iken h'nmxcla ywerroppoyf, eitcdtlvv ksf zwjcsif wx o'hckfrv mydifnrw
-                pu grp. Ptnl sfg aduxmfw à hpz xiérnwmzyw hn à qih pluedqvlg, znqh np wrefwl
-                xrg zhrlnéi do fixn oh wzv cpfr qm géplvgaxtvv cwzlxép.
+            Dr wvwf cvjiqmfivf rg pzv exeprw ts zbuphzn fsvjrax yh yu ciuwgr xvlxfr.
+            P'vb q'rys d uhfgswg gspw qh uevh qh xvexyny : Ftsngz-pac fm ui crys. ypg
             """,
-            "halt_on_exact_key": "LHIRONDELLEDUNEPALDELICHONNIPALENSE",
-            "key_sizes": [35],
-            "cipher_text_id": "jlandercy-3"
+            "halt_on_exact_key": "UNEBONNEVDM",
+            "key_sizes": [11],
+            "cipher_text_id": "bganty-1"
         }
     ]
 
     min_key_size = 5
-    max_key_size = 20
+    max_key_size = 40
     key_size_try = 16
-    order_by = "min"
+    order_by = "mean"
     ascending = False
 
     parameters_space = toolbox.ParameterSpace(
         max_steps=[100],
         seed=[123456, 7890123, 5678901, 10101010, 20202020, 30303030, 40404040, 50505050, 60606060, 70707070, 80808080, 90909090],
-        population_size=[1000],
+        population_size=[2000],
         elitism_ratio=[0.2],
         elitism_size=[None],
         mutation_operator=[toolbox.TworsMutation],
