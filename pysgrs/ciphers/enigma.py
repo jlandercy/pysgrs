@@ -176,21 +176,22 @@ class ROTOR_ETW_K(Rotor):
     model="Swiss K"
     date="February 1939"
 
-# Enigma
+
+# Enigma:
 class ROTOR_I(Rotor):
     wiring = "EKMFLGDQVZNTOWYHXUSPAIBRCJ"
     notches = "R"
     name = "I"
     model = "Enigma 1"
-    date="1930"
+    date = "1930"
 
 
 class ROTOR_II(Rotor):
     wiring = "AJDKSIRUXBLHWTMCQGZNPYFVOE"
     notches = "F"
-    name="II"
-    model="Enigma 1"
-    date="1930"
+    name = "II"
+    model = "Enigma 1"
+    date = "1930"
 
 
 class ROTOR_III(Rotor):
@@ -198,7 +199,7 @@ class ROTOR_III(Rotor):
     notches = "W"
     name = "III"
     model = "Enigma 1"
-    date="1930"
+    date = "1930"
 
 
 class ROTOR_IV(Rotor):
@@ -206,7 +207,7 @@ class ROTOR_IV(Rotor):
     notches = "K"
     name = "IV"
     model = "M3 Army"
-    date="December 1938"
+    date = "December 1938"
 
 
 class ROTOR_V(Rotor):
@@ -291,6 +292,41 @@ class ROTOR_Reflector_C_Thin(Reflector):
     date = "1940"
 
 
+# https://github.com/cryptii/cryptii/blob/main/src/Encoder/Enigma.js
+
+class IM3M4_R1(Rotor):
+    wiring = 'EKMFLGDQVZNTOWYHXUSPAIBRCJ'
+    notches = 'Q'
+    name = 'I'
+
+
+class IM3M4_R2(Rotor):
+    wiring = 'AJDKSIRUXBLHWTMCQGZNPYFVOE'
+    notches = 'E'
+    name = 'II'
+
+
+class IM3M4_R3(Rotor):
+    wiring = 'BDFHJLCPRTXVZNYEIWGAKMUSQO'
+    notches = 'V'
+    name = 'III'
+
+
+class IM3M4_UKW_A(Reflector):
+    wiring = 'ejmzalyxvbwfcrquontspikhgd'
+    name = 'UKW A'
+
+
+class IM3M4_UKW_B(Reflector):
+    wiring = 'yruhqsldpxngokmiebfzcwvjat'
+    name = 'UKW A'
+
+
+class IM3M4_UKW_C(Reflector):
+    wiring = 'fvpjiaoyedrzxwgctkuqsbnmhl'
+    name = 'UKW A'
+
+
 class Enigma:
 
     def __init__(self, ref, r1, r2, r3, key="AAA", plugs="", rings="AAA"):
@@ -317,6 +353,15 @@ class Enigma:
             output_alphabet[ord(v) - ord('A')] = k
 
         self.mapping = str.maketrans(input_alphabet, "".join(output_alphabet))
+
+    def build(self):
+        pass
+
+    def setup(self):
+        pass
+
+    def reset(self):
+        pass
 
     def encipher(self, plaintext_in):
 
@@ -359,6 +404,9 @@ class Enigma:
                 fres += char
 
         return fres
+
+    def decipher(self, cipher_text):
+        pass
 
     def __str__(self):
         return "<Enigma state='%s' reflector='%s' rotor1='%s' rotor2='%s' rotor3='%s' rings='%s' plugs='%s'>" % (
