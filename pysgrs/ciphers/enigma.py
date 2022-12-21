@@ -1,86 +1,139 @@
-
-class Reflector:
-
-    wiring = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    name = None
-    model = None
-    date = None
-
-    def __init__(self, state):
-        self.state = state
-
-    def __setattr__(self, name, value):
-        self.__dict__[name] = value
-
-    def encipher(self, key):
-        shift = (ord(self.state) - ord('A'))
-        index = (ord(key) - ord('A')) % 26
-        index = (index + shift) % 26
-        letter = self.wiring[index]
-        output = chr(ord('A') + (ord(letter) - ord('A') + 26 - shift) % 26)
-        return output
-
-    def __eq__(self, rotor):
-        return self.name == rotor.name
-
-    def __str__(self):
-        return "<Reflector state=%s name='%s' model='%s' date='%s' wiring='%s'>" % (self.state, self.name, self.model, self.date, self.wiring)
+from pysgrs.ciphers.substitution import PermutationCipher
 
 
-class Rotor(object):
+class Wheel(PermutationCipher):
+
+    """
+    Generic Wheel object to create Rotor and Reflector
+    """
 
     wiring = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     notches = ""
     name = None
-    model = None
-    date = None
 
     def __init__(self, state="A", ring="A"):
-
-        self.right_wiring = ["0"] * 26
-
-        for i in range(0, len(self.wiring)):
-            self.right_wiring[ord(self.wiring[i]) - ord('A')] = chr(ord('A') + i)
-
+        super().__init__(permutation=self.encode_permutation(self.wiring))
         self.state = state
         self.ring = ring
 
-    def __setattr__(self, name, value):
-        self.__dict__[name] = value
-        if name == 'wiring':
-            self.right_wiring = ["0"]*26
-            for i in range(0, len(self.wiring)):
-                self.right_wiring[ord(self.wiring[i]) - ord('A')] = chr(ord('A') + i)
+    def encipher(self, key, strict=False, quite=True):
+        shift = (
+           self.alphabet.index(key)
+           + self.alphabet.index(self.state)
+           + self.alphabet.index(self.ring)
+        ) % self.alphabet.size
+        symbol = self.alphabet.symbol(shift)
+        return super().encipher(symbol, strict=strict, quite=quite)
 
-    def encipher_right(self, key):
-        shift = (ord(self.state) - ord(self.ring))
-        index = (ord(key) - ord('A')) % 26
-        index = (index + shift) % 26
-        letter = self.wiring[index]
-        output = chr(ord('A') + (ord(letter) - ord('A') + 26 - shift) % 26)
-        return output
-
-    def encipher_left(self, key):
-        shift = (ord(self.state) - ord(self.ring))
-        index = (ord(key) - ord('A')) % 26
-        index = (index + shift) % 26
-        letter = self.right_wiring[index]
-        output = chr(ord('A') + (ord(letter) - ord('A') + 26 - shift) % 26)
-        return output
-
-    def notch(self, offset=1):
-        self.state = chr((ord(self.state) + offset - ord('A')) % 26 + ord('A'))
-        next_notch = self.state in self.notches
-        return next_notch
-
-    def is_in_turnover_pos(self):
-        return chr((ord(self.state) + 1 - ord('A')) % 26 + ord('A')) in self.notches
-
-    def __eq__(self, rotor):
-        return self.name == rotor.name
+    def decipher(self, key, strict=False, quite=True):
+        shift = (
+           self.alphabet.index(key)
+           + self.alphabet.index(self.state)
+           + self.alphabet.index(self.ring)
+        ) % self.alphabet.size
+        symbol = self.alphabet.symbol(shift)
+        return super().decipher(symbol, strict=strict, quite=quite)
 
     def __str__(self):
-        return "<Rotor state='%s' ring='%s' name='%s' model='%s' date='%s' wiring='%s'>" % (self.state, self.ring, self.name, self.model, self.date, self.wiring)
+        return "<%s:%s state='%s' ring='%s' wiring='%s'>" % (
+            self.__class__.__bases__[0].__name__, self.name, self.state, self.ring, self.wiring
+        )
+
+    def actuate(self, offset=1):
+        self.state = self.alphabet.symbol(self.alphabet.index(self.state) + offset)
+
+    def to_actuate(self, key):
+        return True
+
+
+class Reflector(Wheel):
+    pass
+
+
+class Rotor(Wheel):
+    pass
+
+
+class Enigma:
+
+    def __init__(self, ref, r1, r2, r3, key="AAA", plugs="", rings="AAA"):
+
+        self.initial_key = key
+        self.rings = rings
+        self.plugs = plugs
+
+        self.reflector = ref('A')
+        self.rotor1 = r1(state=self.initial_key[0], ring=self.rings[0])
+        self.rotor2 = r2(state=self.initial_key[1], ring=self.rings[1])
+        self.rotor3 = r3(state=self.initial_key[2], ring=self.rings[2])
+
+        plugboard_settings = [(item[0], item[1]) for item in self.plugs.split()]
+
+        input_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        output_alphabet = [" "] * 26
+
+        for i in range(len(input_alphabet)):
+            output_alphabet[i] = input_alphabet[i]
+
+        for k, v in plugboard_settings:
+            output_alphabet[ord(k) - ord('A')] = v
+            output_alphabet[ord(v) - ord('A')] = k
+
+        self.mapping = str.maketrans(input_alphabet, "".join(output_alphabet))
+
+    def build(self):
+        pass
+
+    def setup(self):
+        pass
+
+    def reset(self):
+        pass
+
+    def encipher(self, plaintext_in):
+
+        ciphertext = ''
+
+        plaintext_in_upper = plaintext_in.upper()
+        plaintext = plaintext_in_upper.translate(self.mapping)
+
+        for c in plaintext:
+
+            if not c.isalpha():
+                ciphertext += c
+                continue
+
+            self.rotor2.actuate()
+            self.rotor3.actuate()
+
+            t = self.rotor1.encipher(c)
+            t = self.rotor2.encipher(t)
+            t = self.rotor3.encipher(t)
+            t = self.reflector.encipher(t)
+            t = self.rotor3.decipher(t)
+            t = self.rotor2.decipher(t)
+            t = self.rotor1.decipher(t)
+            ciphertext += t
+
+        res = ciphertext.translate(self.mapping)
+
+        fres = ""
+        for idx, char in enumerate(res):
+            if plaintext_in[idx].islower():
+                fres += char.lower()
+            else:
+                fres += char
+
+        return fres
+
+    def decipher(self, cipher_text):
+        pass
+
+    def __str__(self):
+        return "<Enigma state='%s' reflector=%s rotor1=%s rotor2=%s rotor3=%s rings='%s' plugs='%s'>" % (
+            "".join([self.rotor1.state, self.rotor2.state, self.rotor3.state]),
+            self.reflector, self.rotor1, self.rotor2, self.rotor3, self.rings, self.plugs
+        )
 
 
 # 1924 Rotors:
@@ -326,90 +379,3 @@ class IM3M4_UKW_C(Reflector):
     wiring = 'fvpjiaoyedrzxwgctkuqsbnmhl'
     name = 'UKW A'
 
-
-class Enigma:
-
-    def __init__(self, ref, r1, r2, r3, key="AAA", plugs="", rings="AAA"):
-
-        self.initial_key = key
-        self.rings = rings
-        self.plugs = plugs
-
-        self.reflector = ref('A')
-        self.rotor1 = r1(state=self.initial_key[0], ring=self.rings[0])
-        self.rotor2 = r2(state=self.initial_key[1], ring=self.rings[1])
-        self.rotor3 = r3(state=self.initial_key[2], ring=self.rings[2])
-
-        plugboard_settings = [(item[0], item[1]) for item in self.plugs.split()]
-
-        input_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        output_alphabet = [" "] * 26
-
-        for i in range(len(input_alphabet)):
-            output_alphabet[i] = input_alphabet[i]
-
-        for k, v in plugboard_settings:
-            output_alphabet[ord(k) - ord('A')] = v
-            output_alphabet[ord(v) - ord('A')] = k
-
-        self.mapping = str.maketrans(input_alphabet, "".join(output_alphabet))
-
-    def build(self):
-        pass
-
-    def setup(self):
-        pass
-
-    def reset(self):
-        pass
-
-    def encipher(self, plaintext_in):
-
-        ciphertext = ''
-
-        plaintext_in_upper = plaintext_in.upper()
-        plaintext = plaintext_in_upper.translate(self.mapping)
-
-        for c in plaintext:
-
-            if not c.isalpha():
-                ciphertext += c
-                continue
-
-            if self.rotor2.is_in_turnover_pos():
-                self.rotor2.notch()
-                self.rotor3.notch()
-
-            if self.rotor1.is_in_turnover_pos():
-                self.rotor2.notch()
-
-            self.rotor1.notch()
-
-            t = self.rotor1.encipher_right(c)
-            t = self.rotor2.encipher_right(t)
-            t = self.rotor3.encipher_right(t)
-            t = self.reflector.encipher(t)
-            t = self.rotor3.encipher_left(t)
-            t = self.rotor2.encipher_left(t)
-            t = self.rotor1.encipher_left(t)
-            ciphertext += t
-
-        res = ciphertext.translate(self.mapping)
-
-        fres = ""
-        for idx, char in enumerate(res):
-            if plaintext_in[idx].islower():
-                fres += char.lower()
-            else:
-                fres += char
-
-        return fres
-
-    def decipher(self, cipher_text):
-        pass
-
-    def __str__(self):
-        return "<Enigma state='%s' reflector='%s' rotor1='%s' rotor2='%s' rotor3='%s' rings='%s' plugs='%s'>" % (
-            "".join([self.rotor1.state, self.rotor2.state, self.rotor3.state]),
-            self.reflector.name, self.rotor1.name, self.rotor2.name, self.rotor3.name, self.rings, self.plugs
-        )

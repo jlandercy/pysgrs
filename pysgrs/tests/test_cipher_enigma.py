@@ -29,9 +29,9 @@ class TestSimpleEnigmaCipher(unittest.TestCase):
         text = 'Hello World'
         cipher_text = self.engine.encipher(text)
         decipher_text = clone.encipher(cipher_text)
+        print(self.engine)
         self.assertEqual(cipher_text, 'Qgqop Vyzxp')
         self.assertEqual(decipher_text, text)
-        print(self.engine)
 
 
 class TestEnigmaCipher(unittest.TestCase):

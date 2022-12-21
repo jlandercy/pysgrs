@@ -65,6 +65,10 @@ class ReversedCipher(cipher.GenericNaturalAlphabetStreamCipher):
 
 class PermutationCipher(cipher.GenericNaturalAlphabetStreamCipher):
 
+    @staticmethod
+    def encode_permutation(permutation, alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ"):
+        return [alphabet.index(key) for key in permutation]
+
     def __init__(self, permutation=None, alphabet=None, auto=False):
         super().__init__(alphabet=alphabet)
 
