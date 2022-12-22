@@ -83,7 +83,7 @@ class Enigma:
         self.reflector_state = reflector_state
         self.plugs = plugs
 
-        # Instanciated:
+        # Instanciated wheels:
         self.rotors_ = None
         self.reflector_ = None
 
@@ -116,7 +116,7 @@ class Enigma:
         # Encode character...
         for c in plaintext:
 
-            # Encode character in a wise fashion:
+            # Encode only known character:
             if not c.isalpha():
                 ciphertext += c
                 continue
@@ -159,7 +159,7 @@ class Enigma:
         return self.encipher(cipher_text)
 
     def __str__(self):
-        return "<Enigma rotors=%s reflector=%s plugs='%s'>" % (self.rotors_, self.reflector_, self.plugs)
+        return "<Enigma rotors=%s reflector=%s plugs='%s'>" % (self.rotors_, repr(self.reflector_), self.plugs)
 
 
 # 1924 Rotors:
