@@ -75,15 +75,18 @@ class Enigma:
         plugs=""
     ):
 
+        # Wheel Factory:
         self.rotors = rotors
         self.reflector = reflector
         self.rotor_rings = rotor_rings
         self.rotor_states = rotor_states
         self.reflector_ring = reflector_ring
         self.reflector_state = reflector_state
+
+        # Plugboard:
         self.plugs = plugs
 
-        # Instanciated wheels:
+        # Actual wheels:
         self.rotors_ = None
         self.reflector_ = None
 
