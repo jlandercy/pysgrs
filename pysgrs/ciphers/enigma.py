@@ -39,11 +39,17 @@ class Wheel(PermutationCipher):
             self.__class__.__bases__[0].__name__, self.name, self.state, self.ring, self.wiring
         )
 
+    def __repr__(self):
+        return "<%s:%s state='%s'>" % (
+            self.__class__.__bases__[0].__name__, self.name, self.state
+        )
+
     def actuate(self, offset=1):
         self.state = self.alphabet.symbol(self.alphabet.index(self.state) + offset)
 
-    def to_actuate(self, key):
-        return True
+    @property
+    def to_propagate(self):
+        return self.state in self.notches
 
 
 class Reflector(Wheel):
@@ -56,17 +62,36 @@ class Rotor(Wheel):
 
 class Enigma:
 
-    def __init__(self, ref, r1, r2, r3, key="AAA", plugs="", rings="AAA"):
+    def reset(self):
+        self.rotors_ = []
+        for index, rotor in enumerate(self.rotors):
+            self.rotors_.append(rotor(state=self.rotor_states[index], ring=self.rotor_rings[index]))
+        self.reflector_ = self.reflector(state=self.reflector_state, ring=self.reflector_ring)
 
-        self.initial_key = key
-        self.rings = rings
+    def __init__(
+        self, rotors, reflector,
+        rotor_rings="AAA", rotor_states="AAA",
+        reflector_ring="A", reflector_state="A",
+        plugs=""
+    ):
+
+        self.rotors = rotors
+        self.reflector = reflector
+        self.rotor_rings = rotor_rings
+        self.rotor_states = rotor_states
+        self.reflector_ring = reflector_ring
+        self.reflector_state = reflector_state
         self.plugs = plugs
 
-        self.reflector = ref('A')
-        self.rotor1 = r1(state=self.initial_key[0], ring=self.rings[0])
-        self.rotor2 = r2(state=self.initial_key[1], ring=self.rings[1])
-        self.rotor3 = r3(state=self.initial_key[2], ring=self.rings[2])
+        # Instanciated:
+        self.rotors_ = None
+        self.reflector_ = None
 
+        # Set machine:
+        self.reset()
+
+
+        # Plugboard:
         plugboard_settings = [(item[0], item[1]) for item in self.plugs.split()]
 
         input_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -81,15 +106,6 @@ class Enigma:
 
         self.mapping = str.maketrans(input_alphabet, "".join(output_alphabet))
 
-    def build(self):
-        pass
-
-    def setup(self):
-        pass
-
-    def reset(self):
-        pass
-
     def encipher(self, plaintext_in):
 
         ciphertext = ''
@@ -97,26 +113,39 @@ class Enigma:
         plaintext_in_upper = plaintext_in.upper()
         plaintext = plaintext_in_upper.translate(self.mapping)
 
+        # Encode character...
         for c in plaintext:
 
+            # Encode character in a wise fashion:
             if not c.isalpha():
                 ciphertext += c
                 continue
 
-            self.rotor2.actuate()
-            self.rotor3.actuate()
+            # Actuate rotors:
+            self.rotors_[0].actuate()
+            for index in range(len(self.rotors_) - 1):
+                if self.rotors_[index].to_propagate:
+                    self.rotors_[index + 1].actuate()
 
-            t = self.rotor1.encipher(c)
-            t = self.rotor2.encipher(t)
-            t = self.rotor3.encipher(t)
-            t = self.reflector.encipher(t)
-            t = self.rotor3.decipher(t)
-            t = self.rotor2.decipher(t)
-            t = self.rotor1.decipher(t)
+            t = c
+
+            # Direct ciphering:
+            for index in range(len(self.rotors_)):
+                t = self.rotors_[index].encipher(t)
+
+            # Reflection:
+            t = self.reflector_.encipher(t)
+
+            # Reverse ciphering:
+            for index in reversed(range(len(self.rotors_))):
+                t = self.rotors_[index].decipher(t)
+
             ciphertext += t
 
+        # Plugboard permutation
         res = ciphertext.translate(self.mapping)
 
+        # Encode character [...] preserving case:
         fres = ""
         for idx, char in enumerate(res):
             if plaintext_in[idx].islower():
@@ -127,13 +156,10 @@ class Enigma:
         return fres
 
     def decipher(self, cipher_text):
-        pass
+        return self.encipher(cipher_text)
 
     def __str__(self):
-        return "<Enigma state='%s' reflector=%s rotor1=%s rotor2=%s rotor3=%s rings='%s' plugs='%s'>" % (
-            "".join([self.rotor1.state, self.rotor2.state, self.rotor3.state]),
-            self.reflector, self.rotor1, self.rotor2, self.rotor3, self.rings, self.plugs
-        )
+        return "<Enigma rotors=%s reflector=%s plugs='%s'>" % (self.rotors_, self.reflector_, self.plugs)
 
 
 # 1924 Rotors:

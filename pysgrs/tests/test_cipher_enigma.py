@@ -8,11 +8,9 @@ class TestSimpleEnigmaCipher(unittest.TestCase):
 
     def setUp(self):
         self.engine = Enigma(
-            ROTOR_Reflector_A,
-            ROTOR_I,
-            ROTOR_II,
-            ROTOR_III,
-            key='ABC',
+            rotors=(ROTOR_I, ROTOR_II, ROTOR_III),
+            reflector=ROTOR_Reflector_A,
+            rotor_states='ABC',
             plugs='AV BS CG DL FU HZ IN KM OW RX'
         )
 
