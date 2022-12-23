@@ -66,8 +66,18 @@ class ReversedCipher(cipher.GenericNaturalAlphabetStreamCipher):
 class PermutationCipher(cipher.GenericNaturalAlphabetStreamCipher):
 
     @staticmethod
-    def encode_permutation(permutation, alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ"):
-        return [alphabet.index(key) for key in permutation]
+    def encode_permutation_using_alphabet(permutation, alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ"):
+        permutation = np.array([alphabet.index(key) for key in permutation])
+        return permutation
+
+    @staticmethod
+    def encode_permutation_using_letter_pairs(pairs, alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ"):
+        permutation = np.array(np.arange(len(alphabet)))
+        for pair in pairs:
+            indices = [alphabet.index(char) for char in pair]
+            for source, sink in zip(indices, reversed(indices)):
+                permutation[source] = sink
+        return permutation
 
     def __init__(self, permutation=None, alphabet=None, auto=False):
         super().__init__(alphabet=alphabet)

@@ -12,7 +12,7 @@ class Wheel(PermutationCipher):
     name = None
 
     def __init__(self, state="A", ring="A"):
-        super().__init__(permutation=self.encode_permutation(self.wiring))
+        super().__init__(permutation=self.encode_permutation_using_alphabet(self.wiring))
         self.state = state
         self.ring = ring
 
@@ -60,112 +60,7 @@ class Rotor(Wheel):
     pass
 
 
-class Enigma:
-
-    def reset(self):
-        self.rotors_ = []
-        for index, rotor in enumerate(self.rotors):
-            self.rotors_.append(rotor(state=self.rotor_states[index], ring=self.rotor_rings[index]))
-        self.reflector_ = self.reflector(state=self.reflector_state, ring=self.reflector_ring)
-
-    def __init__(
-        self, rotors, reflector,
-        rotor_rings="AAA", rotor_states="AAA",
-        reflector_ring="A", reflector_state="A",
-        plugs=""
-    ):
-
-        # Wheel Factory:
-        self.rotors = rotors
-        self.reflector = reflector
-        self.rotor_rings = rotor_rings
-        self.rotor_states = rotor_states
-        self.reflector_ring = reflector_ring
-        self.reflector_state = reflector_state
-
-        # Plugboard:
-        self.plugs = plugs
-
-        # Actual wheels:
-        self.rotors_ = None
-        self.reflector_ = None
-
-        # Set machine:
-        self.reset()
-
-
-        # Plugboard:
-        plugboard_settings = [(item[0], item[1]) for item in self.plugs.split()]
-
-        input_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        output_alphabet = [" "] * 26
-
-        for i in range(len(input_alphabet)):
-            output_alphabet[i] = input_alphabet[i]
-
-        for k, v in plugboard_settings:
-            output_alphabet[ord(k) - ord('A')] = v
-            output_alphabet[ord(v) - ord('A')] = k
-
-        self.mapping = str.maketrans(input_alphabet, "".join(output_alphabet))
-
-    def encipher(self, plaintext_in):
-
-        ciphertext = ''
-
-        plaintext_in_upper = plaintext_in.upper()
-        plaintext = plaintext_in_upper.translate(self.mapping)
-
-        # Encode character...
-        for c in plaintext:
-
-            # Encode only known character:
-            if not c.isalpha():
-                ciphertext += c
-                continue
-
-            # Actuate rotors:
-            self.rotors_[0].actuate()
-            for index in range(len(self.rotors_) - 1):
-                if self.rotors_[index].to_propagate:
-                    self.rotors_[index + 1].actuate()
-
-            t = c
-
-            # Direct ciphering:
-            for index in range(len(self.rotors_)):
-                t = self.rotors_[index].encipher(t)
-
-            # Reflection:
-            t = self.reflector_.encipher(t)
-
-            # Reverse ciphering:
-            for index in reversed(range(len(self.rotors_))):
-                t = self.rotors_[index].decipher(t)
-
-            ciphertext += t
-
-        # Plugboard permutation
-        res = ciphertext.translate(self.mapping)
-
-        # Encode character [...] preserving case:
-        fres = ""
-        for idx, char in enumerate(res):
-            if plaintext_in[idx].islower():
-                fres += char.lower()
-            else:
-                fres += char
-
-        return fres
-
-    def decipher(self, cipher_text):
-        return self.encipher(cipher_text)
-
-    def __str__(self):
-        return "<Enigma rotors=%s reflector=%s plugs='%s'>" % (self.rotors_, repr(self.reflector_), self.plugs)
-
-
-# 1924 Rotors:
+# Commercial Rotors (since 1924):
 class ROTOR_IC(Rotor):
     wiring = "DMTWSILRUYQNKFEJCAZBPGXOHV"
     name = "IC"
@@ -190,35 +85,35 @@ class ROTOR_IIIC(Rotor):
 # German Railway Rotors
 class ROTOR_GR_I(Rotor):
     wiring = "JGDQOXUSCAMIFRVTPNEWKBLZYH"
-    name = "I"
+    name = "GR-I"
     model = "German Railway (Rocket)"
     date = "7 February 1941"
 
 
 class ROTOR_GR_II(Rotor):
     wiring = "NTZPSFBOKMWRCJDIVLAEYUXHGQ"
-    name = "II"
+    name = "GR-II"
     model = "German Railway (Rocket)"
     date="7 February 1941"
 
 
 class ROTOR_GR_III(Rotor):
      wiring = "JVIUBHTCDYAKEQZPOSGXNRMWFL"
-     name = "III"
+     name = "GR-III"
      model = "German Railway (Rocket)"
      date = "7 February 1941"
 
 
-class ROTOR_GR_UKW(Reflector):
+class REFLECTOR_GR_UKW(Reflector):
     wiring = "QYHOGNECVPUZTFDJAXWMKISRBL"
-    name = "UTKW"
+    name = "GR-UTKW"
     model = "German Railway (Rocket)"
     date = "7 February 1941"
 
 
 class ROTOR_GR_ETW(Rotor):
     wiring = "QWERTZUIOASDFGHJKPYXCVBNML"
-    name = "ETW"
+    name = "GR-ETW"
     model = "German Railway (Rocket)"
     date = "7 February 1941"
 
