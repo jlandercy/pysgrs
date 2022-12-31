@@ -11,8 +11,8 @@ class Wheel(PermutationCipher):
     notches = ""
     name = None
 
-    def __init__(self, state="A", ring="A"):
-        super().__init__(permutation=self.encode_permutation_using_alphabet(self.wiring))
+    def __init__(self, state="A", ring="A", alphabet=None):
+        super().__init__(permutation=self.encode_permutation_using_alphabet(self.wiring), alphabet=alphabet)
         self.state = state
         self.ring = ring
 
@@ -45,7 +45,7 @@ class Wheel(PermutationCipher):
         )
 
     def actuate(self, offset=1):
-        self.state = self.alphabet.symbol(self.alphabet.index(self.state) + offset)
+        self.state = self.alphabet.symbol((self.alphabet.index(self.state) + offset) % self.alphabet.size)
 
     @property
     def to_propagate(self):
@@ -290,16 +290,16 @@ class IM3M4_R3(Rotor):
 
 
 class IM3M4_UKW_A(Reflector):
-    wiring = 'ejmzalyxvbwfcrquontspikhgd'
+    wiring = 'EJMZALYXVBWFCRQUONTSPIKHGD'
     name = 'UKW A'
 
 
 class IM3M4_UKW_B(Reflector):
-    wiring = 'yruhqsldpxngokmiebfzcwvjat'
+    wiring = 'YRUHQSLDPXNGOKMIEBFZCWVJAT'
     name = 'UKW A'
 
 
 class IM3M4_UKW_C(Reflector):
-    wiring = 'fvpjiaoyedrzxwgctkuqsbnmhl'
+    wiring = 'FVPJIAOYEDRZXWGCTKUQSBNMHL'
     name = 'UKW A'
 

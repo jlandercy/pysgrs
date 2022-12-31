@@ -1,7 +1,11 @@
+import logging
 import unittest
 import copy
 
 from pysgrs.ciphers.enigma import *
+
+
+logger = logging.getLogger(__name__)
 
 
 class TestSimpleEnigmaCipher(unittest.TestCase):
@@ -13,8 +17,8 @@ class TestSimpleEnigmaCipher(unittest.TestCase):
         print(self.engine)
         text = 'Hello World'
         cipher_text = self.engine.encipher(text)
-        self.assertEqual(cipher_text, 'Qgqop Vyzxp')
         print(self.engine)
+        self.assertEqual(cipher_text, 'Qgqop Vyzxp')
 
     def test_cipher_decipher(self):
         clone = copy.deepcopy(self.engine)
@@ -36,20 +40,44 @@ class TestEnigmaCipher(unittest.TestCase):
     ]
 
     def setUp(self):
-        self.engine = Enigma(
-            IM3M4_UKW_B,
-            IM3M4_R1,
-            IM3M4_R2,
-            IM3M4_R3,
-            key='EUL',
+        self.engine = Engine(
+            rotors=(IM3M4_R1, IM3M4_R2, IM3M4_R3),
+            reflector=IM3M4_UKW_B,
+            rotor_states='EUL',
             plugs='BQ CR DI EJ KW MT OS PX UZ GH'
         )
 
+    def generate(self, callback):
+        for index, (text, cipher_text) in enumerate(zip(self.texts, self.cipher_texts)):
+            logger.info("Text: %s, Cipher: %s" % (text, cipher_text))
+            self.engine.reset()
+            logger.info("Engine: %s " % self.engine)
+            result = callback(self.engine, locals())
+            logger.info("Result: %s" % result)
+            logger.info("Engine: %s " % self.engine)
+            yield {
+                "index": index,
+                "engine": self.engine,
+                "text": text,
+                "cipher_text": cipher_text,
+                "result": result
+            }
+
     def test_cipher(self):
+
+        def callback(engine, context):
+            return {"cipher_text": engine.encipher(context["text"])}
+
+        for sample in self.generate(callback):
+            print(sample)
+
+    def test_cipher_illegal_symbol(self):
         for text, cipher_text in zip(self.texts, self.cipher_texts):
-            engine = copy.deepcopy(self.engine)
-            print(engine)
-            check = engine.encipher(text)
-            print(engine)
-            self.assertEqual(check, cipher_text)
+            self.engine.reset()
+            print(self.engine)
+            check = self.engine.encipher(text)
+            print(self.engine)
+            for c1, c2 in zip(check, text):
+                if c2 in self.engine.alphabet.symbols:
+                    self.assertNotEqual(c1, c2)
 

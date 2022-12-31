@@ -1,4 +1,4 @@
-from pysgrs.ciphers.substitution import PermutationCipher
+from pysgrs.alphabets.basic import BasicAlphabet
 from pysgrs.ciphers.enigma.rotors import *
 
 
@@ -7,7 +7,13 @@ class Engine:
     def reset(self):
         self.rotors_ = []
         for index, rotor in enumerate(self.rotors):
-            self.rotors_.append(rotor(state=self.rotor_states[index], ring=self.rotor_rings[index]))
+            self.rotors_.append(
+                rotor(
+                    state=self.rotor_states[index],
+                    ring=self.rotor_rings[index],
+                    alphabet=self.alphabet
+                )
+            )
         self.reflector_ = self.reflector(state=self.reflector_state, ring=self.reflector_ring)
 
     def __init__(
@@ -17,8 +23,12 @@ class Engine:
         rotor_rings="AAA", rotor_states="ABC",
         reflector_ring="A", reflector_state="A",
         plugs="AV BS CG DL FU HZ IN KM OW RX",
+        alphabet=BasicAlphabet(),
         name="Enigma (default)"
     ):
+
+        # Alphabet:
+        self.alphabet = alphabet
 
         # Naming:
         self.name = name
@@ -71,18 +81,18 @@ class Engine:
                     self.rotors_[index + 1].actuate()
 
             # Direct rotor ciphering:
-            for index in range(len(self.rotors_)):
+            for index in reversed(range(len(self.rotors_))):
                 t = self.rotors_[index].encipher(t)
 
             # Reflection:
             t = self.reflector_.encipher(t)
 
             # Reverse rotor ciphering:
-            for index in reversed(range(len(self.rotors_))):
+            for index in range(len(self.rotors_)):
                 t = self.rotors_[index].decipher(t)
 
             # Plugboard (out):
-            t = self.plugboard.encipher(t)
+            t = self.plugboard.decipher(t)
 
             ciphertext += t
 
