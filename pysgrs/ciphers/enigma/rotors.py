@@ -16,23 +16,18 @@ class Wheel(PermutationCipher):
         self.state = state
         self.ring = ring
 
+    @property
+    def shift(self):
+        return self.alphabet.index(self.state) + self.alphabet.index(self.ring)
+
+    def encode(self, key):
+        return self.alphabet.symbol((self.alphabet.index(key) + self.shift) % self.alphabet.size)
+
     def encipher(self, key, strict=False, quite=True):
-        shift = (
-           self.alphabet.index(key)
-           + self.alphabet.index(self.state)
-           + self.alphabet.index(self.ring)
-        ) % self.alphabet.size
-        symbol = self.alphabet.symbol(shift)
-        return super().encipher(symbol, strict=strict, quite=quite)
+        return super().encipher(self.encode(key), strict=strict, quite=quite)
 
     def decipher(self, key, strict=False, quite=True):
-        shift = (
-           self.alphabet.index(key)
-           + self.alphabet.index(self.state)
-           + self.alphabet.index(self.ring)
-        ) % self.alphabet.size
-        symbol = self.alphabet.symbol(shift)
-        return super().decipher(symbol, strict=strict, quite=quite)
+        return super().decipher(self.encode(key), strict=strict, quite=quite)
 
     def __str__(self):
         return "<%s:%s state='%s' ring='%s' wiring='%s'>" % (

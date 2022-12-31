@@ -69,7 +69,23 @@ class TestEnigmaCipher(unittest.TestCase):
             return {"cipher_text": engine.encipher(context["text"])}
 
         for sample in self.generate(callback):
-            print(sample)
+            logger.info(sample)
+
+    def test_reflector_reflectivity(self):
+        reflector = self.engine.reflector_
+        logger.info("Reflector: %s" % reflector)
+        for symbol in self.engine.alphabet.symbols:
+            encoded = reflector.encipher(symbol)
+            decoded = reflector.decipher(encoded)
+            self.assertEqual(symbol, decoded)
+
+    def test_rotor_reflectivity(self):
+        for rotor in self.engine.rotors_:
+            logger.info("Rotor: %s" % rotor)
+            for symbol in self.engine.alphabet.symbols:
+                encoded = rotor.encipher(symbol)
+                decoded = rotor.decipher(encoded)
+                self.assertEqual(symbol, decoded)
 
     def test_cipher_illegal_symbol(self):
         for text, cipher_text in zip(self.texts, self.cipher_texts):
