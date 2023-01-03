@@ -23,11 +23,14 @@ class Wheel(PermutationCipher):
     def encode(self, key):
         return self.alphabet.symbol((self.alphabet.index(key) + self.shift) % self.alphabet.size)
 
+    def decode(self, key):
+        return self.encode(key)
+
     def encipher(self, key, strict=False, quite=True):
         return super().encipher(self.encode(key), strict=strict, quite=quite)
 
     def decipher(self, key, strict=False, quite=True):
-        return super().decipher(self.encode(key), strict=strict, quite=quite)
+        return super().decipher(self.decode(key), strict=strict, quite=quite)
 
     def __str__(self):
         return "<%s:%s state='%s' ring='%s' wiring='%s'>" % (
@@ -183,6 +186,7 @@ class ROTOR_IV(Rotor):
 
 
 class ROTOR_V(Rotor):
+    #         ABCDEFGHIJKLMNOPQRSTUVWXYZ
     wiring = "VZBRGITYUPSDNHLXAWMJQOFECK"
     notches = "A"
     name = "V"
@@ -265,8 +269,8 @@ class ROTOR_Reflector_C_Thin(Reflector):
 
 
 # https://github.com/cryptii/cryptii/blob/main/src/Encoder/Enigma.js
-
 class IM3M4_R1(Rotor):
+    #         ABCDEFGHIJKLMNOPQRSTUVWXYZ
     wiring = 'EKMFLGDQVZNTOWYHXUSPAIBRCJ'
     notches = 'Q'
     name = 'I'
