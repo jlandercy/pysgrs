@@ -87,6 +87,12 @@ class TestEnigmaCipher(unittest.TestCase):
                 decoded = rotor.decipher(encoded)
                 self.assertEqual(symbol, decoded)
 
+    def test_rotor_mapping(self):
+        for rotor in self.engine.rotors_:
+            logger.info("Rotor: %s" % rotor)
+            print(rotor.direct_mapping)
+            print(rotor.inverse_mapping)
+
     def test_rotor_reflectivity_superclass(self):
         for rotor in self.engine.rotors_:
             logger.info("Rotor: %s" % rotor)

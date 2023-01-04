@@ -23,14 +23,25 @@ class Wheel(PermutationCipher):
     def encode(self, key):
         return self.alphabet.symbol((self.alphabet.index(key) + self.shift) % self.alphabet.size)
 
-    def decode(self, key):
-        return self.encode(key)
+    # def decode(self, key):
+    #     return self.encode(key)
 
     def encipher(self, key, strict=False, quite=True):
         return super().encipher(self.encode(key), strict=strict, quite=quite)
 
+    @property
+    def direct_mapping(self):
+        return {symbol: self.encipher(symbol) for symbol in self.alphabet.symbols}
+
+    @property
+    def inverse_mapping(self):
+        return {cipher: symbol for symbol, cipher in self.direct_mapping.items()}
+
+    # def decipher(self, key, strict=False, quite=True):
+    #     return super().decipher(self.decode(key), strict=strict, quite=quite)
+
     def decipher(self, key, strict=False, quite=True):
-        return super().decipher(self.decode(key), strict=strict, quite=quite)
+        return self.inverse_mapping[key]
 
     def __str__(self):
         return "<%s:%s state='%s' ring='%s' wiring='%s'>" % (
