@@ -20,14 +20,16 @@ class Wheel(PermutationCipher):
     def shift(self):
         return self.alphabet.index(self.state) + self.alphabet.index(self.ring)
 
-    def encode(self, key):
-        return self.alphabet.symbol((self.alphabet.index(key) + self.shift) % self.alphabet.size)
-
-    # def decode(self, key):
-    #     return self.encode(key)
-
     def encipher(self, key, strict=False, quite=True):
-        return super().encipher(self.encode(key), strict=strict, quite=quite)
+        return super().encipher(
+            self.alphabet.symbol((self.alphabet.index(key) + self.shift) % self.alphabet.size),
+            strict=strict, quite=quite
+        )
+
+    def decipher(self, key, strict=False, quite=True):
+        return self.alphabet.symbol(
+            (self.alphabet.index(super().decipher(key, strict=strict, quite=quite)) - self.shift) % self.alphabet.size
+        )
 
     @property
     def direct_mapping(self):
@@ -35,13 +37,7 @@ class Wheel(PermutationCipher):
 
     @property
     def inverse_mapping(self):
-        return {cipher: symbol for symbol, cipher in self.direct_mapping.items()}
-
-    # def decipher(self, key, strict=False, quite=True):
-    #     return super().decipher(self.decode(key), strict=strict, quite=quite)
-
-    def decipher(self, key, strict=False, quite=True):
-        return self.inverse_mapping[key]
+        return {symbol: self.decipher(symbol) for symbol in self.alphabet.symbols}
 
     def __str__(self):
         return "<%s:%s state='%s' ring='%s' wiring='%s'>" % (
