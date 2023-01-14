@@ -8,36 +8,17 @@ from pysgrs.ciphers.enigma import *
 logger = logging.getLogger(__name__)
 
 
-class TestSimpleEnigmaCipher(unittest.TestCase):
-
-    def setUp(self):
-        self.engine = Enigma
-
-    def test_cipher(self):
-        print(self.engine)
-        text = 'Hello World'
-        cipher_text = self.engine.encipher(text)
-        print(self.engine)
-        self.assertEqual(cipher_text, 'Qgqop Vyzxp')
-
-    def test_cipher_decipher(self):
-        clone = copy.deepcopy(self.engine)
-        print(self.engine)
-        text = 'Hello World'
-        cipher_text = self.engine.encipher(text)
-        decipher_text = clone.encipher(cipher_text)
-        print(self.engine)
-        self.assertEqual(decipher_text, text)
-
-
-class TestEnigmaCipher(unittest.TestCase):
+class Texts:
 
     texts = [
-        "il faut laisser le temps au temps"
+        "the quick brown fox jumps over the lazy dog"
     ]
     cipher_texts = [
-        "xn czgk wsbpkvb no afklo un pirzp"
+        "jzh ewhnw ooqlk yms seraz nqrp sil dgmt qst"
     ]
+
+
+class BasicEnigma:
 
     def setUp(self):
         self.engine = Engine(
@@ -46,6 +27,9 @@ class TestEnigmaCipher(unittest.TestCase):
             rotor_states='EUL',
             plugs='BQ CR DI EJ KW MT OS PX UZ GH'
         )
+
+
+class TestEnigmaParts(Texts, BasicEnigma, unittest.TestCase):
 
     def generate(self, callback):
         for index, (text, cipher_text) in enumerate(zip(self.texts, self.cipher_texts)):
@@ -110,4 +94,14 @@ class TestEnigmaCipher(unittest.TestCase):
             for c1, c2 in zip(check, text):
                 if c2 in self.engine.alphabet.symbols:
                     self.assertNotEqual(c1, c2)
+
+
+class TestEnigmaCipher(Texts, BasicEnigma, unittest.TestCase):
+
+    def test_cipher(self):
+
+        for text, cipher in zip(self.texts, self.cipher_texts):
+            self.engine.reset()
+            check = self.engine.encipher(text)
+            self.assertEqual(cipher, check)
 

@@ -56,13 +56,13 @@ class Engine:
             permutation=PermutationCipher.encode_permutation_using_letter_pairs(self.plugs.split(" "))
         )
 
-    def encipher(self, plaintext_in):
+    def encipher(self, text):
 
-        plaintext = plaintext_in.upper()
+        upper_text = text.upper()
 
         # Encode character...
         ciphertext = ''
-        for c in plaintext:
+        for c in upper_text:
 
             # Encode only known character:
             if not c.isalpha():
@@ -97,14 +97,14 @@ class Engine:
             ciphertext += t
 
         # Encode character [...] preserving case:
-        fres = ""
-        for idx, char in enumerate(ciphertext):
-            if plaintext_in[idx].islower():
-                fres += char.lower()
+        out_text = ""
+        for index, char in enumerate(ciphertext):
+            if text[index].islower():
+                out_text += char.lower()
             else:
-                fres += char
+                out_text += char
 
-        return fres
+        return out_text
 
     def decipher(self, cipher_text):
         return self.encipher(cipher_text)
